@@ -1,0 +1,1099 @@
+﻿<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>Microsoft x Intel | Parceiros CLE</title>
+  <link rel="stylesheet" href="./assets/css/styles.css" />
+  <link rel="icon" href="./assets/images/favicon.ico" type="image/x-icon" />
+  <style>
+    .partner-logos {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .partner-logos__item img {
+      display: block;
+      height: 36px;
+      width: auto;
+    }
+
+    /* Footer em duas colunas */
+    .footer__content {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 48px;
+      padding-block: 32px;
+    }
+
+    /* Coluna esquerda maior, texto confortável */
+    .footer__left {
+      flex: 0 0 55%;
+      color: #ffffff;
+    }
+
+    /* Coluna direita mais larga, empurrando o form pra borda */
+    .footer__right {
+      flex: 0 0 40%;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      /* empilha título + form */
+      align-items: flex-end;
+      /* alinha tudo à direita */
+    }
+
+
+    .footer__logo img {
+      display: block;
+      height: 40px;
+      width: auto;
+      margin-bottom: 16px;
+    }
+
+    /* Formulário de contato */
+    .contact-form {
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .contact-form__field {
+      margin-bottom: 12px;
+    }
+
+    .contact-form label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 4px;
+      border: 1px solid #cccccc;
+    }
+
+    .contact-form__field.is-error input {
+      border-color: #ff6b6b;
+    }
+
+    .contact-form__error {
+      display: block;
+      color: #ffb3b3;
+      font-size: 12px;
+      margin-top: 4px;
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: opacity 0.2s ease, max-height 0.2s ease;
+    }
+
+    .contact-form__error.is-visible {
+      opacity: 1;
+      max-height: 40px;
+    }
+
+    .contact-form__button {
+      margin-top: 8px;
+    }
+
+    .footer__disclaimer {
+      font-size: 12px;
+      margin-top: 16px;
+      max-width: 420px;
+    }
+
+    /* Destaque do link "Encontre uma filial..." no rodapé */
+    .footer__branch-link {
+      position: relative;
+      display: inline-block;
+      color: #7dd7ff;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer__branch-link::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, #00d1ff, #4de1c1);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.25s ease;
+    }
+
+    .footer__branch-link:hover {
+      color: #c6f6ff;
+    }
+
+    .footer__branch-link:hover::after {
+      transform: scaleX(1);
+    }
+
+    /* Mensagem de feedback do formulário */
+    .contact-form__feedback {
+      display: block;
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      margin-top: 0;
+      padding: 0 12px;
+      border-radius: 6px;
+      background: rgba(0, 209, 255, 0.12);
+      border: 0 solid rgba(0, 209, 255, 0.4);
+      color: #e8f8ff;
+      font-size: 14px;
+      line-height: 1.4;
+      transition: opacity 0.25s ease, max-height 0.25s ease, padding 0.25s ease, border-width 0.25s ease, margin-top 0.25s ease;
+    }
+
+    .contact-form__feedback.is-visible {
+      opacity: 1;
+      max-height: 200px;
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-width: 1px;
+    }
+
+    /* Mantém a cor do link de parceiro em todos os estados */
+    a.text-utilities-partner,
+    a.text-utilities-partner:visited {
+      color: var(--color-brand-blue-3) !important;
+    }
+
+    /* Destaque inicial com tipografia ampliada */
+    .upgrade-highlight {
+      background-color: var(--color-background-primary);
+    }
+
+    .upgrade-highlight__content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: clamp(20px, 4vw, 35px);
+      text-align: center;
+      color: var(--color-neutral-white);
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: clamp(64px, 8vw, 112px) var(--padding-main-mobile);
+    }
+
+    .upgrade-highlight__title {
+      font-size: clamp(40px, 5vw, 58px);
+      font-weight: 600;
+      line-height: 1.15;
+      margin: 0;
+    }
+
+    .upgrade-highlight__subtitle {
+      font-size: clamp(20px, 2.5vw, 18px);
+      font-weight: 100;
+      line-height: 1.35;
+      margin: 0;
+    }
+
+    .upgrade-highlight__subtitle strong {
+      font-weight: 700;
+    }
+  </style>
+
+
+
+</head>
+
+<body class="bg-campaign-blue-green">
+  <a href="#mainContent" class="skip-to-content-main-link"><span>Ir para o conteúdo principal</span></a>
+  <header class="header">
+    <div class="container partner-logos">
+      <!-- PARTNER Content START -->
+      <a aria-label="Site da LTA-RH Informática" href="#" class="partner-logos__item">
+        <img src="./assets/images/lta-rh-logo.png" alt="LTA-RH Informática" />
+      </a>
+      <div class="partner-logos__item">
+        <img src="./assets/images/dell-partner-badge.png" alt="Selo de parceria Dell Technologies" />
+      </div>
+      <!-- PARTNER Content END -->
+    </div>
+
+  </header>
+  <main id="mainContent" class="main">
+    <!-- Section: Hero START -->
+    <section class="hero hero--interactive bg-campaign-blue-green">
+      <div class="hero__container">
+        <div class="hero__content">
+          <h1 class="text-title-large">
+            A atualização que é melhor em todos os sentidos
+          </h1>
+          <p class="text-body-2">
+            O fim do suporte ao Windows 10 foi em 14 de outubro de 2025. Para continuar recebendo atualizações de segurança, faça já a atualização e melhore a proteção, a produtividade e o desempenho. Esse é o poder dos computadores Windows 11 Pro com Intel vPro®.
+          </p>
+          <div class="hero__buttons">
+            <a aria-label="Clique aqui para assistir ao vídeo no YouTube" class="button button--campaign-primary" href="https://www.youtube.com/watch?v=E9ra4W2V8RY" target="_blank" rel="noopener">
+              Assistir ao vídeo
+            </a>
+          </div>
+
+
+        </div>
+      </div>
+      <div class="hero__bg">
+        <picture>
+          <source media="(max-width: 768px)" srcset="./assets/images/hero-bg-pre-mobile.webp" />
+          <source media="(min-width: 769px)" srcset="./assets/images/hero-bg-pre.webp" />
+          <img loading="lazy" class="hero__bg-image parallax" src="./assets/images/hero-bg-pre.webp" alt="Notebook Windows 11 Pro em um ambiente de trabalho" />
+        </picture>
+        <div class="hero__logos">
+          <div class="hero__logos__container container">
+            <img loading="lazy" class="hero__logos__windows" src="./assets/images/logo-windows-11.png" alt="Windows 11" /> <img loading="lazy" class="hero__logos__intel" src="./assets/images/logo-intel-core-ultra.png" alt="Intel Core Ultra" />
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="in-page-nav__button"></div>
+    <!-- Section: Hero END -->
+
+    <div data-modal-id="video-modal" class="video-modal" aria-modal="true">
+      <div class="video-modal__container">
+        <button aria-label="Clique aqui para fechar a janela de vídeo" type="button" class="video-modal__close"></button>
+        <div class="video-modal__video">
+          <video>
+            <source data-src="./assets/media/Right-Risk-Hero-Film_USA_30s_16x9_Windows11Pro_CP+_US-EN_CLE.mp4" type="video/mp4" />
+            <!-- Add subtitle tracks here: -->
+            <!-- <track
+                kind="captions"
+                label="English captions"
+                src="../media/msft-video-captions.vtt"
+                srclang="en"
+                default
+              /> -->
+          </video>
+        </div>
+      </div>
+    </div>
+
+    <section class="section upgrade-highlight">
+      <div class="container upgrade-highlight__content">
+        <h2 class="upgrade-highlight__title">
+          O upgrade que redefine segurança, performance e gestão inteligente.
+        </h2>
+        <p class="upgrade-highlight__subtitle">
+          Em parceria com <strong>Intel</strong>, <strong>Dell Technologies</strong> e
+          <strong>Microsoft</strong>, reforçamos a importância da atualização para o
+          <strong>Windows 11 Pro</strong>, já que o suporte ao
+          <strong>Windows 10</strong> terminou em
+          <strong>14 de outubro de 2025</strong>. A modernização garante
+          <strong>mais segurança, produtividade e eficiência</strong>, essenciais em um
+          cenário cada vez mais orientado pela Inteligência Artificial.
+        </p>
+        <p class="upgrade-highlight__subtitle">
+          Com <strong>Intel vPro®</strong> e o portfólio
+          <strong>Dell Technologies</strong>, sua empresa ganha
+          <strong>gestão simplificada e proteção de ponta a ponta</strong>.
+        </p>
+      </div>
+    </section>
+
+    <section class="section section--feature-content bg-gradient-tertiary-primary">
+      <div class="section__container">
+        <div class="section__header">
+          <h1 class="text-display" aria-label="Fique protegido com novos PCs Intel vPro® criados para empresas">
+            Fique protegido com novos PCs Intel vPro<sup>®</sup> criados para empresas
+          </h1>
+        </div>
+      </div>
+    </section>
+
+    <div class="in-page-nav-wrapper bg-background-primary">
+
+      <div class="in-page-nav" data-active="1">
+        <div class="in-page-nav__container container">
+          <button class="in-page-nav__trigger" aria-expanded="false" aria-controls="in-page-nav-menu" aria-haspopup="menu" aria-label="Menu de navegação">
+            <span class="in-page-nav__trigger-text"> <span>Segurança</span> <span>Pronto para Negócios</span> <span>Produtividade</span> <span>Desempenho</span> </span> <span aria-hidden="true" class="icon-ios-chevron-right"></span>
+          </button>
+          <nav id="in-page-nav-menu" class="in-page-nav__menu" role="menu" aria-label="Page sections">
+            <a aria-label="Clique aqui para saber mais sobre Segurança" class="menu-tab is-active" href="#security" role="menuitem">Segurança</a> <a aria-label="Clique aqui para saber mais sobre o recurso Pronto para Negócios" class="menu-tab" href="#business-readiness" role="menuitem">Pronto para Negócios</a> <a aria-label="Clique aqui para saber mais sobre o recurso Produtividade" class="menu-tab" href="#productivity" role="menuitem">Produtividade</a> <a aria-label="Clique aqui para saber mais sobre o recurso Desempenho" class="menu-tab" href="#performance" role="menuitem">Desempenho</a>
+          </nav>
+          <!--<div class="in-page-nav__button">
+              <a
+                aria-label="Clique aqui para conhecer todos os dispositivos Intel vPro®"
+                href="https://www.microsoft.com/en-us/windows/business/devices/intel"
+                target="_blank"
+                class="button button--campaign-primary">Exibir dispositivos Intel vPro®</a>
+            </div> -->
+        </div>
+      </div>
+
+      <!-- Section: AutoCarousel START -->
+      <section id="security" class="section bg-background-secondary">
+        <div class="container">
+          <div class="section__header">
+            <span class="tag"> <span aria-hidden="true" class="icon-shield"></span> <span class="text-subtitle-1">Segurança</span> </span>
+            <h2 class="text-title-large">
+              Não abaixe a guarda — fique protegido contra ameaças em evolução
+            </h2>
+            <p class="text-subtitle-1">
+              70% de redução na superfície de ataque com o Intel vPro® em comparação com um dispositivo de 4 anos.<sup class="disclaimer-sup"><a aria-label="Aviso de isenção de responsabilidade 1" href="#disclaimers">1</a></sup>
+            </p>
+          </div>
+          <div class="auto-carousel">
+            <div class="auto-carousel__contents">
+              <div class="auto-carousel__contents-swiper swiper swiper-no-swiping auto-carousel-contents">
+                <div class="auto-carousel__progress" role="tablist" aria-hidden="true"></div>
+                <div class="auto-carousel__contents__wrapper swiper-wrapper">
+                  <div class="swiper-slide" role="tabpanel" aria-labelledby="slide-1-heading" aria-hidden="false">
+                    <div class="content-card">
+                      <h3 id="slide-1-heading" class="text-title-3">
+                        Proteções robustas para dados e privacidade
+                      </h3>
+                      <p class="text-body-2">
+                        Proteja informações comerciais e pessoais valiosas do chip à nuvem com segurança poderosa apoiada por hardware por padrão, configurações de privacidade aprimoradas e controles de TI granulares.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="swiper-slide" role="tabpanel" aria-labelledby="slide-2-heading" aria-hidden="true">
+                    <div class="content-card">
+                      <h3 id="slide-2-heading" class="text-title-3">
+                        Proteger identidades em todos os lugares
+                      </h3>
+                      <p class="text-body-2">
+                        Defenda‑se contra ameaças cibernéticas com as proteções de credenciais mais atuais para melhor tranquilidade, incluindo a entrada biométrica com o Windows Hello para Empresas<sup class="disclaimer-sup"><a aria-label="Aviso de isenção de responsabilidade 2" href="#disclaimers">2</a></sup> e a tecnologia proativa Intel® Threat Detection Technology.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="swiper-slide" role="tabpanel" aria-labelledby="slide-3-heading" aria-hidden="true">
+                    <div class="content-card">
+                      <h3 id="slide-3-heading" class="text-title-3">
+                        Seguro por natureza. Seguro por padrão.
+                      </h3>
+                      <p class="text-body-2">
+                        Proteja sua empresa com o Windows mais seguro que já existiu. Os computadores Windows 11 Pro vêm com camadas de proteção interna e habilitadas prontas para uso.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="auto-carousel__controls">
+                  <button type="button" aria-label="Pausar carrossel" class="auto-carousel__button auto-carousel__button--play">
+                    <span class="icon-pause" aria-hidden="true"></span> <span class="icon-play" aria-hidden="true"></span>
+                  </button>
+                  <button type="button" aria-label="Slide anterior" class="auto-carousel__button auto-carousel__button--prev">
+                    <span class="icon-chevron-left" aria-hidden="true"></span>
+                  </button>
+                  <button type="button" aria-label="Próximo slide" class="auto-carousel__button auto-carousel__button--next">
+                    <span class="icon-chevron-right" aria-hidden="true"></span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="auto-carousel__images swiper swiper-no-swiping auto-carousel-images">
+              <div class="auto-carousel__images-wrapper swiper-wrapper">
+                <div class="auto-carousel__image swiper-slide">
+                  <img loading="lazy" class="image" src="./assets/images/Windows-11-Pro-Security-At-A-Glance-Dashboard.png" alt="Painel de segurança do Windows 11 Pro de fácil visualização" />
+                </div>
+                <div class="auto-carousel__image swiper-slide">
+                  <img loading="lazy" class="image" src="./assets/images/Windows-11-Pro-Lock-Screen-With-Time-Date-And-Widgets.png" alt="Tela de bloqueio do Windows 11 Pro mostrando horário, data e widgets personalizados" />
+                </div>
+                <div class="auto-carousel__image swiper-slide">
+                  <img loading="lazy" class="image" src="./assets/images/Windows-11-Pro-Interface-Screen.png" alt="Tela do Windows 11 Pro mostrando sua interface" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Section: AutoCarousel END -->
+
+      <!-- Section: Hero START -->
+      <section id="business-readiness" class="hero hero--interactive-cards bg-gradient-primary-tertiary">
+        <div class="hero__container">
+          <div class="hero__content">
+            <span class="tag"> <span aria-hidden="true" class="icon-chip"></span> <span class="text-subtitle-1">Pronto para Negócios</span> </span>
+            <h2 class="text-title-large">
+              Fácil de implementar e compatível com tecnologias existentes
+            </h2>
+            <p class="text-subtitle-1">
+              99,7% de compatibilidade com aplicativos do Windows 11.<sup class="disclaimer-sup"><a aria-label="Aviso de isenção de responsabilidade 3" href="#disclaimers">3</a></sup>
+            </p>
+
+            <div class="hero__interactive-cards interactive-card-container">
+              <div class="interactive-card">
+                <h3 class="text-title-3">
+                  Automatize os processos de atualização e implementação
+                </h3>
+                <div class="interactive-card__content">
+                  <p class="text-body-2">
+                    Os usuários podem começar a usar rapidamente com a fácil integração remota e as atualizações e implementações automatizadas. <a aria-label="Clique aqui para ler mais" href="https://techcommunity.microsoft.com/blog/windows-itpro-blog/app-confidence-from-our-compatibility-story-to-yours/3750085" target="_blank">Saiba mais</a>.
+                  </p>
+                </div>
+              </div>
+              <div class="interactive-card">
+                <h3 class="text-title-3">Escale a TI do chip à nuvem</h3>
+                <div class="interactive-card__content">
+                  <p class="text-body-2">
+                    Com o poder dos novos computadores Windows com Intel vPro® como o alicerce da sua pilha de soluções de IA, você pode crescer, fortalecer a segurança e desbloquear um novo potencial.
+                  </p>
+                </div>
+              </div>
+              <div class="interactive-card">
+                <h3 class="text-title-3">
+                  Funciona com quase tudo para facilitar a adoção
+                </h3>
+                <div class="interactive-card__content">
+                  <p class="text-body-2">
+                    Os computadores Windows 11 Pro foram projetados para a adoção e compatibilidade rápidas, garantindo uma transição tranquila com o Windows Autopilot<sup class="disclaimer-sup"><a aria-label="Aviso de isenção de responsabilidade 4" href="#disclaimers">4</a></sup> e o Intel Stable IT Platform Program.
+                  </p>
+                </div>
+              </div>
+              <div class="interactive-card">
+                <h3 class="text-title-3">
+                  Obtenha controle granular em pontos de extremidade e IA
+                </h3>
+                <div class="interactive-card__content">
+                  <p class="text-body-2">
+                    Proteja sua empresa e aplique facilmente políticas de segurança em todos os seus pontos de extremidade, incluindo PCs, aplicativos e IA.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="hero__bg">
+          <picture>
+            <source media="(max-width: 1024px)" srcset="
+                  ./assets/images/Windows-11-Pro-Laptop-Open-On-A-Desk.jpg
+                " />
+            <source media="(min-width: 1025px)" srcset="./assets/images/interactive-hero.webp" />
+            <img class="hero__bg-image parallax parallax" src="./assets/images/interactive-hero.webp" alt="Notebook Windows 11 Pro aberto em uma mesa" loading="lazy" />
+          </picture>
+        </div>
+      </section>
+      <!-- Section: Hero END -->
+
+      <!-- Section: Hero START -->
+      <section id="productivity" class="hero hero--interactive-cards hero--right bg-gradient-tertiary-primary">
+        <div class="hero__container">
+          <div class="hero__content">
+            <span class="tag"> <span aria-hidden="true" class="icon-stats"></span> <span class="text-subtitle-1">Produtividade</span> </span>
+            <h2 class="text-title-large">
+              Migre para a eficiência turbinada agora mesmo
+            </h2>
+            <p class="text-subtitle-1">
+              90% dos trabalhadores do conhecimento dizem que a IA ajuda‑os a economizar tempo.<sup class="disclaimer-sup"><a aria-label="Aviso de isenção de responsabilidade 5" href="#disclaimers">5</a></sup>
+            </p>
+
+            <div class="hero__interactive-cards interactive-card-container">
+              <div class="interactive-card">
+                <h3 class="text-title-3">Economize tempo para o seu melhor trabalho</h3>
+                <div class="interactive-card__content">
+                  <p class="text-body-2">
+                    Acelere as tarefas diárias com produtividade aprimorada pela IA em dispositivos prontos para negócios, equipados para realizar todas as tarefas com o processador x86 mais eficiente da Intel.<sup class="disclaimer-sup"><a aria-label="Aviso de isenção de responsabilidade 6" href="#disclaimers">6</a></sup>
+                  </p>
+                </div>
+              </div>
+              <div class="interactive-card">
+                <h3 class="text-title-3">
+                  Vivencie pesquisas rápidas e intuitivas
+                </h3>
+                <div class="interactive-card__content">
+                  <p class="text-body-2">
+                    Encontre o conteúdo certo no momento certo com conteúdo relevante publicado automaticamente no menu Iniciar, no Windows Search e no Explorador de Arquivos.
+                  </p>
+                </div>
+              </div>
+              <div class="interactive-card">
+                <h3 class="text-title-3">Mantenha‑se no fluxo</h3>
+                <div class="interactive-card__content">
+                  <p class="text-body-2">
+                    Chegue mais longe, em qualquer lugar. Com recursos como layouts do ajuste e desempenho confiável do processador x86 com longa duração da bateria.
+                  </p>
+                </div>
+              </div>
+              <div class="interactive-card">
+                <h3 class="text-title-3">Eleve cada estilo de trabalho</h3>
+                <div class="interactive-card__content">
+                  <p class="text-body-2">
+                    Acelere os fluxos de trabalho com experiências aprimoradas pela IA e desempenho ultrarrápido da Intel nos computadores Windows 11 Pro mais recentes.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="hero__bg">
+          <picture>
+            <source media="(min-width: 1600px)" srcset="./assets/images/laptop-transparent-big.webp" />
+            <source media="(max-width: 1024px)" srcset="./assets/images/laptop-transparent-375x.png" />
+            <source media="(min-width: 1025px)" srcset="./assets/images/laptop-transparent.png" />
+            <img class="hero__bg-image parallax" src="./assets/images/laptop-transparent-big.webp" alt="Notebook Windows 11 Pro" loading="lazy" />
+          </picture>
+        </div>
+      </section>
+      <!-- Section: Hero END -->
+
+      <!-- Section: Section START -->
+      <section id="performance" class="section section--column-text bg-background-secondary">
+        <div class="container">
+          <div class="section__header">
+            <span class="tag"> <span aria-hidden="true" class="icon-battery"></span> <span class="text-subtitle-1">Desempenho</span> </span>
+            <h2 class="text-title-large">
+              Acelere o ritmo com um desempenho mais rápido
+            </h2>
+            <p class="text-subtitle-1">
+              Fluxos de trabalho e colaboração, em média, 50% mais rápidos.<sup class="disclaimer-sup"><a aria-label="Aviso de isenção de responsabilidade 7" href="#disclaimers">7</a></sup>
+            </p>
+          </div>
+          <div class="section__image">
+            <img loading="lazy" src="./assets/images/CLE_Comarketing_Intel_performance_image.png" alt="Notebook Windows 11 Pro exibindo a Ferramenta de Captura" />
+          </div>
+          <div class="section__columns">
+            <div class="card">
+              <h3 class="text-title-3">Obtenha desempenho profissional</h3>
+              <p class="text-body-2">
+                Trabalhe de forma extraordinária em qualquer lugar com os dispositivos Windows 11 Pro mais recentes e o desempenho x86 mais eficiente da Intel.
+              </p>
+            </div>
+            <div class="card">
+              <h3 class="text-title-3">Personalize para cada estilo de trabalho</h3>
+              <p class="text-body-2">
+                Existe um computador Windows com Intel vPro® para cada estilo de trabalho, desde dispositivos 2 em 1 até Copilot+ PCs poderosos.
+              </p>
+            </div>
+            <div class="card">
+              <h3 class="text-title-3">Trabalhe de forma sustentável e desconecte‑se por mais tempo</h3>
+              <p class="text-body-2">
+                Os dispositivos Windows 11 Pro com Intel vPro® oferecem suporte a estilos de trabalho sustentáveis com bateria que dura o dia todo<sup class="disclaimer-sup"><a aria-label="Aviso de isenção de responsabilidade 8" href="#disclaimers">8</a></sup>, atualizações inteligentes e dicas para economizar energia.<sup class="disclaimer-sup"><a aria-label="Aviso de isenção de responsabilidade 9" href="#disclaimers">9</a></sup>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Section: Section END -->
+    </div>
+
+    <!-- Section: Section START -->
+    <section class="section section--icon-list bg-background-secondary">
+      <div class="section__container container">
+        <div class="section__header">
+          <h2 class="text-title-large">
+            Entregando potência, produtividade e proteção
+          </h2>
+          <p class="text-body-2">
+            Descubra como a tecnologia Intel e o Windows 11 Pro trabalham juntos para aumentar a eficiência, fortalecer a segurança e impulsionar o desempenho para o seu negócio.
+          </p>
+        </div>
+        <div class="section__icon-list">
+          <div class="icon-card">
+            <span class="icon-62percent"></span>
+            <p class="text-body-2">
+              62% relataram menos incidentes de segurança com computadores Windows 11 Pro em comparação com Windows 10 Pro.<sup class="disclaimer-sup"><a aria-label="Aviso de isenção de responsabilidade 10" href="#disclaimers">10</a></sup>
+            </p>
+          </div>
+          <div class="icon-card">
+            <span class="icon-shield"></span>
+            <p class="text-body-2">
+              O Intel vPro® pode reduzir o número de incidentes de segurança por ano em 150 a 250.<sup class="disclaimer-sup"><a aria-label="Aviso de isenção de responsabilidade 5" href="#disclaimers">5</a></sup>
+            </p>
+          </div>
+          <div class="icon-card">
+            <span class="icon-70percent"></span>
+            <p class="text-body-2">
+              70% dos usuários do Copilot entrevistados sentiram que a ferramenta os ajudou a ser mais produtivos.<sup class="disclaimer-sup"><a aria-label="Aviso de isenção de responsabilidade 11" href="#disclaimers">11</a></sup>
+            </p>
+          </div>
+          <div class="icon-card">
+            <span class="icon-stats"></span>
+            <p class="text-body-2">
+              Benefícios de produtividade dos funcionários por ano de até USD 25.000 com a plataforma Intel vPro®.<sup class="disclaimer-sup"><a aria-label="Aviso de isenção de responsabilidade 5" href="#disclaimers">5</a></sup>
+            </p>
+          </div>
+          <div class="icon-card">
+            <span class="icon-chip"></span>
+            <p class="text-body-2">
+              Chegue mais longe com a velocidade e a flexibilidade do processador x86 mais eficiente da Intel.
+            </p>
+          </div>
+          <div class="icon-card">
+            <span class="icon-battery"></span>
+            <p class="text-body-2">
+              A liberdade de trabalhar em qualquer lugar com até 20 horas de duração da bateria.<sup class="disclaimer-sup"><a aria-label="Aviso de isenção de responsabilidade 12" href="#disclaimers">12</a></sup>
+            </p>
+          </div>
+          <div class="icon-card">
+            <span class="icon-code"></span>
+            <p class="text-body-2">
+              Custos anuais de TI evitados de até USD 87.000 com a plataforma Intel vPro®.<sup class="disclaimer-sup"><a aria-label="Aviso de isenção de responsabilidade 5" href="#disclaimers">5</a></sup>
+            </p>
+          </div>
+          <div class="icon-card">
+            <span class="icon-money"></span>
+            <p class="text-body-2">
+              Os clientes que migraram de computadores Windows 10 para dispositivos Windows 11 tiveram uma redução de 64% nos custos gerais de manutenção da TI.<sup class="disclaimer-sup"><a aria-label="Aviso de isenção de responsabilidade 10" href="#disclaimers">10</a></sup>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Section: Section END -->
+
+    <!-- Section: AutoCarousel START -->
+    <section class="section bg-gradient-primary-tertiary">
+      <div class="container">
+        <div class="section__header">
+          <img loading="lazy" src="./assets/images/logo-copilot+pc.svg" alt="Copilot+ PC" class="section__header-logo" />
+          <h2 class="text-title-large" aria-label="Capacitar a IA para todas as empresas com Copilot+ PCs">
+            Capacitar a IA para todas as empresas com Copilot+ PCs
+          </h2>
+          <p class="text-body-2">
+            Acelere o sucesso com a IA integrada no dispositivo para ter experiências únicas e fluxos de trabalho mais inteligentes e mais rápidos.
+          </p>
+        </div>
+        <div class="auto-carousel">
+          <div class="auto-carousel__contents">
+            <div class="auto-carousel__contents-swiper swiper swiper-no-swiping auto-carousel-contents">
+              <div class="auto-carousel__progress"></div>
+              <div class="auto-carousel__contents__wrapper swiper-wrapper">
+                <div class="swiper-slide">
+                  <div class="content-card">
+                    <h3 class="text-title-3">
+                      Desempenho poderoso para um resultado transformador
+                    </h3>
+                    <p class="text-body-2">
+                      Os Copilot+ PCs com Intel® Core™ Ultra 200V são até 2,7 vezes mais rápidos do que os computadores Windows mais populares de 5 anos ainda em uso hoje, com base no benchmark Cinebench 24 Multi‑Core. <a aria-label="Clique aqui para ler mais" href="https://signal65.com/wp-content/uploads/2024/09/Windows-CopilotPlus-IntelCoreUltra200V-Signal65-LabInsights.pdf" target="_blank">Saiba mais</a>.
+                    </p>
+                  </div>
+                </div>
+                <div class="swiper-slide">
+                  <div class="content-card">
+                    <h3 class="text-title-3">
+                      Lembre‑se de quase tudo, de qualquer lugar<sup class="disclaimer-sup text-caption-2-strong"><a aria-label="Aviso de isenção de responsabilidade 13" href="#disclaimers">13</a></sup>
+                    </h3>
+                    <p class="text-body-2">
+                      Use o Relembrar (versão prévia)<sup class="disclaimer-sup"><a aria-label="Aviso de isenção de responsabilidade 13" href="#disclaimers">13</a></sup> para pesquisar com segurança em sua linha do tempo pessoal e quase tudo o que apareceu na sua área de trabalho, incluindo aplicativos, documentos e comunicações.
+                    </p>
+                  </div>
+                </div>
+                <div class="swiper-slide">
+                  <div class="content-card">
+                    <h3 class="text-title-3">Experiências de IA únicas</h3>
+                    <p class="text-body-2">
+                      Os Copilot+ PCs com Intel vPro® oferecem soluções de negócios de IA aprimoradas com novos recursos como Ação com um clique (versão prévia)<sup class="disclaimer-sup"><a aria-label="Aviso de isenção de responsabilidade 14" href="#disclaimers">14</a></sup> para obter fluxos de trabalho mais rápidos e inteligentes.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="auto-carousel__controls">
+                <button aria-label="Pausar carrossel" class="auto-carousel__button auto-carousel__button--play">
+                  <span class="icon-pause"></span> <span class="icon-play"></span>
+                </button>
+                <button aria-label="Clique aqui para acessar o slide anterior" class="auto-carousel__button auto-carousel__button--prev">
+                  <span class="icon-chevron-left"></span>
+                </button>
+                <button aria-label="Clique aqui para acessar o próximo slide" class="auto-carousel__button auto-carousel__button--next">
+                  <span class="icon-chevron-right"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="auto-carousel__images swiper swiper-no-swiping auto-carousel-images">
+            <div class="auto-carousel__images-wrapper swiper-wrapper">
+              <div class="auto-carousel__image swiper-slide">
+                <img loading="lazy" class="image" src="./assets/images/Copilot-PC-Hello-Display-Interface.jpg" alt="Interface de exibição do Copilot+ PC Hello" />
+              </div>
+              <div class="auto-carousel__image swiper-slide">
+                <img loading="lazy" class="image" src="./assets/images/Copilot-PC-Recall-Timeline-Screen.jpg" alt="Tela Linha do tempo do Relembrar do Copilot+ PC" />
+              </div>
+              <div class="auto-carousel__image swiper-slide">
+                <img loading="lazy" class="image" src="./assets/images/Copilot-PC-Click-Do-Screen.jpg" alt="Tela de Ação com um clique do Copilot+ PC" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Section: AutoCarousel END -->
+
+
+
+    <!-- Section: Hero START -->
+    <section class="hero hero--highlight">
+      <div class="hero__container">
+        <div class="hero__content">
+          <h2 class="text-title-1">
+            Saiba mais sobre por que é recomendável fazer a atualização agora
+          </h2>
+          <p class="text-body-2">
+            Veja como os novos computadores Windows 11 Pro com Intel vPro® impulsionam a inovação e a eficiência, com segurança robusta por padrão, para que suas equipes possam trabalhar e prosperar em qualquer lugar.
+          </p>
+          <a href="#" aria-label="Baixar o livro eletrônico" class="button button--campaign-primary"> Baixar o livro eletrônico </a>
+        </div>
+      </div>
+      <div class="hero__bg">
+        <picture>
+          <source media="(min-width: 1600px)" srcset="./assets/images/Cover-Of-The-Downloadable-E-Book.webp" />
+          <source media="(max-width: 1024px)" srcset="
+                ./assets/images/Cover-Of-The-Downloadable-E-Book-mobile.png
+              " />
+          <source media="(min-width: 1025px)" srcset="./assets/images/Cover-Of-The-Downloadable-E-Book.webp" />
+          <img loading="lazy" class="hero__bg-image" src="./assets/images/Cover-Of-The-Downloadable-E-Book.webp" alt="Capa do e‑book para download" />
+        </picture>
+      </div>
+    </section>
+    <!-- Section: Hero END -->
+
+    <!-- Section: FAQ START -->
+    <section class="section faq bg-background-primary">
+      <div class="container">
+        <div class="faq__header">
+          <h2 class="text-display">Perguntas frequentes</h2>
+          <div class="faq__controls text-subtitle-2-stronger">
+            <button aria-label="Clique aqui para expandir todas as perguntas frequentes" class="button button--campaign-secondary faq__expand-all">
+              Expandir tudo
+            </button>
+            <button aria-label="Clique aqui para recolher todas as perguntas frequentes" class="button button--campaign-secondary faq__collapse-all">
+              Recolher tudo
+            </button>
+          </div>
+        </div>
+        <div class="faq__items">
+          <div class="faq__item">
+            <button role="button" class="faq__question text-subtitle-1" aria-expanded="false">
+              <span>O que acontecerá com o meu computador quando o Windows 10 chega à data do fim do suporte?</span>
+            </button>
+            <div class="faq__answer text-body-2" aria-hidden="true">
+              <p>
+                Os computadores com Windows 10 ainda funcionarão, mas a Microsoft não fornecerá mais suporte técnico ou atualizações de segurança e recursos do Windows, o que pode deixar você exposto a um maior risco de vírus e malware.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq__item">
+            <button role="button" class="faq__question text-subtitle-1" aria-expanded="false">
+              <span>Qual é o roteiro de atualização do Windows 10 para o Windows 11?</span>
+            </button>
+            <div class="faq__answer text-body-2" aria-hidden="true">
+              <p>
+                Consulte <a aria-label="especificações do Windows 11" href="https://www.microsoft.com/windows/windows-11-specifications" target="_blank">https://www.microsoft.com/windows/windows-11-specifications</a> para verificar os requisitos mínimos de hardware e as especificações completas para a atualização.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq__item">
+            <button role="button" class="faq__question text-subtitle-1" aria-expanded="false">
+              <span>Qual é a diferença entre uma correção e uma atualização?</span>
+            </button>
+            <div class="faq__answer text-body-2" aria-hidden="true">
+              <p>
+                Uma correção é uma alteração dentro de uma versão específica de um produto Windows. Uma atualização é quando você altera as versões do sistema operacional, por exemplo, migrando do Windows 10 para o Windows 11.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq__item">
+            <button role="button" class="faq__question text-subtitle-1" aria-expanded="false">
+              <span>Quais opções tenho para manter o suporte em um sistema operacional Windows?</span>
+            </button>
+            <div class="faq__answer text-body-2" aria-hidden="true">
+              <p>
+                É necessário verificar se seu computador atende aos <a aria-label="requisitos mínimos" href="https://www.microsoft.com/en-us/windows/windows-11-specifications?r=1" target="_blank">requisitos mínimos</a> abrindo Configurações > Privacidade e Segurança > Windows Update. Se o seu computador puder fazer a atualização do Windows 10 para o Windows 11 Pro, você verá uma opção no Windows Update para atualizar gratuitamente para o Windows 11 Pro.<br /><br /> Se o seu computador não puder atualizar para o Windows 11 Pro ou você quiser substituí‑lo, você poderá migrar para o Windows 11 Pro comprando um novo computador para empresa. <!-- PARTNER Content START --> <a href="https://www.lta-rh.com.br/" class="text-utilities-partner" target="_blank" rel="noopener">Fale com um de nossos consultores.</a> <!-- PARTNER Content END -->
+              </p>
+            </div>
+          </div>
+
+          <div class="faq__item">
+            <button role="button" class="faq__question text-subtitle-1" aria-expanded="false">
+              <span>Como posso obter uma versão com suporte do Windows?</span>
+            </button>
+            <div class="faq__answer text-body-2" aria-hidden="true">
+              <p>
+                Existem algumas maneiras de obter o Windows 11: <br /><br /> Comprar um novo PC com o Windows 11: o Windows 11 é a versão mais atual do Windows. Se você tiver um computador mais antigo, recomendamos que você migre para o Windows 11 comprando um computador novo. O hardware e o software melhoraram muito desde que o Windows 10 foi lançado, e os computadores de hoje são mais rápidos, mais poderosos e mais seguros.
+              </p>
+              <p>
+                Instalar o Windows 11 no seu PC atual: verifique se o seu PC atual atende aos <a aria-label="requisitos mínimos" target="_blank" href="https://www.microsoft.com/en-us/windows/windows-11-specifications">requisitos mínimos</a> abrindo Configurações > Windows Update. Se o seu PC puder atualizar do Windows 10 para o Windows 11, você verá uma opção no Windows Update para atualizar para o Windows 11 gratuitamente.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq__item">
+            <button role="button" class="faq__question text-subtitle-1" aria-expanded="false">
+              <span>O que é o programa Atualizações de segurança estendida (ESU) do Windows 10?</span>
+            </button>
+            <div class="faq__answer text-body-2" aria-hidden="true">
+              <p>
+                O programa Atualizações de segurança estendida (ESU) do Windows 10 oferece aos clientes a opção de receber atualizações de segurança para computadores inscritos no programa. O ESU é um programa pago que fornece a indivíduos e organizações de todos os portes a opção de estender o uso de dispositivos Windows 10 além da data de fim do suporte de forma mais segura. <a aria-label="Clique aqui para ler mais" href="https://learn.microsoft.com/en-us/windows/whats-new/extended-security-updates" target="_blank">Saiba mais</a>.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq__item">
+            <button role="button" class="faq__question text-subtitle-1" aria-expanded="false">
+              <span>Minhas aplicações, dispositivos e acessórios atuais do Windows 10 funcionarão com o Windows 11?</span>
+            </button>
+            <div class="faq__answer text-body-2" aria-hidden="true">
+              <p>
+                Sim, a maioria das aplicações, dispositivos e acessórios que funcionavam com o Windows 10 Pro são compatíveis com o Windows 11 Pro. Também é possível verificar com o fabricante de software, dispositivo ou acessório para confirmar a compatibilidade. A Microsoft oferece a Garantia de Aplicativo, um serviço para ajudar com qualquer problema de compatibilidade de software ou aplicações de navegador que você possa descobrir. Saiba mais em <a aria-label="Garantia de Aplicativo" href="https://aka.ms/appassure" target="_blank">https://aka.ms/appassure</a>.
+              </p>
+            </div>
+          </div>
+          <div class="faq__item">
+            <button role="button" class="faq__question text-subtitle-1" aria-expanded="false">
+              <span>Qual edição do Windows 11 eu terei quando fizer a atualização?</span>
+            </button>
+            <div class="faq__answer text-body-2" aria-hidden="true">
+              <p>
+                A atualização para o Windows 11 é para a mesma edição que você tem no seu dispositivo Windows 10. <a aria-label="Clique aqui para ler mais" href="https://learn.microsoft.com/en-us/windows/whats-new/windows-licensing" target="_blank">Saiba mais</a>. O Windows 11 Pro não oferece o Windows 11 Pro no modo S, então você precisará sair do modo S para fazer a atualização.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Section: FAQ END -->
+    <section id="disclaimers" class="section disclaimers bg-neutral-grey-10">
+      <div class="container">
+        <ul class="disclaimers__list text-caption-1">
+          <li>
+            Com base no "Intel vPro® 13th Gen Attack Surface Study" da IOActive, publicado em março de 2023 (encomendado pela Intel), que avalia dispositivos Intel vPro® equipados com processadores Intel® Core™ da 13ª geração em comparação com computadores Intel® com quatro anos de uso e sistema operacional Windows. Informações em <a href="https://www.intel.com/performance-vpro" target="_blank" aria-label="Intel Performance vPro">www.intel.com/performance-vpro</a>. Os resultados podem variar.
+          </li>
+          <li>Depende do hardware.</li>
+          <li>Dados do programa Garantia de Aplicativo.</li>
+          <li>Microsoft Intune necessário; vendido separadamente.</li>
+          <li>
+            Benefícios anuais estimados para uma organização de médio porte com 800 computadores que utiliza ferramentas e recursos de segurança e gerenciamento da plataforma Intel vPro®. Fonte: Forrester. "<a href="https://plan.seek.intel.com/ForresterTEI-TY" target="_blank" aria-label="The Total Economic Impact of the Intel vPro® Platform: Spotlight on Midmarket Organizations">The Total Economic Impact of the Intel vPro® Platform: Spotlight on Midmarket Organizations</a>." Encomendado pela Intel. 2021.
+          </li>
+          <li>
+            Refere‑se aos processadores móveis Intel® Core™ Ultra 200V Series entre os processadores que alimentam sistemas ultrafinos, com base no poder do processador durante o benchmark UL Procyon de Produtividade de Escritório e uma coleta de cargas de trabalho representativas em relação a navegação na Web, streaming de vídeo, produtividade em escritório e videoconferência, inclusive em comparação com o Intel® Core™ Ultra 7 165H e o AMD Ryzen™ 9 AI HX 370.
+          </li>
+          <li>
+            Em comparação com dispositivos com Windows 10. <a href="https://www.principledtechnologies.com/Microsoft/Windows-11-vs-Window-10-comparison-0423-v2.pdf" target="_blank" aria-label="Improve your day‑to‑day experience with Windows 11 Pro laptops">Improve your day‑to‑day experience with Windows 11 Pro laptops</a>, Principled Technologies, abril de 2023.
+          </li>
+          <li>
+            A duração da bateria varia consideravelmente de acordo com os dispositivos e conforme as configurações, o uso e outros fatores. <a href="https://aka.ms/cpclaims" target="_blank" aria-label="Saiba mais sobre os fatores que afetam a vida útil da bateria">Saiba mais</a>.
+          </li>
+          <li>
+            Configurações eficientes em energia do Windows 11. <a href="https://support.microsoft.com/en-us/windows/power-efficient-settings-in-windows-11-0d6a2b6b-2e87-4611-9980-ac9ea2175734#:~:text=We%20need%20energy%20to%20power" target="_blank" aria-label="Sabia mais sobre as configurações eficientes em energia">Saiba mais</a>.
+          </li>
+          <li>
+            Windows 11 Survey Report encomendado pela Microsoft. Techaisle, setembro de 2024. Os resultados do Windows 11 em comparação com dispositivos Windows 10.  
+          </li>
+          <li>
+            <a href="https://news.microsoft.com/wp-content/uploads/prod/sites/671/2023/11/Work-Trend-Index-Nov-2023-Special.Report.pdf?utm_source=chatgpt.com" target="_blank" aria-label="Relatório especial do Índice de Tendências de Trabalho">Relatório especial do Índice de Tendências de Trabalho: What Can Copilot’s Earliest Users Teach Us About Generative AI at Work?</a>
+          </li>
+          <li>
+            Intel, com base na duração da bateria medida da última geração do HP EliteBook X, 68Wh por UL Procyon Battery Life Benchmark - Sub‑pontuação de Produtividade de Escritório para o Intel® Core™ Ultra 7 268V. O desempenho do sistema pode variar consideravelmente mediante diferentes capacidades de bateria, tipo de tela e outros fatores de design OEM.
+          </li>
+          <li>
+            O <a href="https://learn.microsoft.com/en-us/windows/client-management/manage-recall" target="_blank" aria-label="Saiba mais sobre a versão prévia do recurso Relembrar">Relembrar (versão prévia)</a> está disponível desde o início de 2025 na maioria dos mercados e será lançado na Área Econômica Europeia no final de 2025. Otimizado para idiomas selecionados (inglês, chinês (simplificado), francês, alemão, japonês e espanhol). As limitações baseadas em conteúdo e de armazenamento se aplicam. Requer <a href="https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/windows-hello-enhanced-sign-in-security" target="_blank" aria-label="Saiba mais sobre a Segurança de entrada avançada do Windows Hello">Segurança de entrada avançada do Windows Hello</a>. É necessária uma licença Enterprise para alguns <a href="https://learn.microsoft.com/en-us/windows/client-management/manage-recall" target="_blank" aria-label="Saiba mais sobre controles de gerenciamento habilitados por política">controles de gerenciamento habilitados por política</a>. <a href="https://www.microsoft.com/en-us/windows/copilot-plus-pcs#faq1" target="_blank" aria-label="Saiba mais sobre as limitações da versão prévia do recurso Relembrar">Saiba mais</a>.
+          </li>
+          <li>
+            O recurso <a href="https://support.microsoft.com/en-us/windows/click-to-do-do-more-with-what-s-on-your-screen-6848b7d5-7fb0-4c43-b08a-443d6d3f5955" target="_blank" aria-label="O recurso Ação com um clique (versão prévia) agora oferece ações de imagem em todos os dispositivos.">Ação com um clique (versão prévia)</a> agora oferece ações de imagem em todos os dispositivos. Ações de texto, com suporte para determinados conjuntos de caracteres, disponíveis a partir de meados de 2025 em dispositivos com tecnologia Intel®. A funcionalidade varia de acordo com o dispositivo e o mercado. O recurso Ação com um clique chegará a dispositivos na Área Econômica Europeia na segunda metade de 2025. <a href="https://aka.ms/copilotpluspcs" target="_blank" aria-label="Saiba mais sobre ações de imagem">Saiba mais</a>.
+          </li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer bg-neutral-black">
+    <div class="container footer__content">
+      <!-- Coluna esquerda: logo + textos -->
+      <div class="footer__left">
+        <!-- Logo LTA-RH -->
+        <a aria-label="LTA-RH Informática" href="/" class="footer__logo">
+          <img src="./assets/images/lta-rh-logo.png" alt="LTA-RH Informática" />
+        </a>
+
+        <p class="text-subtitle-1">
+          Nossa equipe está à disposição para apoiar seus projetos
+          e apresentar as melhores soluções.
+        </p>
+
+        <p class="text-body-2">
+          <a href="https://www.lta-rh.com.br/" class="text-link footer__branch-link" target="_blank" rel="noopener">Encontre uma filial mais perto da sua empresa</a><br /><br />
+
+          <strong>Matriz</strong><br />
+          Av. Ipiranga, 2640 - Santa Cecília<br />
+          Porto Alegre, RS<br /><br />
+          +55 51 3382-7700 | 3094-1500
+        </p>
+
+        <p class="text-caption footer__disclaimer">
+          Garantimos que suas informações serão utilizadas exclusivamente para retorno de contato,
+          sem envio de SPAM ou comunicações não solicitadas.
+        </p>
+      </div>
+
+      <!-- Coluna direita: formulário -->
+      <div class="footer__right">
+        <h3 class="text-title-3">Entre em contato</h3>
+        <form id="contact-form" class="contact-form">
+          <div class="contact-form__field">
+            <label for="nome">Nome*</label>
+            <input type="text" id="nome" name="nome" required />
+            <span class="contact-form__error" data-error-for="nome"></span>
+          </div>
+
+          <div class="contact-form__field">
+            <label for="email">Email*</label>
+            <input type="email" id="email" name="email" required />
+            <span class="contact-form__error" data-error-for="email"></span>
+          </div>
+
+          <div class="contact-form__field">
+            <label for="empresa">Empresa*</label>
+            <input type="text" id="empresa" name="empresa" required />
+            <span class="contact-form__error" data-error-for="empresa"></span>
+          </div>
+
+          <div class="contact-form__field">
+            <label for="cargo">Cargo*</label>
+            <input type="text" id="cargo" name="cargo" required />
+            <span class="contact-form__error" data-error-for="cargo"></span>
+          </div>
+
+          <div class="contact-form__field">
+            <label for="desafio">2 + 10 = ?</label>
+            <input type="text" id="desafio" name="desafio" required />
+            <span class="contact-form__error" data-error-for="desafio"></span>
+          </div>
+
+          <div class="contact-form__button">
+            <button type="submit" class="button button--campaign-primary">
+              Entrar em contato
+            </button>
+          </div>
+
+          <div id="contact-feedback" class="contact-form__feedback" role="status" aria-live="polite" aria-atomic="true"></div>
+        </form>
+      </div>
+    </div>
+  </footer>
+
+
+  <script defer="" src="./assets/js/main.js"></script>
+  <script>
+    const form = document.getElementById('contact-form');
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbxZAVSP3ipgEGsdosSIqqu86yVHoqPfbKe6r1mX6a58vAfgEkWzadmV9qfaafmwauZGSQ/exec';
+    const feedback = document.getElementById('contact-feedback');
+    const requiredFields = ['nome', 'email', 'empresa', 'cargo', 'desafio'];
+    let feedbackTimer;
+
+    function setFieldError(fieldId, message) {
+      const input = document.getElementById(fieldId);
+      if (!input) return;
+      const wrapper = input.closest('.contact-form__field');
+      const errorSpan = document.querySelector(`.contact-form__error[data-error-for="${fieldId}"]`);
+      if (!wrapper || !errorSpan) return;
+
+      if (message) {
+        wrapper.classList.add('is-error');
+        errorSpan.textContent = message;
+        errorSpan.classList.add('is-visible');
+      } else {
+        wrapper.classList.remove('is-error');
+        errorSpan.textContent = '';
+        errorSpan.classList.remove('is-visible');
+      }
+    }
+
+    function clearErrors() {
+      requiredFields.forEach((field) => setFieldError(field, ''));
+    }
+
+    function hideFeedback() {
+      feedback.classList.remove('is-visible');
+      setTimeout(() => {
+        feedback.textContent = '';
+      }, 250);
+    }
+
+    function showFeedback(message) {
+      clearTimeout(feedbackTimer);
+      feedback.textContent = message;
+      feedback.classList.add('is-visible');
+      feedbackTimer = setTimeout(() => {
+        hideFeedback();
+      }, 5000);
+    }
+
+    function validateForm() {
+      clearErrors();
+      let isValid = true;
+      const nome = form.nome.value.trim();
+      const email = form.email.value.trim();
+      const empresa = form.empresa.value.trim();
+      const cargo = form.cargo.value.trim();
+      const desafio = form.desafio.value.trim();
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+      if (!nome) {
+        setFieldError('nome', 'Preencha o nome.');
+        isValid = false;
+      }
+
+      if (!email) {
+        setFieldError('email', 'Preencha o email.');
+        isValid = false;
+      } else if (!emailPattern.test(email)) {
+        setFieldError('email', 'Digite um email válido (ex.: nome@dominio.com).');
+        isValid = false;
+      }
+
+      if (!empresa) {
+        setFieldError('empresa', 'Preencha o nome da empresa.');
+        isValid = false;
+      }
+
+      if (!cargo) {
+        setFieldError('cargo', 'Preencha o cargo.');
+        isValid = false;
+      }
+
+      if (Number(desafio) !== 12) {
+        setFieldError('desafio', 'Resposta incorreta. Resolva 2 + 10.');
+        isValid = false;
+      }
+
+      return isValid;
+    }
+
+    form.addEventListener('submit', async function (event) {
+      event.preventDefault(); // Impede o envio padrão
+
+      hideFeedback();
+      if (!validateForm()) {
+        showFeedback('Corrija os campos destacados para enviar.');
+        return;
+      }
+
+      const formData = new FormData(form);
+
+      try {
+        await fetch(scriptURL, {
+          method: 'POST',
+          body: formData,
+        });
+
+        showFeedback('Recebemos seus dados! Em breve nossa equipe entrará em contato.');
+        form.reset();
+      } catch (error) {
+        console.error('Erro ao enviar o formulário', error);
+        showFeedback('Ocorreu um erro ao enviar. Tente novamente em instantes.');
+      }
+    });
+  </script>
+</body>
+
+</body>
+
+</html>
