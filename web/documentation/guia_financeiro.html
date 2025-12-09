@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Guia Operacional – Financeiro & Cobrança</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Guia operacional de Financeiro & Cobrança da Eleven CM para bots e equipe humana." />
+  <link rel="icon" type="image/png" href="../img/ico.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+  <div class="topbar">
+    <a class="home-btn" href="index_documentation.html">Home</a>
+    <div class="lang-switch" role="group" aria-label="Selecionar idioma">
+      <button type="button" data-lang="pt" class="active">PT</button>
+      <button type="button" data-lang="en">ENG</button>
+    </div>
+  </div>
+
+  <!-- Português -->
+  <div class="lang lang-pt active" data-lang="pt">
+    <div class="layout">
+      <aside class="sidebar" aria-label="Navegação principal">
+        <div class="brand">
+          <div class="brand-badge">
+            <img src="../img/ico.png" alt="Ícone Eleven CM">
+          </div>
+          <div class="brand-text">
+            <strong>Eleven CM</strong>
+            <span>Financeiro</span>
+          </div>
+        </div>
+        <nav>
+          <ul>
+            <li><a href="#doc-info-pt">0. Info</a></li>
+            <li><a href="#visao-geral-pt">1. Visão geral</a></li>
+            <li><a href="#escopo-pt">2. Escopo</a></li>
+            <li><a href="#estrutura-dados-pt">3. Estrutura de dados</a></li>
+            <li><a href="#fluxos-pt">4. Fluxos</a></li>
+            <li><a href="#linguagem-pt">5. Linguagem</a></li>
+            <li><a href="#limites-pt">6. Limites</a></li>
+            <li><a href="#versionamento-pt">7. Versionamento</a></li>
+          </ul>
+        </nav>
+      </aside>
+
+      <main>
+        <header class="hero">
+          <h1>Guia Operacional – Financeiro &amp; Cobrança</h1>
+          <p class="tag">Versão 1.0 · 08/12/2025</p>
+          <p>Uso: referência para o Financeiro IA e pessoas da área financeira/administrativa. Relacionado ao Manual Geral Eleven CM e ao Guia de Cultura &amp; Atendimento (v1.1).</p>
+        </header>
+
+        <section id="doc-info-pt">
+          <h2>0. Info do Documento</h2>
+          <ul>
+            <li><strong>Documento:</strong> Guia Operacional – Financeiro &amp; Cobrança</li>
+            <li><strong>Versão:</strong> 1.0</li>
+            <li><strong>Data:</strong> 08/12/2025</li>
+            <li><strong>Uso:</strong> base de referência para Financeiro IA e equipe financeira</li>
+            <li><strong>Relacionado a:</strong> Manual Geral Eleven CM; Guia de Cultura &amp; Atendimento (v1.1)</li>
+          </ul>
+        </section>
+
+        <section id="visao-geral-pt">
+          <h2>1. Visão geral da área Financeiro &amp; Cobrança</h2>
+          <h3>1.1. Objetivo</h3>
+          <ul>
+            <li>Organizar receitas e cobranças de clientes da agência.</li>
+            <li>Acompanhar pagamentos recorrentes (fees) e projetos pontuais.</li>
+            <li>Apoiar a Direção Estratégica em preço, reajuste e saúde financeira.</li>
+          </ul>
+          <p><strong>Financeiro IA apoia:</strong> gera invoices, controla status, dispara lembretes educados, monta relatórios simples.</p>
+
+          <h3>1.2. Relação com outras áreas</h3>
+          <ul>
+            <li><strong>Direção Estratégica:</strong> define preços, condições, reajustes, inadimplência; aprova descontos/renegociações/cancelamentos.</li>
+            <li><strong>Atendimento (Elle):</strong> informa entrada/saída de clientes, datas de pagamento, valor do fee, escopo; sinaliza riscos de relacionamento.</li>
+            <li><strong>Tráfego &amp; Social:</strong> dependem do status financeiro (atraso pode pausar campanhas/novos jobs até regularização).</li>
+          </ul>
+        </section>
+
+        <section id="escopo-pt">
+          <h2>2. Escopo do Financeiro IA</h2>
+          <h3>2.1. O que a IA pode fazer</h3>
+          <ul>
+            <li><strong>Cadastro financeiro:</strong> preencher ficha com contatos, valor de fee, mídia, modalidade, vencimento, forma de pagamento.</li>
+            <li><strong>Geração de invoices/propostas:</strong> descrição amigável, período de referência, valores discriminados, instruções de pagamento; preencher sistemas externos via automação.</li>
+            <li><strong>Controle de status:</strong> atualizar status (aberto/pago/atrasado/cancelado/negociação), datas e listas de vencimentos/atrasos.</li>
+            <li><strong>Lembretes educados:</strong> templates de pré-vencimento, dia do vencimento, pós-vencimento e aviso de possível suspensão.</li>
+            <li><strong>Relatórios mensais simples:</strong> total do mês, por cliente, em aberto, inadimplência; resumo para Direção.</li>
+          </ul>
+
+          <h3>2.2. O que a IA não pode fazer sozinha</h3>
+          <ul>
+            <li>Conceder descontos, cortesias ou renegociações.</li>
+            <li>Mudar valor de contrato ou incluir extras.</li>
+            <li>Fechar parcelamentos fora das regras.</li>
+            <li>Encerrar contrato ou comunicar cancelamento formal.</li>
+            <li>Autorizar pagamentos automáticos ou movimentar dinheiro.</li>
+            <li>Ameaçar ou constranger clientes.</li>
+          </ul>
+          <p><strong>Em casos sensíveis:</strong> responder neutro/educado, marcar “Escalar para Direção Estratégica” e registrar resumo.</p>
+        </section>
+
+        <section id="estrutura-dados-pt">
+          <h2>3. Estrutura de dados financeiros</h2>
+          <h3>3.1. Ficha Financeira – Campos mínimos</h3>
+          <ul>
+            <li>Cliente (fantasia); Razão social / CNPJ ou EIN.</li>
+            <li>Contato financeiro (nome, e-mail, WhatsApp).</li>
+            <li>Tipo de contrato: Retainer mensal / Projeto / Consultoria / Mídia avulsa.</li>
+            <li>Fee mensal (US$); orçamento de mídia (US$/mês) se gerido.</li>
+            <li>Forma de pagamento: cartão, transferência, Zelle, Pix, boleto etc.</li>
+            <li>Data de vencimento padrão; moeda; observações importantes.</li>
+          </ul>
+
+          <h3>3.2. Registro de cobrança mensal</h3>
+          <ul>
+            <li>Mês/Ano de referência; número da invoice; valor total.</li>
+            <li>Data de emissão; data de vencimento; status (aberto/pago/atrasado/cancelado/negociação).</li>
+            <li>Data de pagamento efetivo; canal de envio (e-mail/WhatsApp/plataforma).</li>
+          </ul>
+        </section>
+
+        <section id="fluxos-pt">
+          <h2>4. Fluxos principais</h2>
+          <h3>4.1. Onboarding financeiro de novo cliente</h3>
+          <ol>
+            <li>Contrato fechado → card “Onboarding Financeiro – [Cliente] – [Plano]”.</li>
+            <li>IA lê card + ficha; gera/atualiza Ficha Financeira.</li>
+            <li>Sugere texto de boas-vindas (vencimento, formas, como recebe invoices).</li>
+            <li>Direção revisa; Atendimento envia confirmação ao cliente.</li>
+          </ol>
+
+          <h3>4.2. Emissão de invoice mensal (recorrência)</h3>
+          <ol>
+            <li>Início do mês → cards “Cobrança – [Cliente] – [Mês/Ano]”.</li>
+            <li>IA lê ficha/plano; gera título/descrição, valor, vencimento, período.</li>
+            <li>Preenche planilha/sistema (se houver); responsável confere extras.</li>
+            <li>Envio ao cliente; card para “Enviado ao Cliente”.</li>
+          </ol>
+
+          <h3>4.3. Lembretes e cobrança amigável</h3>
+          <ul>
+            <li><strong>Pré-vencimento:</strong> lembrete amigável com link/meios.</li>
+            <li><strong>Dia do vencimento:</strong> mensagem curta e prática.</li>
+            <li><strong>Pós-vencimento:</strong> D+3 gentil; D+7 objetivo; D+14 cita possível impacto; D+21/D+30 escalar Direção (suspensão/renegociação/encerramento).</li>
+            <li>IA registra textos e histórico; não decide suspender.</li>
+          </ul>
+
+          <h3>4.4. Relatório mensal de receita</h3>
+          <ol>
+            <li>Card “Fechamento Financeiro – [Mês/Ano]”.</li>
+            <li>IA consolida: recebido, em aberto, em atraso, por cliente, comparação mensal.</li>
+            <li>Gera versão interna (técnica) e resumo executivo.</li>
+            <li>Direção usa para reajuste, priorização e planejamento de caixa.</li>
+          </ol>
+        </section>
+
+        <section id="linguagem-pt">
+          <h2>5. Padrões de linguagem do Financeiro IA</h2>
+          <h3>5.1. Tom</h3>
+          <ul>
+            <li>Profissional, educado, objetivo.</li>
+            <li>Nunca passivo-agressivo ou ameaçador.</li>
+            <li>Imagem de agência parceira, não cobrador hostil.</li>
+          </ul>
+
+          <h3>5.2. Regras</h3>
+          <ul>
+            <li>Evitar termos pesados (“cobrança judicial”, “negativação”).</li>
+            <li>Preferir: “reforçando o vencimento”, “qualquer dificuldade me avisa”, “podemos ajustar dentro das políticas”.</li>
+            <li>Quando escalar: registrar internamente; Direção define comunicação.</li>
+          </ul>
+        </section>
+
+        <section id="limites-pt">
+          <h2>6. Limites, riscos e escalonamento</h2>
+          <ul>
+            <li>Pedidos de desconto/isenção/renegociação fora do padrão.</li>
+            <li>Contestação de valores.</li>
+            <li>Atrasos recorrentes.</li>
+            <li>Qualquer situação com risco de desgaste.</li>
+          </ul>
+          <p><strong>Ao escalar:</strong> resumir em até 5 bullets, anexar histórico e sugerir 1–2 caminhos (sem decidir).</p>
+        </section>
+
+        <section id="versionamento-pt">
+          <h2>7. Versionamento</h2>
+          <p>Versão 1.0 do Guia Operacional Financeiro &amp; Cobrança.</p>
+          <p>Próximas versões: registrar mudanças em políticas de desconto, novos meios de pagamento e automações adicionais.</p>
+        </section>
+      </main>
+    </div>
+    <footer>
+      Eleven CM — Guia Operacional Financeiro &amp; Cobrança. Versão 1.0
+    </footer>
+  </div>
+
+  <!-- English -->
+  <div class="lang lang-en" data-lang="en">
+    <div class="layout">
+      <aside class="sidebar" aria-label="Main navigation">
+        <div class="brand">
+          <div class="brand-badge">
+            <img src="../img/ico.png" alt="Eleven CM icon">
+          </div>
+          <div class="brand-text">
+            <strong>Eleven CM</strong>
+            <span>Finance</span>
+          </div>
+        </div>
+        <nav>
+          <ul>
+            <li><a href="#doc-info-en">0. Info</a></li>
+            <li><a href="#overview-en">1. Overview</a></li>
+            <li><a href="#scope-en">2. Scope</a></li>
+            <li><a href="#data-structure-en">3. Data structure</a></li>
+            <li><a href="#flows-en">4. Flows</a></li>
+            <li><a href="#language-en">5. Language</a></li>
+            <li><a href="#limits-en">6. Limits</a></li>
+            <li><a href="#versioning-en">7. Versioning</a></li>
+          </ul>
+        </nav>
+      </aside>
+
+      <main>
+        <header class="hero">
+          <h1>Operational Guide – Finance &amp; Billing</h1>
+          <p class="tag">Version 1.0 · 2025-12-08</p>
+          <p>Use: reference for Finance AI and financial/admin team. Related to the Eleven CM General Manual and the Culture &amp; Service Guide (v1.1).</p>
+        </header>
+
+        <section id="doc-info-en">
+          <h2>0. Document info</h2>
+          <ul>
+            <li><strong>Document:</strong> Operational Guide – Finance &amp; Billing</li>
+            <li><strong>Version:</strong> 1.0</li>
+            <li><strong>Date:</strong> 2025-12-08</li>
+            <li><strong>Use:</strong> reference for Finance AI and financial team</li>
+            <li><strong>Related to:</strong> Eleven CM General Manual; Culture &amp; Service Guide (v1.1)</li>
+          </ul>
+        </section>
+
+        <section id="overview-en">
+          <h2>1. Finance &amp; Billing overview</h2>
+          <h3>1.1. Objective</h3>
+          <ul>
+            <li>Organize agency revenue and client billing.</li>
+            <li>Track recurring payments (retainers) and one-off projects.</li>
+            <li>Support Strategic Direction on pricing, adjustments, and financial health.</li>
+          </ul>
+          <p><strong>Finance AI supports:</strong> invoices, payment status, polite reminders, simple reports.</p>
+
+          <h3>1.2. Relation with other areas</h3>
+          <ul>
+            <li><strong>Strategic Direction:</strong> defines pricing, terms, adjustments, delinquency; approves discounts/renegotiations/cancellations.</li>
+            <li><strong>Support (Elle):</strong> informs client onboarding/offboarding, payment dates, fee value, scope; flags relationship risks.</li>
+            <li><strong>Traffic &amp; Social:</strong> depend on financial status (late accounts may have campaigns paused/new jobs on hold until regularized).</li>
+          </ul>
+        </section>
+
+        <section id="scope-en">
+          <h2>2. Finance AI scope</h2>
+          <h3>2.1. What AI can do</h3>
+          <ul>
+            <li><strong>Financial record:</strong> fill client sheet with contacts, fee, media, model, due date, payment method.</li>
+            <li><strong>Invoices/proposals:</strong> friendly description, reference period, itemized values, payment instructions; fill external systems via automation.</li>
+            <li><strong>Status control:</strong> update status (open/paid/late/cancelled/negotiation), dates, and lists of upcoming/overdue items.</li>
+            <li><strong>Polite reminders:</strong> templates for pre-due, due date, post-due, and possible suspension notice.</li>
+            <li><strong>Simple monthly reports:</strong> total month, per client, open amounts, delinquency; summary for Direction.</li>
+          </ul>
+
+          <h3>2.2. What AI must not do alone</h3>
+          <ul>
+            <li>Grant discounts or renegotiate.</li>
+            <li>Change contract value or add extras.</li>
+            <li>Set custom installment plans outside rules.</li>
+            <li>End contracts or communicate formal cancellation.</li>
+            <li>Authorize automatic payments or move money.</li>
+            <li>Threaten or pressure clients.</li>
+          </ul>
+          <p><strong>In sensitive cases:</strong> reply neutrally/politely, flag “Escalate to Strategic Direction,” and log a clear summary.</p>
+        </section>
+
+        <section id="data-structure-en">
+          <h2>3. Financial data structure</h2>
+          <h3>3.1. Financial sheet – minimum fields</h3>
+          <ul>
+            <li>Client (trade name); Legal name / EIN or CNPJ.</li>
+            <li>Financial contact (name, email, WhatsApp).</li>
+            <li>Contract type: Monthly retainer / Project / Consulting / Media only.</li>
+            <li>Monthly fee (USD); media budget (USD/month) if managed.</li>
+            <li>Payment method: card, transfer, Zelle, Pix, boleto, etc.</li>
+            <li>Standard due date; currency; important notes.</li>
+          </ul>
+
+          <h3>3.2. Monthly billing record</h3>
+          <ul>
+            <li>Reference Month/Year; invoice number; total value.</li>
+            <li>Issue date; due date; status (open/paid/late/cancelled/negotiation).</li>
+            <li>Payment date; delivery channel (email/WhatsApp/platform).</li>
+          </ul>
+        </section>
+
+        <section id="flows-en">
+          <h2>4. Main flows</h2>
+          <h3>4.1. Financial onboarding</h3>
+          <ol>
+            <li>Contract closed → card “Finance Onboarding – [Client] – [Plan]”.</li>
+            <li>AI reads card + sheet; creates/updates Financial Sheet.</li>
+            <li>Suggests welcome text (due date, methods, how invoices arrive).</li>
+            <li>Direction reviews; Support sends confirmation to client.</li>
+          </ol>
+
+          <h3>4.2. Monthly invoice issuance</h3>
+          <ol>
+            <li>Start of month → cards “Billing – [Client] – [Month/Year]”.</li>
+            <li>AI reads sheet/plan; creates title/description, value, due date, period.</li>
+            <li>Fills sheet/system (if any); manager checks extras.</li>
+            <li>Send to client; move card to “Sent to Client.”</li>
+          </ol>
+
+          <h3>4.3. Reminders and friendly billing</h3>
+          <ul>
+            <li><strong>Pre-due:</strong> friendly reminder with link/methods.</li>
+            <li><strong>Due date:</strong> short, practical message.</li>
+            <li><strong>Post-due:</strong> D+3 gentle; D+7 objective; D+14 mentions possible impact; D+21/D+30 escalate to Direction (suspend/renegotiate/end).</li>
+            <li>AI logs texts/history; never decides to suspend.</li>
+          </ul>
+
+          <h3>4.4. Monthly revenue report</h3>
+          <ol>
+            <li>Card “Financial Closing – [Month/Year]”.</li>
+            <li>AI consolidates: received, open, late, by client, monthly comparison.</li>
+            <li>Generates internal (technical) and executive summary.</li>
+            <li>Direction uses for pricing adjustments, prioritization, cash planning.</li>
+          </ol>
+        </section>
+
+        <section id="language-en">
+          <h2>5. Finance AI language standards</h2>
+          <h3>5.1. Tone</h3>
+          <ul>
+            <li>Professional, polite, objective.</li>
+            <li>Never passive-aggressive or threatening.</li>
+            <li>Agency-as-partner tone, not hostile collector.</li>
+          </ul>
+
+        <h3>5.2. Rules</h3>
+          <ul>
+            <li>Avoid heavy terms (“legal action,” “blacklist”).</li>
+            <li>Prefer: “reinforcing the due date,” “let me know if any difficulty,” “we can adjust within agency policies.”</li>
+            <li>When escalating: log internally; Direction defines communication.</li>
+          </ul>
+        </section>
+
+        <section id="limits-en">
+          <h2>6. Limits, risks, and escalation</h2>
+          <ul>
+            <li>Requests for discounts/waivers/renegotiation outside the standard.</li>
+            <li>Value disputes.</li>
+            <li>Repeated late payments.</li>
+            <li>Any situation with relationship risk.</li>
+          </ul>
+          <p><strong>When escalating:</strong> summarize in up to 5 bullets, attach history, and suggest 1–2 possible paths (no decisions).</p>
+        </section>
+
+        <section id="versioning-en">
+          <h2>7. Versioning</h2>
+          <p>Version 1.0 of the Finance &amp; Billing Operational Guide.</p>
+          <p>Future versions: log changes to discount policies, new payment methods, additional automations.</p>
+        </section>
+      </main>
+    </div>
+    <footer>
+      Eleven CM — Finance &amp; Billing Operational Guide. Version 1.0
+    </footer>
+  </div>
+
+  <button type="button" class="back-to-top" aria-label="Voltar ao topo">↑</button>
+
+  <script>
+    const toggleButtons = document.querySelectorAll(".lang-switch button");
+    const langBlocks = document.querySelectorAll(".lang");
+    const backToTop = document.querySelector(".back-to-top");
+
+    function detectLang() {
+      const saved = localStorage.getItem("langPref");
+      if (saved) return saved;
+      const browserLang = (navigator.languages?.[0] || navigator.language || "en").toLowerCase();
+      return browserLang.startsWith("pt") ? "pt" : "en";
+    }
+
+    function setLanguage(lang, persist = false) {
+      toggleButtons.forEach((btn) => btn.classList.toggle("active", btn.dataset.lang === lang));
+      langBlocks.forEach((block) => block.classList.toggle("active", block.dataset.lang === lang));
+      document.documentElement.setAttribute("lang", lang === "pt" ? "pt-BR" : "en");
+      if (persist) localStorage.setItem("langPref", lang);
+    }
+
+    toggleButtons.forEach((btn) => {
+      btn.addEventListener("click", () => setLanguage(btn.dataset.lang, true));
+    });
+
+    setLanguage(detectLang());
+
+    function handleBackToTop() {
+      if (!backToTop) return;
+      const show = window.scrollY > 220;
+      backToTop.classList.toggle("visible", show);
+    }
+
+    window.addEventListener("scroll", handleBackToTop, { passive: true });
+
+    backToTop?.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    handleBackToTop();
+  </script>
+</body>
+
+</html>
