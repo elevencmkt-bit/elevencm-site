@@ -176,33 +176,118 @@
     }
 
     .upgrade-highlight__content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: clamp(20px, 4vw, 35px);
-      text-align: center;
       color: var(--color-neutral-white);
-      max-width: 1100px;
+      max-width: 1200px;
       margin: 0 auto;
       padding: clamp(64px, 8vw, 112px) var(--padding-main-mobile);
+    }
+
+    .upgrade-highlight__layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
+      gap: clamp(32px, 4vw, 56px);
+      align-items: start;
+    }
+
+    .upgrade-highlight__text {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      text-align: left;
     }
 
     .upgrade-highlight__title {
       font-size: clamp(40px, 5vw, 58px);
       font-weight: 600;
       line-height: 1.15;
-      margin: 0;
+      margin: 0 0 14px;
+      text-align: left;
     }
 
     .upgrade-highlight__subtitle {
-      font-size: clamp(20px, 2.5vw, 18px);
-      font-weight: 100;
-      line-height: 1.35;
+      font-size: clamp(18px, 2.2vw, 20px);
+      font-weight: 300;
+      line-height: 1.5;
       margin: 0;
     }
 
     .upgrade-highlight__subtitle strong {
       font-weight: 700;
+    }
+
+    .upgrade-highlight__form {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(6px);
+    }
+
+    .upgrade-highlight__form h3 {
+      margin: 0 0 8px;
+    }
+
+    .upgrade-highlight__form p {
+      margin: 0 0 16px;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .contact-form label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 4px;
+      color: var(--color-neutral-white);
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+    }
+
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    @media (max-width: 1024px) {
+      .upgrade-highlight__layout {
+        grid-template-columns: 1fr;
+      }
+
+      .upgrade-highlight__form {
+        max-width: 520px;
+        width: 100%;
+      }
+    }
+
+    /* Rodapé reestilizado sem formulário */
+    .footer__content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 32px;
+      padding-block: 32px;
+      align-items: start;
+    }
+
+    .footer__left {
+      color: #ffffff;
+    }
+
+    .footer__info {
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer__info h4 {
+      margin: 0;
     }
   </style>
 
@@ -282,23 +367,73 @@
 
     <section class="section upgrade-highlight">
       <div class="container upgrade-highlight__content">
-        <h2 class="upgrade-highlight__title">
-          O upgrade que redefine segurança, performance e gestão inteligente.
-        </h2>
-        <p class="upgrade-highlight__subtitle">
-          Em parceria com <strong>Intel</strong>, <strong>Dell Technologies</strong> e
-          <strong>Microsoft</strong>, reforçamos a importância da atualização para o
-          <strong>Windows 11 Pro</strong>, já que o suporte ao
-          <strong>Windows 10</strong> terminou em
-          <strong>14 de outubro de 2025</strong>. A modernização garante
-          <strong>mais segurança, produtividade e eficiência</strong>, essenciais em um
-          cenário cada vez mais orientado pela Inteligência Artificial.
-        </p>
-        <p class="upgrade-highlight__subtitle">
-          Com <strong>Intel vPro®</strong> e o portfólio
-          <strong>Dell Technologies</strong>, sua empresa ganha
-          <strong>gestão simplificada e proteção de ponta a ponta</strong>.
-        </p>
+        <div class="upgrade-highlight__layout">
+          <div class="upgrade-highlight__text">
+            <h2 class="upgrade-highlight__title">
+              O upgrade que redefine segurança, performance e gestão inteligente.
+            </h2>
+            <p class="upgrade-highlight__subtitle">
+              Em parceria com <strong>Intel</strong>, <strong>Dell Technologies</strong> e
+              <strong>Microsoft</strong>, reforçamos a importância da atualização para o
+              <strong>Windows 11 Pro</strong>, já que o suporte ao
+              <strong>Windows 10</strong> terminou em
+              <strong>14 de outubro de 2025</strong>. A modernização garante
+              <strong>mais segurança, produtividade e eficiência</strong>, essenciais em um
+              cenário cada vez mais orientado pela Inteligência Artificial.
+            </p>
+            <p class="upgrade-highlight__subtitle">
+              Com <strong>Intel vPro®</strong> e o portfólio
+              <strong>Dell Technologies</strong>, sua empresa ganha
+              <strong>gestão simplificada e proteção de ponta a ponta</strong>.
+            </p>
+          </div>
+
+          <div class="upgrade-highlight__form">
+            <h3 class="text-title-3">Entre em contato</h3>
+            <p class="text-body-2">
+              Deixe seus dados e nossa equipe retorna para criar o melhor plano de modernização para sua empresa.
+            </p>
+            <form id="contact-form" class="contact-form">
+              <div class="contact-form__field">
+                <label for="nome">Nome*</label>
+                <input type="text" id="nome" name="nome" required />
+                <span class="contact-form__error" data-error-for="nome"></span>
+              </div>
+
+              <div class="contact-form__field">
+                <label for="email">Email*</label>
+                <input type="email" id="email" name="email" required />
+                <span class="contact-form__error" data-error-for="email"></span>
+              </div>
+
+              <div class="contact-form__field">
+                <label for="empresa">Empresa*</label>
+                <input type="text" id="empresa" name="empresa" required />
+                <span class="contact-form__error" data-error-for="empresa"></span>
+              </div>
+
+              <div class="contact-form__field">
+                <label for="cargo">Cargo*</label>
+                <input type="text" id="cargo" name="cargo" required />
+                <span class="contact-form__error" data-error-for="cargo"></span>
+              </div>
+
+              <div class="contact-form__field">
+                <label for="desafio">2 + 10 = ?</label>
+                <input type="text" id="desafio" name="desafio" required />
+                <span class="contact-form__error" data-error-for="desafio"></span>
+              </div>
+
+              <div class="contact-form__button">
+                <button type="submit" class="button button--campaign-primary">
+                  Entrar em contato
+                </button>
+              </div>
+
+              <div id="contact-feedback" class="contact-form__feedback" role="status" aria-live="polite" aria-atomic="true"></div>
+            </form>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -736,7 +871,7 @@
           <p class="text-body-2">
             Veja como os novos computadores Windows 11 Pro com Intel vPro® impulsionam a inovação e a eficiência, com segurança robusta por padrão, para que suas equipes possam trabalhar e prosperar em qualquer lugar.
           </p>
-          <a href="#" aria-label="Baixar o livro eletrônico" class="button button--campaign-primary"> Baixar o livro eletrônico </a>
+          <a href="./assets/media/intel-refresh-whitepaper-4-2-portuguesebrazil.pdf" download aria-label="Baixar o livro eletrônico" class="button button--campaign-primary"> Baixar o livro eletrônico </a>
         </div>
       </div>
       <div class="hero__bg">
@@ -906,9 +1041,7 @@
 
   <footer class="footer bg-neutral-black">
     <div class="container footer__content">
-      <!-- Coluna esquerda: logo + textos -->
       <div class="footer__left">
-        <!-- Logo LTA-RH -->
         <a aria-label="LTA-RH Informática" href="/" class="footer__logo">
           <img src="./assets/images/lta-rh-logo.png" alt="LTA-RH Informática" />
         </a>
@@ -918,63 +1051,24 @@
           e apresentar as melhores soluções.
         </p>
 
-        <p class="text-body-2">
-          <a href="https://www.lta-rh.com.br/" class="text-link footer__branch-link" target="_blank" rel="noopener">Encontre uma filial mais perto da sua empresa</a><br /><br />
-
-          <strong>Matriz</strong><br />
-          Av. Ipiranga, 2640 - Santa Cecília<br />
-          Porto Alegre, RS<br /><br />
-          +55 51 3382-7700 | 3094-1500
-        </p>
-
         <p class="text-caption footer__disclaimer">
           Garantimos que suas informações serão utilizadas exclusivamente para retorno de contato,
           sem envio de SPAM ou comunicações não solicitadas.
         </p>
       </div>
 
-      <!-- Coluna direita: formulário -->
-      <div class="footer__right">
-        <h3 class="text-title-3">Entre em contato</h3>
-        <form id="contact-form" class="contact-form">
-          <div class="contact-form__field">
-            <label for="nome">Nome*</label>
-            <input type="text" id="nome" name="nome" required />
-            <span class="contact-form__error" data-error-for="nome"></span>
-          </div>
-
-          <div class="contact-form__field">
-            <label for="email">Email*</label>
-            <input type="email" id="email" name="email" required />
-            <span class="contact-form__error" data-error-for="email"></span>
-          </div>
-
-          <div class="contact-form__field">
-            <label for="empresa">Empresa*</label>
-            <input type="text" id="empresa" name="empresa" required />
-            <span class="contact-form__error" data-error-for="empresa"></span>
-          </div>
-
-          <div class="contact-form__field">
-            <label for="cargo">Cargo*</label>
-            <input type="text" id="cargo" name="cargo" required />
-            <span class="contact-form__error" data-error-for="cargo"></span>
-          </div>
-
-          <div class="contact-form__field">
-            <label for="desafio">2 + 10 = ?</label>
-            <input type="text" id="desafio" name="desafio" required />
-            <span class="contact-form__error" data-error-for="desafio"></span>
-          </div>
-
-          <div class="contact-form__button">
-            <button type="submit" class="button button--campaign-primary">
-              Entrar em contato
-            </button>
-          </div>
-
-          <div id="contact-feedback" class="contact-form__feedback" role="status" aria-live="polite" aria-atomic="true"></div>
-        </form>
+      <div class="footer__info">
+        <h4 class="text-title-3">Onde estamos</h4>
+        <p class="text-body-2">
+          <a href="https://www.lta-rh.com.br/" class="text-link footer__branch-link" target="_blank" rel="noopener">Encontre uma filial mais perto da sua empresa</a><br /><br />
+          <strong>Matriz</strong><br />
+          Av. Ipiranga, 2640 - Santa Cecília<br />
+          Porto Alegre, RS<br /><br />
+          +55 51 3382-7700 | 3094-1500
+        </p>
+        <p class="text-body-2">
+          Preferimos falar com você pelo canal que for mais prático. Se preferir, visite nosso site e fale com um consultor.
+        </p>
       </div>
     </div>
   </footer>
@@ -1092,8 +1186,6 @@
       }
     });
   </script>
-</body>
-
 </body>
 
 </html>
