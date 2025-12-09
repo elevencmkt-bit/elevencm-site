@@ -440,9 +440,12 @@
     </footer>
   </div>
 
+  <button type="button" class="back-to-top" aria-label="Voltar ao topo">↑</button>
+
   <script>
     const toggleButtons = document.querySelectorAll(".lang-switch button");
     const langBlocks = document.querySelectorAll(".lang");
+    const backToTop = document.querySelector(".back-to-top");
 
     function detectLang() {
       const saved = localStorage.getItem("langPref");
@@ -463,6 +466,20 @@
     });
 
     setLanguage(detectLang());
+
+    function handleBackToTop() {
+      if (!backToTop) return;
+      const show = window.scrollY > 220;
+      backToTop.classList.toggle("visible", show);
+    }
+
+    window.addEventListener("scroll", handleBackToTop, { passive: true });
+
+    backToTop?.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    handleBackToTop();
   </script>
 </body>
 
