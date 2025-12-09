@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Guia Operacional – Performance & Mídia Paga</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Guia operacional de Performance & Mídia Paga (Tráfego) da Eleven CM para bots e equipe humana." />
+  <link rel="icon" type="image/png" href="../img/ico.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+  <div class="topbar">
+    <a class="home-btn" href="index_documentation.html">Home</a>
+    <div class="lang-switch" role="group" aria-label="Selecionar idioma">
+      <button type="button" data-lang="pt" class="active">PT</button>
+      <button type="button" data-lang="en">ENG</button>
+    </div>
+  </div>
+
+  <!-- Português -->
+  <div class="lang lang-pt active" data-lang="pt">
+    <div class="layout">
+      <aside class="sidebar" aria-label="Navegação principal">
+        <div class="brand">
+          <div class="brand-badge">
+            <img src="../img/ico.png" alt="Ícone Eleven CM">
+          </div>
+          <div class="brand-text">
+            <strong>Eleven CM</strong>
+            <span>Guia Tráfego</span>
+          </div>
+        </div>
+        <nav>
+          <ul>
+            <li><a href="#doc-info-pt">0. Info</a></li>
+            <li><a href="#visao-geral-pt">1. Visão geral</a></li>
+            <li><a href="#escopo-pt">2. Escopo</a></li>
+            <li><a href="#inputs-outputs-pt">3. Inputs &amp; outputs</a></li>
+            <li><a href="#tipos-fluxo-pt">4. Fluxos</a></li>
+            <li><a href="#regras-analise-pt">5. Análise</a></li>
+            <li><a href="#limites-pt">6. Limites</a></li>
+            <li><a href="#linguagem-pt">7. Linguagem</a></li>
+            <li><a href="#versionamento-pt">8. Versionamento</a></li>
+          </ul>
+        </nav>
+      </aside>
+
+      <main>
+        <header class="hero">
+          <h1>Guia Operacional – Performance &amp; Mídia Paga (Tráfego)</h1>
+          <p class="tag">Versão 1.0 · 08/12/2025</p>
+          <p>
+            Uso: base de referência para o Gestor de Tráfego IA e gestores humanos. Relacionado ao Manual Geral Eleven CM,
+            Guia de Cultura &amp; Atendimento (v1.1) e Guia Operacional Social Media / Community Manager (v1.0).
+          </p>
+        </header>
+
+        <section id="doc-info-pt">
+          <h2>0. Info do Documento</h2>
+          <ul>
+            <li><strong>Documento:</strong> Guia Operacional – Performance &amp; Mídia Paga (Tráfego)</li>
+            <li><strong>Versão:</strong> 1.0</li>
+            <li><strong>Data:</strong> 08/12/2025</li>
+            <li><strong>Uso:</strong> referência para Gestor de Tráfego IA e gestores humanos</li>
+            <li><strong>Relacionado a:</strong> Manual Geral, Guia de Cultura &amp; Atendimento (v1.1), Guia Social (v1.0)</li>
+          </ul>
+        </section>
+
+        <section id="visao-geral-pt">
+          <h2>1. Visão geral da área de Performance &amp; Mídia Paga</h2>
+          <h3>1.1. Objetivo</h3>
+          <ul>
+            <li>Planejar, estruturar e otimizar campanhas em Meta Ads, Google Ads (quando aplicável) e outras plataformas.</li>
+            <li>Traduzir objetivos de negócio em estrutura de campanha, segmentação, orçamento e mensuração.</li>
+            <li>IA de Tráfego auxilia com planos, rascunhos, análises e otimizações (não substitui gestor humano).</li>
+          </ul>
+
+          <h3>1.2. Relação com outras áreas</h3>
+          <ul>
+            <li><strong>Direção Estratégica:</strong> define objetivos macro.</li>
+            <li><strong>Atendimento (Elle):</strong> recebe demandas, alinha expectativas, registra em Trello/CRM.</li>
+            <li><strong>Social Media:</strong> fornece criativos e recebe feedback de performance.</li>
+          </ul>
+        </section>
+
+        <section id="escopo-pt">
+          <h2>2. Escopo do Gestor de Tráfego IA</h2>
+          <h3>2.1. O que a IA pode fazer</h3>
+          <ul>
+            <li><strong>Planejamento:</strong> objetivos, públicos, formatos, distribuição inicial de verba.</li>
+            <li><strong>Estrutura:</strong> nomenclatura padrão (campanhas/conjuntos/anúncios) e segmentações (local, idade, interesses, públicos informados).</li>
+            <li><strong>Textos:</strong> títulos, descrições, primário, CTAs, variações A/B.</li>
+            <li><strong>Análise:</strong> leitura de relatórios; destaque de CTR/CPC/CPM/CPA/ROAS, top criativos/públicos, gargalos.</li>
+            <li><strong>Otimização:</strong> pausar conjuntos caros, realocar verba, criar testes, ajustar segmentação.</li>
+            <li><strong>Relatórios:</strong> resumo mensal em linguagem simples (o que foi feito, resultados, aprendizados, próximos passos).</li>
+          </ul>
+
+          <h3>2.2. O que a IA NÃO pode fazer sozinha</h3>
+          <ul>
+            <li>Aprovar ou aumentar verbas por conta própria.</li>
+            <li>Ativar/desativar campanhas via API sem “OK” explícito.</li>
+            <li>Alterar estratégias de lance sensíveis (ROAS mínimo, cost cap) sem autorização.</li>
+            <li>Garantir resultados (“vamos dobrar vendas”, “X leads garantidos”).</li>
+            <li>Tomar decisões de risco em contas novas ou com histórico frágil.</li>
+          </ul>
+        </section>
+
+        <section id="inputs-outputs-pt">
+          <h2>3. Inputs e outputs da IA de Tráfego</h2>
+          <h3>3.1. Inputs esperados</h3>
+          <ul>
+            <li><strong>Ficha do Cliente – Tráfego:</strong> produto/serviço, ticket médio, funil, histórico, restrições.</li>
+            <li><strong>Briefing de Campanha (Trello):</strong> objetivo, orçamento, período, público, ofertas, links.</li>
+            <li><strong>Dados de performance:</strong> export/resumo com impressões, cliques, resultados, custos (ideal: por campanha/conjunto/criativo).</li>
+          </ul>
+
+          <h3>3.2. Outputs padronizados</h3>
+          <ul>
+            <li><strong>Plano de Mídia (Doc):</strong> objetivo, estrutura sugerida (campanhas/públicos/verba), criativos, checklist.</li>
+            <li><strong>Análise de Performance:</strong> visão geral, o que funcionou/não funcionou, recomendações (pausar X, aumentar Y, testar Z).</li>
+            <li><strong>Sugestões prontas:</strong> blocos curtos tipo “Aumentar verba deste conjunto em 20% por 5 dias”.</li>
+          </ul>
+        </section>
+
+        <section id="tipos-fluxo-pt">
+          <h2>4. Tipos de fluxo</h2>
+          <h3>4.1. Planejamento de campanha nova</h3>
+          <ol>
+            <li>Card “Nova Campanha – [Cliente] – [Objetivo] – [Mês/Ano]” em Planejamento Tráfego.</li>
+            <li>IA lê briefing, ficha e histórico.</li>
+            <li>IA gera plano de mídia (Doc) + resumo em bullets no card.</li>
+            <li>Gestor humano revisa e implementa no Ads Manager.</li>
+          </ol>
+
+          <h3>4.2. Otimização semanal</h3>
+          <ol>
+            <li>Gestor exporta/cola relatório no card “Relatório – [Cliente] – Semana X”.</li>
+            <li>Automação envia dados para IA.</li>
+            <li>IA devolve diagnóstico + 3–7 ações com prioridade.</li>
+            <li>Gestor marca como Implementado / Testar depois / Descartado.</li>
+          </ol>
+
+          <h3>4.3. Relatório mensal</h3>
+          <ol>
+            <li>Card “Relatório Mensal – [Cliente] – [Mês/Ano]”.</li>
+            <li>IA recebe panorama do mês + plano original.</li>
+            <li>IA gera relatório simples (Doc ou card), comparação com mês anterior (quando houver) e próximos passos como recomendações.</li>
+          </ol>
+        </section>
+
+        <section id="regras-analise-pt">
+          <h2>5. Regras de análise e recomendação</h2>
+          <h3>5.1. Métricas principais</h3>
+          <ul>
+            <li><strong>Reconhecimento:</strong> alcance, frequência, CPM, taxa de visualização.</li>
+            <li><strong>Engajamento:</strong> cliques, CTR, saves, comentários.</li>
+            <li><strong>Consideração/Tráfego:</strong> cliques no link, CTR, CPC.</li>
+            <li><strong>Leads/Mensagens/Conversão:</strong> CPL/CPA, taxas de conversão, ROAS (quando há vendas).</li>
+          </ul>
+
+          <h3>5.2. Boas práticas</h3>
+          <ul>
+            <li>Ao pausar, cite critério (ex.: CPL 3x acima da média).</li>
+            <li>Ao aumentar verba, limitar (ex.: +20% por 3 dias) e reavaliar.</li>
+            <li>Testes A/B com uma variável por vez (criativo OU público OU posicionamento).</li>
+          </ul>
+        </section>
+
+        <section id="limites-pt">
+          <h2>6. Limites, riscos e escalonamento</h2>
+          <ul>
+            <li>Queda brusca de performance (custo dobra de um dia para o outro).</li>
+            <li>Bloqueio de conta, reprovação em massa ou alertas de política.</li>
+            <li>Recomendações que exijam aumento relevante de verba ou mudança de funil.</li>
+            <li>Indícios de problema no produto/atendimento (muitos leads, poucas vendas).</li>
+          </ul>
+          <p><strong>Quando ocorrer:</strong> escalar para Direção Estratégica ou gestor humano antes de agir.</p>
+        </section>
+
+        <section id="linguagem-pt">
+          <h2>7. Padrões de linguagem em relatórios</h2>
+          <ul>
+            <li>Evitar jargão sem explicação (ex.: “CPC alto = custo por clique alto”).</li>
+            <li>Estrutura: resumo leigo; parte técnica para equipe; plano de ação numerado com prioridade.</li>
+          </ul>
+        </section>
+
+        <section id="versionamento-pt">
+          <h2>8. Versionamento</h2>
+          <p>Documento: versão 1.0 do Guia de Performance &amp; Mídia Paga.</p>
+          <p>Novas versões: registrar número, data e resumo das mudanças (ex.: inclusão de TikTok Ads, novas métricas).</p>
+        </section>
+      </main>
+    </div>
+    <footer>
+      Eleven CM — Guia Operacional de Performance &amp; Mídia Paga. Versão 1.0
+    </footer>
+  </div>
+
+  <!-- English -->
+  <div class="lang lang-en" data-lang="en">
+    <div class="layout">
+      <aside class="sidebar" aria-label="Main navigation">
+        <div class="brand">
+          <div class="brand-badge">
+            <img src="../img/ico.png" alt="Eleven CM icon">
+          </div>
+          <div class="brand-text">
+            <strong>Eleven CM</strong>
+            <span>Traffic Guide</span>
+          </div>
+        </div>
+        <nav>
+          <ul>
+            <li><a href="#doc-info-en">0. Info</a></li>
+            <li><a href="#overview-en">1. Overview</a></li>
+            <li><a href="#scope-en">2. Scope</a></li>
+            <li><a href="#inputs-outputs-en">3. Inputs &amp; outputs</a></li>
+            <li><a href="#flows-en">4. Flows</a></li>
+            <li><a href="#analysis-en">5. Analysis</a></li>
+            <li><a href="#limits-en">6. Limits</a></li>
+            <li><a href="#language-en">7. Language</a></li>
+            <li><a href="#versioning-en">8. Versioning</a></li>
+          </ul>
+        </nav>
+      </aside>
+
+      <main>
+        <header class="hero">
+          <h1>Operational Guide – Performance &amp; Paid Media (Traffic)</h1>
+          <p class="tag">Version 1.0 · 2025-12-08</p>
+          <p>
+            Use: reference for the Traffic Manager AI and human managers. Related to the Eleven CM General Manual,
+            Culture &amp; Service Guide (v1.1), and Social Media / Community Manager Operational Guide (v1.0).
+          </p>
+        </header>
+
+        <section id="doc-info-en">
+          <h2>0. Document info</h2>
+          <ul>
+            <li><strong>Document:</strong> Operational Guide – Performance &amp; Paid Media (Traffic)</li>
+            <li><strong>Version:</strong> 1.0</li>
+            <li><strong>Date:</strong> 2025-12-08</li>
+            <li><strong>Use:</strong> reference for Traffic Manager AI and human managers</li>
+            <li><strong>Related to:</strong> General Manual; Culture &amp; Service Guide (v1.1); Social Guide (v1.0)</li>
+          </ul>
+        </section>
+
+        <section id="overview-en">
+          <h2>1. Performance &amp; Paid Media overview</h2>
+          <h3>1.1. Objective</h3>
+          <ul>
+            <li>Plan, structure, and optimize campaigns on Meta Ads, Google Ads (when applicable), and other platforms.</li>
+            <li>Translate business goals into campaign structure, targeting, budget, and measurement.</li>
+            <li>Traffic AI assists (does not replace) the human manager with media plans, draft structures, analyses, and optimizations.</li>
+          </ul>
+
+          <h3>1.2. Relation with other areas</h3>
+          <ul>
+            <li><strong>Strategic Direction:</strong> sets macro objectives.</li>
+            <li><strong>Support (Elle):</strong> gathers client requests, aligns expectations, logs in Trello/CRM.</li>
+            <li><strong>Social Media:</strong> provides creatives and receives performance feedback.</li>
+          </ul>
+        </section>
+
+        <section id="scope-en">
+          <h2>2. Traffic AI scope</h2>
+          <h3>2.1. What AI can do</h3>
+          <ul>
+            <li><strong>Planning:</strong> objectives, audiences, formats, initial budget split.</li>
+            <li><strong>Structure:</strong> naming (campaigns/ad sets/ads) and targeting (location, age, interests, provided custom audiences).</li>
+            <li><strong>Ad copy:</strong> headlines, descriptions, primary text, CTAs, A/B variations.</li>
+            <li><strong>Analysis:</strong> read reports; highlight CTR/CPC/CPM/CPA/ROAS, top creatives/audiences, funnel bottlenecks.</li>
+            <li><strong>Optimization:</strong> pause costly ad sets, reallocate budget, create tests, adjust targeting.</li>
+            <li><strong>Reports:</strong> monthly summary in simple language (what was done, key results, learnings, next steps).</li>
+          </ul>
+
+          <h3>2.2. What AI must NOT do alone</h3>
+          <ul>
+            <li>Approve or increase budgets on its own.</li>
+            <li>Activate/deactivate campaigns via API without explicit “OK.”</li>
+            <li>Change sensitive bid strategies (min ROAS, cost cap) without authorization.</li>
+            <li>Guarantee outcomes (“we’ll double sales,” “X leads guaranteed”).</li>
+            <li>Make risky calls in new accounts or fragile histories.</li>
+          </ul>
+        </section>
+
+        <section id="inputs-outputs-en">
+          <h2>3. Traffic AI inputs and outputs</h2>
+          <h3>3.1. Expected inputs</h3>
+          <ul>
+            <li><strong>Client Traffic Sheet:</strong> product/service, average ticket, funnel, history, restrictions.</li>
+            <li><strong>Campaign Brief (Trello):</strong> goal, budget, period, audience, offers, links.</li>
+            <li><strong>Performance data:</strong> export/summary with impressions, clicks, results, costs (ideally by campaign/set/creative).</li>
+          </ul>
+
+          <h3>3.2. Standard outputs</h3>
+          <ul>
+            <li><strong>Media Plan (Doc):</strong> goal, suggested structure (campaigns/audiences/budget), proposed creatives, checklist.</li>
+            <li><strong>Performance Analysis:</strong> overview, what worked/what didn’t, recommendations (pause X, increase Y, test Z).</li>
+            <li><strong>Action-ready suggestions:</strong> short blocks like “Increase this ad set by 20% for 5 days.”</li>
+          </ul>
+        </section>
+
+        <section id="flows-en">
+          <h2>4. Flow types</h2>
+          <h3>4.1. New campaign planning</h3>
+          <ol>
+            <li>Card “New Campaign – [Client] – [Goal] – [Month/Year]” in Traffic Planning.</li>
+            <li>AI reads brief, client sheet, and history.</li>
+            <li>AI produces media plan (Doc) + bullet summary in the card.</li>
+            <li>Human manager reviews and implements in Ads Manager.</li>
+          </ol>
+
+          <h3>4.2. Weekly optimization</h3>
+          <ol>
+            <li>Manager exports/pastes report in “Report – [Client] – Week X.”</li>
+            <li>Automation sends data to AI.</li>
+            <li>AI returns diagnosis + 3–7 actions with priority.</li>
+            <li>Manager marks Implemented / Test later / Discarded.</li>
+          </ol>
+
+          <h3>4.3. Monthly report</h3>
+          <ol>
+            <li>Card “Monthly Report – [Client] – [Month/Year].”</li>
+            <li>AI receives month overview + original plan.</li>
+            <li>AI generates a simple report (Doc or card), compares to prior month (if any), and lists next steps as recommendations.</li>
+          </ol>
+        </section>
+
+        <section id="analysis-en">
+          <h2>5. Analysis and recommendation rules</h2>
+          <h3>5.1. Key metrics</h3>
+          <ul>
+            <li><strong>Awareness:</strong> reach, frequency, CPM, view-through rate.</li>
+            <li><strong>Engagement:</strong> clicks, CTR, saves, comments.</li>
+            <li><strong>Consideration/Traffic:</strong> link clicks, CTR, CPC.</li>
+            <li><strong>Leads/Messages/Conversion:</strong> CPL/CPA, stage conversion rates, ROAS (when sales exist).</li>
+          </ul>
+
+          <h3>5.2. Best practices</h3>
+          <ul>
+            <li>When pausing, cite criteria (e.g., CPL 3x above average).</li>
+            <li>When increasing budget, cap it (e.g., +20% for 3 days) and re-evaluate.</li>
+            <li>A/B tests: change one variable at a time (creative OR audience OR placement).</li>
+          </ul>
+        </section>
+
+        <section id="limits-en">
+          <h2>6. Limits, risks, and escalation</h2>
+          <ul>
+            <li>Sharp performance drop (e.g., cost doubles overnight).</li>
+            <li>Account blocks, mass disapprovals, or policy alerts.</li>
+            <li>Recommendations requiring significant budget increases or funnel changes.</li>
+            <li>Signs of product/support issues (many leads, few sales).</li>
+          </ul>
+          <p><strong>In these cases:</strong> escalate to Strategic Direction or the human manager before acting.</p>
+        </section>
+
+        <section id="language-en">
+          <h2>7. Report language standards</h2>
+          <ul>
+            <li>Avoid unexplained jargon (“High CPC = we’re paying a lot for each click”).</li>
+            <li>Structure: plain-language summary; technical part for the team; numbered action plan with priority.</li>
+          </ul>
+        </section>
+
+        <section id="versioning-en">
+          <h2>8. Versioning</h2>
+          <p>This is version 1.0 of the Performance &amp; Paid Media Guide.</p>
+          <p>Future versions must log version number, date, and change summary (e.g., TikTok Ads inclusion, new metrics).</p>
+        </section>
+      </main>
+    </div>
+    <footer>
+      Eleven CM — Operational Guide for Performance &amp; Paid Media. Version 1.0
+    </footer>
+  </div>
+
+  <button type="button" class="back-to-top" aria-label="Voltar ao topo">↑</button>
+
+  <script>
+    const toggleButtons = document.querySelectorAll(".lang-switch button");
+    const langBlocks = document.querySelectorAll(".lang");
+    const backToTop = document.querySelector(".back-to-top");
+
+    function detectLang() {
+      const saved = localStorage.getItem("langPref");
+      if (saved) return saved;
+      const browserLang = (navigator.languages?.[0] || navigator.language || "en").toLowerCase();
+      return browserLang.startsWith("pt") ? "pt" : "en";
+    }
+
+    function setLanguage(lang, persist = false) {
+      toggleButtons.forEach((btn) => btn.classList.toggle("active", btn.dataset.lang === lang));
+      langBlocks.forEach((block) => block.classList.toggle("active", block.dataset.lang === lang));
+      document.documentElement.setAttribute("lang", lang === "pt" ? "pt-BR" : "en");
+      if (persist) localStorage.setItem("langPref", lang);
+    }
+
+    toggleButtons.forEach((btn) => {
+      btn.addEventListener("click", () => setLanguage(btn.dataset.lang, true));
+    });
+
+    setLanguage(detectLang());
+
+    function handleBackToTop() {
+      if (!backToTop) return;
+      const show = window.scrollY > 220;
+      backToTop.classList.toggle("visible", show);
+    }
+
+    window.addEventListener("scroll", handleBackToTop, { passive: true });
+
+    backToTop?.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    handleBackToTop();
+  </script>
+</body>
+
+</html>
