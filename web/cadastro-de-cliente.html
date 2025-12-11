@@ -311,7 +311,7 @@
             <input type="text" id="segmento" name="segmento" required placeholder="Restaurante, loja, B2B, serviços..." />
           </div>
           <div style="grid-column: 1 / -1;">
-            <label for="descricao_resumida_negocio" data-i18n="descricao_label">Descrição resumida do negócio *</label>
+            <label for="descricao_resumida_negocio" data-i18n="descricao_label">Descrição do Negócio *</label>
             <textarea id="descricao_resumida_negocio" name="descricao_resumida_negocio" required placeholder="Descreva brevemente o negócio, produtos/serviços e foco."></textarea>
           </div>
           <div>
@@ -426,17 +426,17 @@
           </div>
           <div>
             <label for="qtd_reels_mes" data-i18n="reels_label">Qtd. de reels por mês</label>
-            <input type="number" id="qtd_reels_mes" name="qtd_reels_mes" placeholder="Ex.: 4" />
+            <input type="number" id="qtd_reels_mes" name="qtd_reels_mes" required placeholder="Ex.: 4" />
           </div>
           <div>
             <label for="qtd_stories_semanais" data-i18n="stories_label">Qtd. de stories semanais</label>
-            <input type="number" id="qtd_stories_semanais" name="qtd_stories_semanais" placeholder="Ex.: 5" />
+            <input type="number" id="qtd_stories_semanais" name="qtd_stories_semanais" required placeholder="Ex.: 5" />
           </div>
-          <div class="grid" style="grid-template-columns: 1fr; gap: 10px;">
+          <div class="grid" style="grid-template-columns: 1fr; gap: 10px; grid-column: span 2;">
             <label for="outros_entregaveis_fixos" data-i18n="entregaveis_label">Outros entregáveis fixos</label>
             <textarea id="outros_entregaveis_fixos" name="outros_entregaveis_fixos" placeholder="Lives, newsletter, materiais recorrentes (opcional)."></textarea>
           </div>
-          <div class="grid" style="grid-template-columns: 1fr; gap: 10px;">
+          <div class="grid" style="grid-template-columns: 1fr; gap: 10px; grid-column: span 2;">
             <label for="observacoes_escopo" data-i18n="obs_escopo_label">Observações de escopo</label>
             <textarea id="observacoes_escopo" name="observacoes_escopo" placeholder="Sequências, formatos, restrições (opcional)."></textarea>
           </div>
@@ -447,6 +447,15 @@
       <div class="card" aria-labelledby="midia">
         <h2 id="midia" data-i18n="section5">5. Mídia &amp; tráfego</h2>
         <div class="grid-3">
+          <div>
+            <label for="tipo_de_servico" data-i18n="tipo_servico_label">Tipo de Serviço *</label>
+            <select id="tipo_de_servico" name="tipo_de_servico" required>
+              <option value="">Selecione</option>
+              <option value="Social">Social</option>
+              <option value="Tráfego">Tráfego</option>
+              <option value="Social + Tráfego">Social + Tráfego</option>
+            </select>
+          </div>
           <div>
             <label for="gestao_trafego_ativa" data-i18n="gestao_label">Gestão de tráfego ativa *</label>
             <div class="radio-group">
@@ -525,8 +534,12 @@
     const submitBtn = document.getElementById("submitBtn");
     const backToTop = document.querySelector(".back-to-top");
     const langButtons = document.querySelectorAll(".lang-switch button");
+    const tipoServicoSelect = document.getElementById("tipo_de_servico");
+    const gestaoRadios = form.querySelectorAll('input[name="gestao_trafego_ativa"]');
+    const plataformaCheckboxes = document.querySelectorAll('[aria-label="Plataformas de tráfego"] input[type="checkbox"]');
+    const orcamentoInput = document.getElementById("orcamento_midia_mensal");
 
-    const ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbx1PjknaMYoUFKscOVeYHCOGcnM4JtXEPvS8Mt44yljGII14qbufhnYgmAQO6dBgvHjNA/exec";
+    const ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbzix5fHMp_bu9qRILNypw_Zl3d6wwYQ2N_ihUVG3sm-JfHXOeN0cA1_dMHMTaxkOGHQ1g/exec";
 
     const copy = {
       pt: {
@@ -542,7 +555,7 @@
         razao_label: "Razão Social *",
         cnpj_ein_label: "CNPJ / EIN *",
         segmento_label: "Segmento *",
-        descricao_label: "Descrição resumida do negócio *",
+        descricao_label: "Descrição do Negócio *",
         cidade_label: "Cidade *",
         estado_label: "Estado *",
         pais_label: "País *",
@@ -565,6 +578,7 @@
         stories_label: "Qtd. de stories semanais",
         entregaveis_label: "Outros entregáveis fixos",
         obs_escopo_label: "Observações de escopo",
+        tipo_servico_label: "Tipo de Serviço *",
         gestao_label: "Gestão de tráfego ativa *",
         orcamento_label: "Orçamento de mídia mensal (USD)",
         links_sociais_label: "Links de redes sociais",
@@ -586,7 +600,7 @@
         razao_label: "Legal name *",
         cnpj_ein_label: "CNPJ / EIN *",
         segmento_label: "Segment *",
-        descricao_label: "Business short description *",
+        descricao_label: "Business description *",
         cidade_label: "City *",
         estado_label: "State / Province *",
         pais_label: "Country *",
@@ -609,6 +623,7 @@
         stories_label: "Stories per week",
         entregaveis_label: "Other fixed deliverables",
         obs_escopo_label: "Scope notes",
+        tipo_servico_label: "Service type *",
         gestao_label: "Active paid traffic *",
         orcamento_label: "Monthly ad budget (USD)",
         links_sociais_label: "Social links",
@@ -718,6 +733,8 @@
 
     langButtons.forEach((btn) => btn.addEventListener("click", () => applyLang(btn.dataset.lang, true)));
     applyLang(detectLang());
+    syncTipoServico();
+    tipoServicoSelect?.addEventListener("change", syncTipoServico);
 
     function setStatus(message, type = "") {
       statusEl.textContent = message;
@@ -737,6 +754,31 @@
       return selected ? selected.value : "";
     }
 
+    function syncTipoServico() {
+      const onlySocial = tipoServicoSelect?.value === "Social";
+      const radioSim = form.querySelector('input[name="gestao_trafego_ativa"][value="Sim"]');
+      const radioNao = form.querySelector('input[name="gestao_trafego_ativa"][value="Não"]');
+
+      if (onlySocial) {
+        if (radioNao) radioNao.checked = true;
+        if (radioSim) radioSim.checked = false;
+      }
+
+      gestaoRadios.forEach((radio) => {
+        radio.disabled = onlySocial;
+      });
+
+      plataformaCheckboxes.forEach((cb) => {
+        cb.disabled = onlySocial;
+        if (onlySocial) cb.checked = false;
+      });
+
+      if (orcamentoInput) {
+        orcamentoInput.disabled = onlySocial;
+        if (onlySocial) orcamentoInput.value = "";
+      }
+    }
+
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
       setStatus("", "");
@@ -748,6 +790,8 @@
 
       submitBtn.disabled = true;
       setStatus("Enviando cadastro...", "muted");
+
+      syncTipoServico();
 
       const formData = new FormData(form);
 
@@ -780,7 +824,7 @@
         }
 
         if (resp.ok && data?.success) {
-          setStatus("Cadastro enviado com sucesso! Em breve a equipe da Eleven CM entra em contato.", "success");
+          setStatus("Cadastro enviado com sucesso", "success");
           form.reset();
         } else {
           const detail = data?.message || respText || `HTTP ${resp.status}`;
