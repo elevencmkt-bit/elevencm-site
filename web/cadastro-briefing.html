@@ -549,11 +549,11 @@
 
           <div id="sm-campanha-especifica" class="sm-campaign hidden" aria-label="Campos extras para campanha específica em social">
             <div class="divider"></div>
-            <h4 style="margin: 0;">Campanha específica em Social</h4>
+            <h4 style="margin: 0;" data-i18n="sm_camp_heading">Campanha específica em Social</h4>
 
             <div class="grid-3">
               <div>
-                <label for="sm_camp_objetivo_principal">Objetivo principal da campanha</label>
+                <label for="sm_camp_objetivo_principal" data-i18n="sm_camp_objetivo_principal">Objetivo principal da campanha</label>
                 <select id="sm_camp_objetivo_principal" name="sm_camp_objetivo_principal">
                   <option value="">Selecione</option>
                   <option value="Tráfego">Tráfego</option>
@@ -565,22 +565,22 @@
                 </select>
               </div>
               <div>
-                <label for="sm_camp_periodo_inicio">Período previsto (início)</label>
+                <label for="sm_camp_periodo_inicio" data-i18n="sm_camp_periodo_inicio">Período previsto (início)</label>
                 <input type="date" id="sm_camp_periodo_inicio" name="sm_camp_periodo_inicio" />
               </div>
               <div>
-                <label for="sm_camp_periodo_fim">Período previsto (fim)</label>
+                <label for="sm_camp_periodo_fim" data-i18n="sm_camp_periodo_fim">Período previsto (fim)</label>
                 <input type="date" id="sm_camp_periodo_fim" name="sm_camp_periodo_fim" />
               </div>
               <div style="grid-column: 1 / -1;">
-                <label>Plataformas</label>
-                <p class="muted" style="margin: 4px 0 0;">
+                <label data-i18n="sm_camp_plataformas">Plataformas</label>
+                <p class="muted" style="margin: 4px 0 0;" data-i18n="sm_camp_plataformas_note">
                   Usa a seleção de “Canal / Mídia principal” acima (evita repetir).
                 </p>
               </div>
             </div>
 
-            <h4 style="margin: 8px 0 4px;">1. Objetivos de negócio</h4>
+            <h4 style="margin: 8px 0 4px;" data-i18n="sm_camp_h1">1. Objetivos de negócio</h4>
             <div class="checkbox-group" id="sm_camp_meta_group" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px;">
               <label class="checkbox-chip"><input type="checkbox" value="ROAS" /> ROAS</label>
               <label class="checkbox-chip"><input type="checkbox" value="CPL" /> CPL</label>
@@ -590,60 +590,60 @@
             </div>
             <div class="grid-1" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 12px; margin-top: 8px;">
               <div>
-                <label for="sm_camp_pagina_destino">Página de destino (URL)</label>
+                <label for="sm_camp_pagina_destino" data-i18n="sm_camp_pagina_destino">Página de destino (URL)</label>
                 <input type="url" id="sm_camp_pagina_destino" name="sm_camp_pagina_destino" placeholder="Deixe em branco se não houver" />
               </div>
             </div>
 
-            <h4 style="margin: 8px 0 4px;">2. Segmentações</h4>
+            <h4 style="margin: 8px 0 4px;" data-i18n="sm_camp_h2">2. Segmentações</h4>
             <div class="grid-2">
               <div class="grid-1" style="grid-column: 1 / -1;">
-                <label for="sm_camp_segmentacoes">Segmentações / interesses / palavras-chave</label>
+                <label for="sm_camp_segmentacoes" data-i18n="sm_camp_segmentacoes">Segmentações / interesses / palavras-chave</label>
                 <textarea id="sm_camp_segmentacoes" name="sm_camp_segmentacoes"></textarea>
               </div>
               <div class="grid-1" style="grid-column: 1 / -1;">
-                <label for="sm_camp_localizacao">Localização geográfica</label>
+                <label for="sm_camp_localizacao" data-i18n="sm_camp_localizacao">Localização geográfica</label>
                 <textarea id="sm_camp_localizacao" name="sm_camp_localizacao"></textarea>
               </div>
             </div>
 
-            <h4 style="margin: 8px 0 4px;">3. Orçamento e investimento</h4>
+            <h4 style="margin: 8px 0 4px;" data-i18n="sm_camp_h3">3. Orçamento e investimento</h4>
             <div class="grid-3">
               <div>
-                <label for="sm_camp_orcamento_total">Orçamento total (USD)</label>
+                <label for="sm_camp_orcamento_total" data-i18n="sm_camp_orcamento_total">Orçamento total (USD)</label>
                 <input type="number" id="sm_camp_orcamento_total" name="sm_camp_orcamento_total" />
               </div>
               <div>
-                <label for="sm_camp_orcamento_diario">Orçamento diário (se aplicável)</label>
+                <label for="sm_camp_orcamento_diario" data-i18n="sm_camp_orcamento_diario">Orçamento diário (se aplicável)</label>
                 <input type="number" id="sm_camp_orcamento_diario" name="sm_camp_orcamento_diario" />
               </div>
               <div class="grid-1" style="grid-column: 1 / -1;">
-                <label for="sm_camp_observacoes_orcamento">Observações sobre limites, testes e otimizações</label>
+                <label for="sm_camp_observacoes_orcamento" data-i18n="sm_camp_observacoes_orcamento">Observações sobre limites, testes e otimizações</label>
                 <textarea id="sm_camp_observacoes_orcamento" name="sm_camp_observacoes_orcamento"></textarea>
               </div>
             </div>
 
-            <h4 style="margin: 8px 0 4px;">4. Criativos</h4>
+            <h4 style="margin: 8px 0 4px;" data-i18n="sm_camp_h4">4. Criativos</h4>
             <div class="grid-3">
               <div class="grid-1" style="grid-column: 1 / -1;">
-                <label for="sm_camp_formatos_necessarios">Formatos necessários (imagem, vídeo, carrossel, stories, etc.)</label>
+                <label for="sm_camp_formatos_necessarios" data-i18n="sm_camp_formatos_necessarios">Formatos necessários (imagem, vídeo, carrossel, stories, etc.)</label>
                 <textarea id="sm_camp_formatos_necessarios" name="sm_camp_formatos_necessarios"></textarea>
               </div>
               <div>
-                <label for="sm_camp_mensagem_principal">Mensagem principal</label>
+                <label for="sm_camp_mensagem_principal" data-i18n="sm_camp_mensagem_principal">Mensagem principal</label>
                 <input type="text" id="sm_camp_mensagem_principal" name="sm_camp_mensagem_principal" />
               </div>
               <div>
-                <label for="sm_camp_ofertas_beneficios">Ofertas / benefícios a destacar</label>
+                <label for="sm_camp_ofertas_beneficios" data-i18n="sm_camp_ofertas_beneficios">Ofertas / benefícios a destacar</label>
                 <input type="text" id="sm_camp_ofertas_beneficios" name="sm_camp_ofertas_beneficios" />
               </div>
               <div>
-                <label for="sm_camp_cta_sugerido">CTA sugerido</label>
+                <label for="sm_camp_cta_sugerido" data-i18n="sm_camp_cta_sugerido">CTA sugerido</label>
                 <input type="text" id="sm_camp_cta_sugerido" name="sm_camp_cta_sugerido" />
               </div>
             </div>
 
-            <h4 style="margin: 8px 0 4px;">5. Entregáveis</h4>
+            <h4 style="margin: 8px 0 4px;" data-i18n="sm_camp_h5">5. Entregáveis</h4>
             <div class="checkbox-group" id="sm_camp_entregaveis_group" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 8px;">
               <label class="checkbox-chip"><input type="checkbox" value="Pacote de criativos aprovado" /> Pacote de criativos aprovado</label>
               <label class="checkbox-chip"><input type="checkbox" value="Campanha configurada nas plataformas" /> Campanha configurada nas plataformas</label>
@@ -652,14 +652,14 @@
               <label class="checkbox-chip"><input type="checkbox" value="Ajustes pós-primeira fase" /> Ajustes pós-primeira fase (otimização)</label>
             </div>
 
-            <h4 style="margin: 8px 0 4px;">6. Observações gerais</h4>
+            <h4 style="margin: 8px 0 4px;" data-i18n="sm_camp_h6">6. Observações gerais</h4>
             <div class="grid-2">
               <div class="grid-1">
-                <label for="sm_camp_observacoes_gerais">Restrições, políticas do cliente ou termos proibidos</label>
+                <label for="sm_camp_observacoes_gerais" data-i18n="sm_camp_observacoes_gerais">Restrições, políticas do cliente ou termos proibidos</label>
                 <textarea id="sm_camp_observacoes_gerais" name="sm_camp_observacoes_gerais"></textarea>
               </div>
               <div class="grid-1">
-                <label for="sm_camp_referencias">Referências de campanhas anteriores</label>
+                <label for="sm_camp_referencias" data-i18n="sm_camp_referencias">Referências de campanhas anteriores</label>
                 <textarea id="sm_camp_referencias" name="sm_camp_referencias"></textarea>
               </div>
             </div>
@@ -940,6 +940,14 @@
         sending: "Enviando briefing...",
         success: "Briefing recebido com sucesso!",
         fail: "Não foi possível enviar.",
+        sm_camp_heading: "Campanha específica em Social",
+        sm_camp_plataformas_note: "Usa a seleção de “Canal / Mídia principal” acima (evita repetir).",
+        sm_camp_h1: "1. Objetivos de negócio",
+        sm_camp_h2: "2. Segmentações",
+        sm_camp_h3: "3. Orçamento e investimento",
+        sm_camp_h4: "4. Criativos",
+        sm_camp_h5: "5. Entregáveis",
+        sm_camp_h6: "6. Observações gerais",
       },
       en: {
         title: "Job Briefing",
@@ -954,6 +962,14 @@
         sending: "Sending briefing...",
         success: "Briefing received successfully!",
         fail: "Unable to submit.",
+        sm_camp_heading: "Specific campaign in Social",
+        sm_camp_plataformas_note: "Uses the “Primary channel / media” selection above (avoids repetition).",
+        sm_camp_h1: "1. Business objectives",
+        sm_camp_h2: "2. Segmentation",
+        sm_camp_h3: "3. Budget and investment",
+        sm_camp_h4: "4. Creatives",
+        sm_camp_h5: "5. Deliverables",
+        sm_camp_h6: "6. General notes",
       },
     };
 
