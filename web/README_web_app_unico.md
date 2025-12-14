@@ -1,23 +1,21 @@
-# Cadastro de Cliente + Briefing de Job → Google Sheets (Web App único)
+# Web App único (clientes + briefings)
 
-Um único Apps Script recebe os envios dos formulários `web/cadastro-de-cliente.html` e `web/cadastro-briefing.html` e grava tudo na mesma planilha, em abas separadas: `cliente_db_master` e `jobs_db`.
+Um único Apps Script recebe envios dos formulários `web/cadastro-de-cliente.html` e `web/cadastro-briefing.html` e grava na mesma planilha, nas abas `cliente_db_master` e `jobs_db`.
 
-## Como publicar o Web App
+## Passo a passo
 
-1. Abra a planilha que terá as abas `cliente_db_master` e `jobs_db` e vá em **Extensões → Apps Script**.
-2. Cole o script abaixo (substitua qualquer código existente).
-3. Em **Implantar → Nova implantação → Tipo: Web App**:
-   - **Executar como:** você (owner)
-   - **Quem tem acesso:** qualquer pessoa com o link
-4. Salve, autorize e copie a URL gerada.
-5. Atualize o `ENDPOINT_URL` em `web/cadastro-de-cliente.html` e `web/cadastro-briefing.html` com essa mesma URL.
-6. Reimplante sempre que editar o código.
+1. Abra a planilha que terá as duas abas e vá em **Extensões → Apps Script**.
+2. Substitua todo o código pelo script abaixo.
+3. Implante: **Implantar → Nova implantação → Tipo: Web App** → Executar como: você · Quem tem acesso: qualquer pessoa com o link.
+4. Copie a URL gerada e coloque em `ENDPOINT_URL` de ambos os HTMLs.
+5. Reimplante sempre que editar o script.
 
-## Script (um endpoint para os dois formulários)
+## Código único (cole tudo)
 
 ```javascript
 // Web App único para clientes e jobs
 const CLIENT_SHEET = "cliente_db_master";
+const CLIENT_SHEET_ALT = "clientes_db_master"; // fallback para planilhas antigas
 const JOB_SHEET = "jobs_db";
 
 const CLIENT_HEADERS = [
@@ -163,12 +161,8 @@ function doPost(e) {
     const body = parseBody(e);
     const kind = detectKind(body);
 
-    if (kind === "cliente") {
-      return handleCliente(body);
-    }
-    if (kind === "job") {
-      return handleJob(body);
-    }
+    if (kind === "cliente") return handleCliente(body);
+    if (kind === "job") return handleJob(body);
 
     throw new Error("Tipo de payload não identificado (cliente ou job).");
   } catch (err) {
@@ -184,11 +178,13 @@ function doPost(e) {
 function handleCliente(body) {
   validateCliente(body);
   const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const sheet = ss.getSheetByName(CLIENT_SHEET) || ss.insertSheet(CLIENT_SHEET);
+  const sheet = getClientSheet(ss);
   ensureHeaders(sheet, CLIENT_HEADERS);
 
   const clienteId = `CLI-${Date.now()}`;
-  const row = CLIENT_HEADERS.map((key) => mapClienteValue(key, body, clienteId));
+  const row = CLIENT_HEADERS.map((key) =>
+    mapClienteValue(key, body, clienteId)
+  );
   sheet.appendRow(row);
 
   return jsonResponse({
@@ -196,16 +192,6 @@ function handleCliente(body) {
     cliente_id: clienteId,
     message: "Cliente registrado com sucesso",
   });
-}
-
-function mapClienteValue(key, body, clienteId) {
-  if (key === "cliente_id") return clienteId;
-  if (key === "data_cadastro") return new Date();
-  if (key === "origem_cadastro")
-    return body[key] ? safeValue(body[key]) : "form_cadastro_cliente";
-  if (key === "trello_card_id" || key === "trello_card_url")
-    return safeValue(body[key]);
-  return safeValue(body[key]);
 }
 
 function validateCliente(body) {
@@ -288,6 +274,14 @@ function detectKind(body) {
   return "";
 }
 
+function getClientSheet(ss) {
+  return (
+    ss.getSheetByName(CLIENT_SHEET) ||
+    ss.getSheetByName(CLIENT_SHEET_ALT) ||
+    ss.insertSheet(CLIENT_SHEET)
+  );
+}
+
 function ensureHeaders(sheet, headers) {
   const firstRow = sheet.getRange(1, 1, 1, headers.length).getValues()[0];
   const hasHeaders = firstRow.some((cell) => cell);
@@ -300,9 +294,18 @@ function safeValue(value) {
   if (value === null || value === undefined) return "";
   if (typeof value !== "string") return value;
   const trimmed = value.trim();
-  // Evita que Sheets interprete como fórmula (+1..., =, -, @, etc.)
-  if (/^[=+\-@]/.test(trimmed)) return "'" + trimmed;
+  if (/^[=+\-@]/.test(trimmed)) return "'" + trimmed; // evita fórmula
   return trimmed;
+}
+
+function mapClienteValue(key, body, clienteId) {
+  if (key === "cliente_id") return clienteId;
+  if (key === "data_cadastro") return new Date();
+  if (key === "origem_cadastro")
+    return body[key] ? safeValue(body[key]) : "form_cadastro_cliente";
+  if (key === "trello_card_id" || key === "trello_card_url")
+    return safeValue(body[key]);
+  return safeValue(body[key]);
 }
 
 function mapJobValue(key, body, jobId, now, mesAno) {
@@ -328,7 +331,7 @@ function mapJobValue(key, body, jobId, now, mesAno) {
 
 function listClientes() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const sheet = ss.getSheetByName(CLIENT_SHEET);
+  const sheet = getClientSheet(ss);
   if (!sheet) return jsonResponse({ success: true, clientes: [] });
 
   ensureHeaders(sheet, CLIENT_HEADERS);
@@ -368,75 +371,17 @@ function jsonResponse(obj) {
 }
 ```
 
-## Abas e colunas (linha 1)
+## Colunas esperadas (linha 1)
 
-- `cliente_db_master`
+- `cliente_db_master`  
+  `cliente_id,nome_fantasia,razao_social,cnpj_ein,segmento,descricao_resumida_negocio,cidade,estado,pais,fuso_horario,idioma_principal,idioma_secundario,responsavel_principal_nome,responsavel_principal_cargo,responsavel_principal_email,responsavel_principal_whatsapp,outros_contatos,publico_principal,publico_secundario,ticket_medio_aproximado,principais_diferenciais,principais_concorrentes,tom_voz_marca,tipo_plano_social,qtd_posts_mes,qtd_reels_mes,qtd_stories_semanais,outros_entregaveis_fixos,observacoes_escopo,tipo_de_servico,gestao_trafego_ativa,plataformas_trafego,orcamento_midia_mensal,links_redes_sociais,link_identidade_visual,link_site,observacoes_gerais,data_cadastro,origem_cadastro,trello_card_id,trello_card_url,drive_client_root_id,drive_jobs_root_id,drive_conteudos_root_id,drive_admin_root_id,trello_board_id,trello_list_inbox_id`
 
-  ```
-  cliente_id,nome_fantasia,razao_social,cnpj_ein,segmento,descricao_resumida_negocio,cidade,estado,pais,fuso_horario,idioma_principal,idioma_secundario,responsavel_principal_nome,responsavel_principal_cargo,responsavel_principal_email,responsavel_principal_whatsapp,outros_contatos,publico_principal,publico_secundario,ticket_medio_aproximado,principais_diferenciais,principais_concorrentes,tom_voz_marca,tipo_plano_social,qtd_posts_mes,qtd_reels_mes,qtd_stories_semanais,outros_entregaveis_fixos,observacoes_escopo,tipo_de_servico,gestao_trafego_ativa,plataformas_trafego,orcamento_midia_mensal,links_redes_sociais,link_identidade_visual,link_site,observacoes_gerais,data_cadastro,origem_cadastro,trello_card_id,trello_card_url,drive_client_root_id,drive_jobs_root_id,drive_conteudos_root_id,drive_admin_root_id,trello_board_id,trello_list_inbox_id
-  ```
+- `jobs_db`  
+  `job_id,cliente_id,cliente_nome,job_titulo,job_tipo,tipo_demanda_social,canal_midias,prazo_entrega_desejado,prioridade,origem_job,responsavel_job_nome,responsavel_job_email,objetivo_principal,contexto_job,publico_job,links_referencias,sm_rede_principal,sm_formato,sm_qtd_pecas,sm_legenda_completa,sm_tom_voz,sm_cta,sm_camp_objetivo_principal,sm_camp_periodo_inicio,sm_camp_periodo_fim,sm_camp_plataformas,sm_camp_meta_resultado,sm_camp_pagina_destino,sm_camp_segmentacoes,sm_camp_localizacao,sm_camp_orcamento_total,sm_camp_orcamento_diario,sm_camp_observacoes_orcamento,sm_camp_formatos_necessarios,sm_camp_mensagem_principal,sm_camp_ofertas_beneficios,sm_camp_cta_sugerido,sm_camp_entregaveis,sm_camp_observacoes_gerais,sm_camp_referencias,ads_objetivo,ads_plataformas,ads_orcamento,ads_periodo,ads_oferta_principal,ads_publico_segmentacao,video_tipo,video_duracao,video_formato,video_tipo_trabalho,video_materiais_disponiveis,video_local,site_tipo,site_dominio,site_objetivo,site_paginas,site_responsavel_conteudo,site_funcionalidades,site_identidade_visual_link,pack_produto,pack_tipo,pack_dimensoes,pack_info_obrigatoria,pack_restricoes_legais,pack_referencias,brand_situacao_atual,brand_entregaveis,brand_palavras_chave,job_descricao_livre,links_arquivos,observacoes_gerais_job,mes_ano,data_cadastro,origem_cadastro,trello_card_id,trello_card_url,drive_job_folder_id,drive_job_folder_link,trello_pasta_link_ok`
 
-- `jobs_db`
-  ```
-  job_id,cliente_id,cliente_nome,job_titulo,job_tipo,tipo_demanda_social,canal_midias,prazo_entrega_desejado,prioridade,origem_job,responsavel_job_nome,responsavel_job_email,objetivo_principal,contexto_job,publico_job,links_referencias,sm_rede_principal,sm_formato,sm_qtd_pecas,sm_legenda_completa,sm_tom_voz,sm_cta,sm_camp_objetivo_principal,sm_camp_periodo_inicio,sm_camp_periodo_fim,sm_camp_plataformas,sm_camp_meta_resultado,sm_camp_pagina_destino,sm_camp_segmentacoes,sm_camp_localizacao,sm_camp_orcamento_total,sm_camp_orcamento_diario,sm_camp_observacoes_orcamento,sm_camp_formatos_necessarios,sm_camp_mensagem_principal,sm_camp_ofertas_beneficios,sm_camp_cta_sugerido,sm_camp_entregaveis,sm_camp_observacoes_gerais,sm_camp_referencias,ads_objetivo,ads_plataformas,ads_orcamento,ads_periodo,ads_oferta_principal,ads_publico_segmentacao,video_tipo,video_duracao,video_formato,video_tipo_trabalho,video_materiais_disponiveis,video_local,site_tipo,site_dominio,site_objetivo,site_paginas,site_responsavel_conteudo,site_funcionalidades,site_identidade_visual_link,pack_produto,pack_tipo,pack_dimensoes,pack_info_obrigatoria,pack_restricoes_legais,pack_referencias,brand_situacao_atual,brand_entregaveis,brand_palavras_chave,job_descricao_livre,links_arquivos,observacoes_gerais_job,mes_ano,data_cadastro,origem_cadastro,trello_card_id,trello_card_url,drive_job_folder_id,drive_job_folder_link,trello_pasta_link_ok
-  ```
+## Notas rápidas
 
-## Observações rápidas
-
-- Endpoint único para os dois formulários; detecção é automática pelos campos recebidos.
-- `tom_voz_marca` agora é obrigatório no cadastro de cliente; crie a coluna na aba se a planilha já existir.
-- A listagem de clientes (GET `?action=clientes`) retorna `cliente_id` e `nome_fantasia` para popular o dropdown do briefing; não gera novos IDs.
-- Campos de checkbox chegam como string separada por vírgula (conforme os HTMLs).
-- `data_cadastro`, `mes_ano`, `origem_cadastro`, campos de Trello/Drive são preenchidos pelo script/integrações ou por automações posteriores.
-- Reimplante o Web App sempre que editar o código.
-
-## (Opcional) Normalizar cliente_id nos jobs antigos
-
-Cole e execute manualmente no Apps Script para ajustar a aba `jobs_db` com base no `nome_fantasia` da `cliente_db_master`:
-
-```javascript
-function normalizarClienteIdsPorNome() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const clients = buildClienteMapByNome(ss);
-  const sheetJobs = ss.getSheetByName(JOB_SHEET);
-  if (!sheetJobs) return;
-  const lastRow = sheetJobs.getLastRow();
-  if (lastRow < 2) return;
-
-  const values = sheetJobs
-    .getRange(2, 1, lastRow - 1, JOB_HEADERS.length)
-    .getValues();
-  const idxClienteId = JOB_HEADERS.indexOf("cliente_id") + 1;
-  const idxClienteNome = JOB_HEADERS.indexOf("cliente_nome") + 1;
-
-  let updated = 0;
-  values.forEach((row, i) => {
-    const nome = safeValue(row[idxClienteNome - 1]);
-    const idAtual = safeValue(row[idxClienteId - 1]);
-    const idCorreto = clients[nome];
-    if (nome && idCorreto && idAtual !== idCorreto) {
-      sheetJobs.getRange(i + 2, idxClienteId).setValue(idCorreto);
-      updated++;
-    }
-  });
-  Logger.log(`Atualizadas ${updated} linhas em jobs_db.`);
-}
-
-function buildClienteMapByNome(ss) {
-  const sheetCli = ss.getSheetByName(CLIENT_SHEET);
-  if (!sheetCli) return {};
-  const lastRow = sheetCli.getLastRow();
-  if (lastRow < 2) return {};
-  const values = sheetCli
-    .getRange(2, 1, lastRow - 1, CLIENT_HEADERS.length)
-    .getValues();
-  const idxId = CLIENT_HEADERS.indexOf("cliente_id");
-  const idxNome = CLIENT_HEADERS.indexOf("nome_fantasia");
-  return values.reduce((map, row) => {
-    const nome = safeValue(row[idxNome]);
-    const id = safeValue(row[idxId]);
-    if (nome && id) map[nome] = id;
-    return map;
-  }, {});
-}
-```
+- `mes_ano` é calculado pelo script (YYYY-MM) usando o fuso da planilha.
+- `origem_cadastro` fica com um default por formulário, mas aceita override se enviado.
+- Campos de Trello/Drive ficam em branco se não enviados; automações podem preencher depois.
+- Checkbox chegam como string separada por vírgula (conforme os HTMLs).

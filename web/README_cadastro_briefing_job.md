@@ -39,6 +39,24 @@ const HEADERS = [
   "sm_legenda_completa",
   "sm_tom_voz",
   "sm_cta",
+  "sm_camp_objetivo_principal",
+  "sm_camp_periodo_inicio",
+  "sm_camp_periodo_fim",
+  "sm_camp_plataformas",
+  "sm_camp_meta_resultado",
+  "sm_camp_pagina_destino",
+  "sm_camp_segmentacoes",
+  "sm_camp_localizacao",
+  "sm_camp_orcamento_total",
+  "sm_camp_orcamento_diario",
+  "sm_camp_observacoes_orcamento",
+  "sm_camp_formatos_necessarios",
+  "sm_camp_mensagem_principal",
+  "sm_camp_ofertas_beneficios",
+  "sm_camp_cta_sugerido",
+  "sm_camp_entregaveis",
+  "sm_camp_observacoes_gerais",
+  "sm_camp_referencias",
   "ads_objetivo",
   "ads_plataformas",
   "ads_orcamento",
@@ -70,10 +88,14 @@ const HEADERS = [
   "job_descricao_livre",
   "links_arquivos",
   "observacoes_gerais_job",
+  "mes_ano",
   "data_cadastro",
   "origem_cadastro",
   "trello_card_id",
   "trello_card_url",
+  "drive_job_folder_id",
+  "drive_job_folder_link",
+  "trello_pasta_link_ok",
 ];
 
 function doPost(e) {
@@ -86,7 +108,10 @@ function doPost(e) {
     ensureHeaders(sheet);
 
     const jobId = `JOB-${Date.now()}`;
-    const row = HEADERS.map((key) => mapValue(key, body, jobId));
+    const now = new Date();
+    const timezone = ss.getSpreadsheetTimeZone?.() || Session.getScriptTimeZone();
+    const mesAno = Utilities.formatDate(now, timezone || "GMT-3", "yyyy-MM");
+    const row = HEADERS.map((key) => mapValue(key, body, jobId, now, mesAno));
     sheet.appendRow(row);
 
     return jsonResponse({
@@ -141,11 +166,24 @@ function safeValue(value) {
   return trimmed;
 }
 
-function mapValue(key, body, jobId) {
+function mapValue(key, body, jobId, now, mesAno) {
   if (key === "job_id") return jobId;
-  if (key === "data_cadastro") return new Date();
-  if (key === "origem_cadastro") return "form_cadastro_briefing";
-  if (key === "trello_card_id" || key === "trello_card_url") return "";
+  if (key === "data_cadastro") return now || new Date();
+  if (key === "mes_ano") return safeValue(body[key]) || mesAno || "";
+  if (key === "origem_cadastro")
+    return body[key] ? safeValue(body[key]) : "form_cadastro_briefing";
+  if (
+    key === "trello_card_id" ||
+    key === "trello_card_url" ||
+    key === "drive_job_folder_id" ||
+    key === "drive_job_folder_link" ||
+    key === "trello_pasta_link_ok"
+  )
+    return safeValue(body[key]);
+  if (key === "responsavel_job_nome") {
+    const raw = typeof body[key] === "string" ? body[key].trim() : "";
+    return raw || "Levi";
+  }
   return safeValue(body[key]);
 }
 
@@ -161,11 +199,11 @@ function jsonResponse(obj) {
 Ordem exata na linha 1 (copie/cole):
 
 ```
-job_id,cliente_id,cliente_nome,job_titulo,job_tipo,tipo_demanda_social,canal_midias,prazo_entrega_desejado,prioridade,origem_job,responsavel_job_nome,responsavel_job_email,objetivo_principal,contexto_job,publico_job,links_referencias,sm_rede_principal,sm_formato,sm_qtd_pecas,sm_legenda_completa,sm_tom_voz,sm_cta,ads_objetivo,ads_plataformas,ads_orcamento,ads_periodo,ads_oferta_principal,ads_publico_segmentacao,video_tipo,video_duracao,video_formato,video_tipo_trabalho,video_materiais_disponiveis,video_local,site_tipo,site_dominio,site_objetivo,site_paginas,site_responsavel_conteudo,site_funcionalidades,site_identidade_visual_link,pack_produto,pack_tipo,pack_dimensoes,pack_info_obrigatoria,pack_restricoes_legais,pack_referencias,brand_situacao_atual,brand_entregaveis,brand_palavras_chave,job_descricao_livre,links_arquivos,observacoes_gerais_job,data_cadastro,origem_cadastro,trello_card_id,trello_card_url
+job_id,cliente_id,cliente_nome,job_titulo,job_tipo,tipo_demanda_social,canal_midias,prazo_entrega_desejado,prioridade,origem_job,responsavel_job_nome,responsavel_job_email,objetivo_principal,contexto_job,publico_job,links_referencias,sm_rede_principal,sm_formato,sm_qtd_pecas,sm_legenda_completa,sm_tom_voz,sm_cta,sm_camp_objetivo_principal,sm_camp_periodo_inicio,sm_camp_periodo_fim,sm_camp_plataformas,sm_camp_meta_resultado,sm_camp_pagina_destino,sm_camp_segmentacoes,sm_camp_localizacao,sm_camp_orcamento_total,sm_camp_orcamento_diario,sm_camp_observacoes_orcamento,sm_camp_formatos_necessarios,sm_camp_mensagem_principal,sm_camp_ofertas_beneficios,sm_camp_cta_sugerido,sm_camp_entregaveis,sm_camp_observacoes_gerais,sm_camp_referencias,ads_objetivo,ads_plataformas,ads_orcamento,ads_periodo,ads_oferta_principal,ads_publico_segmentacao,video_tipo,video_duracao,video_formato,video_tipo_trabalho,video_materiais_disponiveis,video_local,site_tipo,site_dominio,site_objetivo,site_paginas,site_responsavel_conteudo,site_funcionalidades,site_identidade_visual_link,pack_produto,pack_tipo,pack_dimensoes,pack_info_obrigatoria,pack_restricoes_legais,pack_referencias,brand_situacao_atual,brand_entregaveis,brand_palavras_chave,job_descricao_livre,links_arquivos,observacoes_gerais_job,mes_ano,data_cadastro,origem_cadastro,trello_card_id,trello_card_url,drive_job_folder_id,drive_job_folder_link,trello_pasta_link_ok
 ```
 
 ### Observações rápidas
 
 - Campos de checkbox chegam como string separada por vírgula (conforme o HTML).
-- `data_cadastro`, `origem_cadastro`, `trello_card_id` e `trello_card_url` são preenchidos pelo script/integrações posteriores.
+- `data_cadastro`, `mes_ano`, `origem_cadastro` e campos de Trello/Drive são preenchidos pelo script/integrações posteriores.
 - Sempre reimplante o Web App após editar o código para atualizar a URL/versão ativa.
