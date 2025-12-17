@@ -69,6 +69,34 @@
       align-items: center;
     }
 
+    .lang-switch {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px;
+      background: #ffffff;
+      border: 1px solid #e4e8f0;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(26, 54, 93, 0.08);
+    }
+
+    .lang-switch button {
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--muted);
+      font-weight: 700;
+      padding: 6px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .lang-switch button.active {
+      background: rgba(254, 190, 1, 0.15);
+      border-color: rgba(254, 190, 1, 0.3);
+      color: #1f2a3d;
+    }
+
     button {
       border-radius: 8px;
       border: 1px solid rgba(254, 190, 1, 0.4);
@@ -334,8 +362,12 @@
         <img src="../img/logo_eleven_black.png" alt="Eleven CM" />
       </div>
       <div class="share-actions">
-        <button id="copyLinkBtn">Copiar link</button>
-        <button id="pdfBtn">Salvar em PDF</button>
+        <div class="lang-switch" role="group" aria-label="Selecionar idioma">
+          <button type="button" data-lang="pt" class="active">PT</button>
+          <button type="button" data-lang="en">ENG</button>
+        </div>
+        <button id="copyLinkBtn" data-i18n="copyLink">Copiar link</button>
+        <button id="pdfBtn" data-i18n="pdf">Salvar em PDF</button>
       </div>
     </header>
 
@@ -345,14 +377,14 @@
 
       <div class="filters">
         <label>
-          Cliente
+          <span data-i18n="clientLabel">Cliente</span>
           <input type="text" id="clienteIdInput" readonly />
         </label>
         <label>
-          Mês (opcional)
+          <span data-i18n="monthLabel">Mês (opcional)</span>
           <input type="month" id="monthInput" />
         </label>
-        <button id="reloadBtn">Atualizar</button>
+        <button id="reloadBtn" data-i18n="reload">Atualizar</button>
       </div>
 
       <div id="logStatus" class="log-status muted" role="status" aria-live="polite">Carregando…</div>
@@ -363,25 +395,74 @@
   <script>
     const ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbzix5fHMp_bu9qRILNypw_Zl3d6wwYQ2N_ihUVG3sm-JfHXOeN0cA1_dMHMTaxkOGHQ1g/exec";
 
-    const labels = {
-      objective: "Objetivo",
-      context: "Contexto",
-      audience: "Público",
-      references: "Referências",
-      social: "Social / Peças",
-      campaign: "Campanha / Mídia",
-      ads: "Ads",
-      video: "Vídeo",
-      site: "Site",
-      branding: "Branding / Identidade",
-      notes: "Observações e links",
-      deadline: "Prazo",
-      created: "Cadastro",
-      untitled: "(Sem título)",
-      withoutType: "Tipo não informado",
-      empty: "Nenhum job encontrado para este cliente.",
-      error: "Não foi possível carregar os jobs agora.",
-      copied: "Link copiado para a área de transferência.",
+    const copy = {
+      pt: {
+        copyLink: "Copiar link",
+        pdf: "Salvar em PDF",
+        clientLabel: "Cliente",
+        monthLabel: "Mês (opcional)",
+        reload: "Atualizar",
+        headingPrefix: "Log de jobs —",
+        subPrefix: "Visualização dos jobs do cliente",
+        statusLoading: "Carregando...",
+        statusEmpty: "Nenhum job encontrado para este cliente.",
+        statusError: "Não foi possível carregar os jobs agora.",
+        statusCopied: "Link copiado para a área de transferência.",
+        statusCopyFail: "Não foi possível copiar o link.",
+        statusMissing: "Informe o cliente na URL (?cliente=CLI-123).",
+        statusCount: "jobs listados",
+      },
+      en: {
+        copyLink: "Copy link",
+        pdf: "Save as PDF",
+        clientLabel: "Client",
+        monthLabel: "Month (optional)",
+        reload: "Refresh",
+        headingPrefix: "Job log —",
+        subPrefix: "Job log for client",
+        statusLoading: "Loading...",
+        statusEmpty: "No jobs found for this client.",
+        statusError: "Couldn't load jobs now.",
+        statusCopied: "Link copied to clipboard.",
+        statusCopyFail: "Unable to copy the link.",
+        statusMissing: "Add the client in the URL (?cliente=CLI-123).",
+        statusCount: "jobs listed",
+      },
+    };
+
+    const labelsByLang = {
+      pt: {
+        objective: "Objetivo",
+        context: "Contexto",
+        audience: "Público",
+        references: "Referências",
+        social: "Social / Peças",
+        campaign: "Campanha / Mídia",
+        ads: "Ads",
+        video: "Vídeo",
+        site: "Site",
+        branding: "Branding / Identidade",
+        deadline: "Prazo",
+        created: "Cadastro",
+        untitled: "(Sem título)",
+        withoutType: "Tipo não informado",
+      },
+      en: {
+        objective: "Objective",
+        context: "Context",
+        audience: "Audience",
+        references: "References",
+        social: "Social / Deliverables",
+        campaign: "Campaign / Media",
+        ads: "Ads",
+        video: "Video",
+        site: "Website",
+        branding: "Branding / Identity",
+        deadline: "Due date",
+        created: "Created",
+        untitled: "(Untitled)",
+        withoutType: "Type not provided",
+      },
     };
 
     const clienteIdInput = document.getElementById("clienteIdInput");
@@ -394,6 +475,33 @@
     const clientHeading = document.getElementById("clientHeading");
     const clientSub = document.getElementById("clientSub");
     const metaDescription = document.querySelector('meta[name="description"]');
+    const langButtons = document.querySelectorAll(".lang-switch button");
+    const i18nFields = () => document.querySelectorAll("[data-i18n]");
+    let currentLang = "pt";
+
+    function detectLang() {
+      const browser = (navigator.languages?.[0] || navigator.language || "pt").toLowerCase();
+      return browser.startsWith("pt") ? "pt" : "en";
+    }
+
+    function setLang(lang) {
+      currentLang = copy[lang] ? lang : "pt";
+      langButtons.forEach((btn) => btn.classList.toggle("active", btn.dataset.lang === currentLang));
+      document.documentElement.setAttribute("lang", currentLang === "pt" ? "pt-BR" : "en");
+      i18nFields().forEach((el) => {
+        const key = el.dataset.i18n;
+        if (copy[currentLang]?.[key]) el.textContent = copy[currentLang][key];
+      });
+      if (clientHeading) clientHeading.textContent = t("headingPrefix");
+      if (clientSub) clientSub.textContent = `${t("subPrefix")}.`;
+      if (logsContainer && !logsContainer.children.length) setStatus(copy[currentLang].statusLoading, "muted");
+    }
+
+    function t(key) {
+      return copy[currentLang]?.[key] || copy.pt[key] || "";
+    }
+
+    const getLabels = () => labelsByLang[currentLang] || labelsByLang.pt;
 
     function setStatus(msg, variant = "muted") {
       if (!logStatus) return;
@@ -410,7 +518,7 @@
       if (!raw) return "";
       const parsed = new Date(raw);
       if (Number.isNaN(parsed.getTime())) return String(raw);
-      return parsed.toLocaleDateString("pt-BR", {
+      return parsed.toLocaleDateString(currentLang === "pt" ? "pt-BR" : "en", {
         day: "2-digit",
         month: "short",
         year: "numeric",
@@ -421,7 +529,7 @@
       if (!raw) return "";
       const parsed = new Date(raw);
       if (Number.isNaN(parsed.getTime())) return String(raw);
-      return parsed.toLocaleString("pt-BR", {
+      return parsed.toLocaleString(currentLang === "pt" ? "pt-BR" : "en", {
         day: "2-digit",
         month: "short",
         year: "numeric",
@@ -455,11 +563,11 @@
     async function loadLogs() {
       const clienteId = getParam("cliente") || getParam("cliente_id");
       if (!clienteId) {
-        setStatus("Informe o cliente na URL (?cliente=CLI-123).", "error");
+        setStatus(t("statusMissing"), "error");
         return;
       }
       clienteIdInput.value = clienteId;
-      setStatus("Carregando...", "muted");
+      setStatus(t("statusLoading"), "muted");
       logsContainer.innerHTML = "";
 
       const url = `${ENDPOINT_URL}?action=jobs&cliente_id=${encodeURIComponent(clienteId)}&limit=400`;
@@ -475,23 +583,23 @@
         }
 
         if (!jobs.length) {
-          logsContainer.innerHTML = `<div class="empty-state">${labels.empty}</div>`;
-          setStatus(labels.empty, "muted");
+          logsContainer.innerHTML = `<div class="empty-state">${t("statusEmpty")}</div>`;
+          setStatus(t("statusEmpty"), "muted");
           return;
         }
 
         renderLogs(jobs);
         const clienteNome = jobs[0]?.cliente_nome || clienteId;
-        clientHeading.textContent = `Log de jobs — ${clienteNome}`;
-        clientSub.textContent = `Visualização dos jobs do cliente ${clienteNome}.`;
-        document.title = `Log de jobs — ${clienteNome} · Eleven CM`;
+        clientHeading.textContent = `${t("headingPrefix")} ${clienteNome}`;
+        clientSub.textContent = `${t("subPrefix")} ${clienteNome}.`;
+        document.title = `${t("headingPrefix")} ${clienteNome} · Eleven CM`;
         if (metaDescription) {
-          metaDescription.setAttribute("content", `Log de jobs do cliente ${clienteNome}.`);
+          metaDescription.setAttribute("content", `${t("subPrefix")} ${clienteNome}.`);
         }
-        setStatus(`${jobs.length} jobs listados`, "success");
+        setStatus(`${jobs.length} ${t("statusCount")}`, "success");
       } catch (err) {
         console.error("Erro ao carregar log de jobs", err);
-        setStatus(labels.error, "error");
+        setStatus(t("statusError"), "error");
       }
     }
 
@@ -501,6 +609,7 @@
     }
 
     function buildJobMarkup(job) {
+      const labels = getLabels();
       const metaLine = [job.job_tipo, job.tipo_demanda_social, job.canal_midias].filter(Boolean).join(" · ");
       const created = formatDateTime(job.data_cadastro);
       const deadline = formatDate(job.prazo_entrega_desejado);
@@ -646,15 +755,23 @@
     copyLinkBtn?.addEventListener("click", async () => {
       try {
         await navigator.clipboard.writeText(window.location.href);
-        setStatus(labels.copied, "success");
+        setStatus(t("statusCopied"), "success");
       } catch (err) {
         console.error("Erro ao copiar link", err);
-        setStatus("Não foi possível copiar o link.", "error");
+        setStatus(t("statusCopyFail"), "error");
       }
     });
 
     pdfBtn?.addEventListener("click", () => window.print());
 
+    langButtons.forEach((btn) =>
+      btn.addEventListener("click", () => {
+        setLang(btn.dataset.lang || "pt");
+        loadLogs();
+      })
+    );
+
+    setLang(detectLang());
     loadLogs();
   </script>
 </body>
