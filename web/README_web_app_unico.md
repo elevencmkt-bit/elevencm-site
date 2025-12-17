@@ -150,9 +150,92 @@ const JOB_HEADERS = [
   "trello_pasta_link_ok",
 ];
 
+// Campos retornados no endpoint público de logs (mantém JSON mais leve)
+const JOB_FIELDS_PUBLIC = [
+  "job_id",
+  "cliente_id",
+  "cliente_nome",
+  "job_titulo",
+  "job_tipo",
+  "tipo_demanda_social",
+  "canal_midias",
+  "prazo_entrega_desejado",
+  "prioridade",
+  "origem_job",
+  "responsavel_job_nome",
+  "responsavel_job_email",
+  "objetivo_principal",
+  "contexto_job",
+  "publico_job",
+  "links_referencias",
+  "sm_rede_principal",
+  "sm_formato",
+  "sm_qtd_pecas",
+  "sm_legenda_completa",
+  "sm_tom_voz",
+  "sm_cta",
+  "sm_camp_objetivo_principal",
+  "sm_camp_periodo_inicio",
+  "sm_camp_periodo_fim",
+  "sm_camp_plataformas",
+  "sm_camp_meta_resultado",
+  "sm_camp_pagina_destino",
+  "sm_camp_segmentacoes",
+  "sm_camp_localizacao",
+  "sm_camp_orcamento_total",
+  "sm_camp_orcamento_diario",
+  "sm_camp_observacoes_orcamento",
+  "sm_camp_formatos_necessarios",
+  "sm_camp_mensagem_principal",
+  "sm_camp_ofertas_beneficios",
+  "sm_camp_cta_sugerido",
+  "sm_camp_entregaveis",
+  "sm_camp_observacoes_gerais",
+  "sm_camp_referencias",
+  "ads_objetivo",
+  "ads_plataformas",
+  "ads_orcamento",
+  "ads_periodo",
+  "ads_oferta_principal",
+  "ads_publico_segmentacao",
+  "video_tipo",
+  "video_duracao",
+  "video_formato",
+  "video_tipo_trabalho",
+  "video_materiais_disponiveis",
+  "video_local",
+  "site_tipo",
+  "site_dominio",
+  "site_objetivo",
+  "site_paginas",
+  "site_responsavel_conteudo",
+  "site_funcionalidades",
+  "site_identidade_visual_link",
+  "pack_produto",
+  "pack_tipo",
+  "pack_dimensoes",
+  "pack_info_obrigatoria",
+  "pack_restricoes_legais",
+  "pack_referencias",
+  "brand_situacao_atual",
+  "brand_entregaveis",
+  "brand_palavras_chave",
+  "job_descricao_livre",
+  "links_arquivos",
+  "observacoes_gerais_job",
+  "mes_ano",
+  "data_cadastro",
+  "origem_cadastro",
+  "trello_card_id",
+  "trello_card_url",
+  "drive_job_folder_link",
+  "trello_pasta_link_ok",
+];
+
 function doGet(e) {
   const action = e?.parameter?.action;
   if (action === "clientes") return listClientes();
+  if (action === "jobs") return listJobs(e?.parameter);
   return jsonResponse({ success: true, message: "OK" });
 }
 
@@ -298,6 +381,17 @@ function safeValue(value) {
   return trimmed;
 }
 
+function normalizeId(value) {
+  if (value === null || value === undefined) return "";
+  return String(value).trim().toLowerCase();
+}
+
+function toTimestamp(value) {
+  if (value instanceof Date) return value.getTime();
+  const parsed = Date.parse(value);
+  return isNaN(parsed) ? 0 : parsed;
+}
+
 function mapClienteValue(key, body, clienteId) {
   if (key === "cliente_id") return clienteId;
   if (key === "data_cadastro") return new Date();
@@ -353,6 +447,55 @@ function listClientes() {
   return jsonResponse({ success: true, clientes });
 }
 
+function listJobs(params) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = ss.getSheetByName(JOB_SHEET);
+  if (!sheet) return jsonResponse({ success: true, jobs: [] });
+
+  ensureHeaders(sheet, JOB_HEADERS);
+  const lastRow = sheet.getLastRow();
+  if (lastRow < 2) return jsonResponse({ success: true, jobs: [] });
+
+  const values = sheet
+    .getRange(2, 1, lastRow - 1, JOB_HEADERS.length)
+    .getValues();
+  const idx = JOB_HEADERS.reduce((acc, key, index) => {
+    acc[key] = index;
+    return acc;
+  }, {});
+
+  let jobs = values.map((row) => {
+    const job = {};
+    JOB_FIELDS_PUBLIC.forEach((field) => {
+      job[field] = safeValue(row[idx[field]]);
+    });
+    return job;
+  });
+
+  const rawCliente = params?.cliente_id || params?.cliente || "";
+  if (rawCliente) {
+    const target = normalizeId(rawCliente);
+    jobs = jobs.filter(
+      (job) => normalizeId(job.cliente_id) === target
+    );
+  }
+
+  jobs.sort(
+    (a, b) => toTimestamp(b.data_cadastro) - toTimestamp(a.data_cadastro)
+  );
+
+  const limitParam = parseInt(params?.limit, 10);
+  const limit = isNaN(limitParam)
+    ? 150
+    : Math.max(1, Math.min(limitParam, 500));
+
+  if (jobs.length > limit) {
+    jobs = jobs.slice(0, limit);
+  }
+
+  return jsonResponse({ success: true, jobs });
+}
+
 function parseBody(e) {
   if (e?.postData?.contents) {
     try {
@@ -385,3 +528,4 @@ function jsonResponse(obj) {
 - `origem_cadastro` fica com um default por formulário, mas aceita override se enviado.
 - Campos de Trello/Drive ficam em branco se não enviados; automações podem preencher depois.
 - Checkbox chegam como string separada por vírgula (conforme os HTMLs).
+- GET de logs: `...?action=jobs&cliente_id=CLI-123` devolve a lista (ordenada por data) para alimentar a área de logs; `limit` é opcional (padrão 150, máx. 500).

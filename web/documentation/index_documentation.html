@@ -25,17 +25,23 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
       gap: 12px;
-      padding: 20px;
+      padding: 20px 16px 32px;
       background: var(--bg);
       font-family: "Raleway", system-ui, -apple-system, sans-serif;
       color: var(--text);
     }
 
+    .page {
+      width: 100%;
+      max-width: 1380px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
     .topbar {
       width: 100%;
-      max-width: 600px;
       display: flex;
       justify-content: flex-end;
     }
@@ -76,10 +82,8 @@
       background: #fff;
       border: 1px solid #e4e8f0;
       border-radius: 8px;
-      padding: 32px 36px;
+      padding: 32px 32px;
       box-shadow: 0 15px 50px rgba(26, 54, 93, 0.08);
-      text-align: center;
-      max-width: 520px;
     }
 
     h1 {
@@ -97,7 +101,7 @@
       display: flex;
       justify-content: center;
       width: 100%;
-      margin-bottom: 28px;
+      margin-bottom: 6px;
     }
 
     .logo-box img {
@@ -110,11 +114,15 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      align-items: center;
+      align-items: flex-start;
+      width: 100%;
     }
 
     a.button {
       display: inline-block;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
       padding: 12px 18px;
       border-radius: 8px;
       border: 1px solid rgba(254, 190, 1, 0.4);
@@ -122,6 +130,7 @@
       color: var(--brand-strong);
       font-weight: 700;
       text-decoration: none;
+      text-align: center;
       transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
 
@@ -143,31 +152,407 @@
       border-color: #353f52;
       box-shadow: 0 10px 30px rgba(26, 54, 93, 0.18);
     }
+
+    .main-layout {
+      display: grid;
+      grid-template-columns: minmax(260px, 0.26fr) minmax(820px, 0.74fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .guide-card {
+      text-align: left;
+      height: 100%;
+      padding: 28px 24px;
+      max-width: 420px;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    .logs-wrapper {
+      width: 100%;
+    }
+
+    .log-card {
+      text-align: left;
+      width: 100%;
+      padding: 28px 30px;
+    }
+
+    .log-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 6px;
+    }
+
+    .eyebrow {
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 800;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .log-title {
+      margin: 2px 0 6px;
+      letter-spacing: -0.01em;
+    }
+
+    .muted {
+      color: var(--muted);
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    .log-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border-radius: 8px;
+      border: 1px solid rgba(254, 190, 1, 0.4);
+      background: #fffaf0;
+      color: var(--text);
+      font-weight: 700;
+      padding: 10px 14px;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+    }
+
+    .btn:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 25px rgba(26, 54, 93, 0.12);
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, rgba(254, 190, 1, 0.16), rgba(254, 190, 1, 0.06));
+      color: #1f2a3d;
+    }
+
+    .btn-ghost {
+      background: #ffffff;
+      border-color: #e4e8f0;
+      color: var(--muted);
+    }
+
+    .logs-controls {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      align-items: end;
+      margin: 14px 0 10px;
+    }
+
+    .logs-controls label {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .logs-controls span {
+      font-size: 0.95rem;
+    }
+
+    .logs-controls select {
+      width: 100%;
+      padding: 11px 12px;
+      border-radius: 8px;
+      border: 1px solid #e4e8f0;
+      background: #f7f9fc;
+      color: var(--text);
+      font: inherit;
+    }
+
+    .logs-cta {
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-end;
+    }
+
+    .log-status {
+      margin-top: 4px;
+      font-weight: 700;
+      min-height: 22px;
+    }
+
+    .log-status.success {
+      color: #15803d;
+    }
+
+    .log-status.error {
+      color: #b91c1c;
+    }
+
+    .log-status.muted {
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .logs-container {
+      margin-top: 12px;
+      display: grid;
+      gap: 12px;
+    }
+
+    details.log-item {
+      border: 1px solid #e4e8f0;
+      border-radius: 12px;
+      background: #ffffff;
+      box-shadow: 0 12px 40px rgba(26, 54, 93, 0.06);
+      overflow: hidden;
+    }
+
+    details.log-item[open] {
+      border-color: rgba(254, 190, 1, 0.4);
+      box-shadow: 0 16px 45px rgba(26, 54, 93, 0.1);
+    }
+
+    details.log-item summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 12px 14px;
+      display: block;
+      background: #f9fbff;
+      border-bottom: 1px solid #eef1f6;
+      user-select: none;
+    }
+
+    details.log-item summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .summary-content {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: nowrap;
+      min-width: 0;
+    }
+
+    .summary-title {
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .summary-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: nowrap;
+    }
+
+    .summary-meta .pill {
+      white-space: nowrap;
+    }
+
+    .log-body {
+      padding: 14px 16px 16px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 9px;
+      border-radius: 999px;
+      border: 1px solid #e4e8f0;
+      background: #f7f9fc;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+
+    .pill.brand {
+      border-color: rgba(254, 190, 1, 0.5);
+      background: rgba(254, 190, 1, 0.12);
+    }
+
+    .mono {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      letter-spacing: 0.02em;
+    }
+
+    .log-fields {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px 16px;
+    }
+
+    .log-field span {
+      display: block;
+      font-weight: 800;
+      font-size: 0.92rem;
+      color: var(--text);
+    }
+
+    .log-field p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      white-space: pre-line;
+      line-height: 1.5;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+
+    .log-footer {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .empty-state {
+      border: 1px dashed #d7deea;
+      border-radius: 10px;
+      padding: 14px;
+      background: #f8fafc;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    @media (max-width: 860px) {
+      body {
+        padding: 16px;
+      }
+
+      .main-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        padding: 24px;
+      }
+
+      .logs-controls {
+        grid-template-columns: 1fr;
+      }
+
+      .log-card {
+        padding: 24px;
+      }
+
+      .summary-content {
+        flex-wrap: wrap;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+        padding: 0;
+      }
+
+      .topbar,
+      .logo-box,
+      .card:not(.log-card),
+      .lang-switch,
+      .actions,
+      .log-actions,
+      .logs-controls {
+        display: none !important;
+      }
+
+      .log-card {
+        box-shadow: none;
+        border: 1px solid #dcdfe6;
+        max-width: 100%;
+        padding: 12px 14px;
+      }
+
+      .log-item {
+        box-shadow: none;
+      }
+    }
   </style>
 </head>
 
 <body>
-  <div class="topbar">
-    <div class="lang-switch" role="group" aria-label="Selecionar idioma">
-      <button type="button" data-lang="pt" class="active">PT</button>
-      <button type="button" data-lang="en">ENG</button>
+  <div class="page">
+    <div class="topbar">
+      <div class="lang-switch" role="group" aria-label="Selecionar idioma">
+        <button type="button" data-lang="pt" class="active">PT</button>
+        <button type="button" data-lang="en">ENG</button>
+      </div>
     </div>
-  </div>
-  <div class="logo-box" aria-hidden="true">
-    <img src="../img/logo_eleven_black.png" alt="" />
-  </div>
-  <div class="card">
-    <h1 data-i18n="title">Guias Internos</h1>
-    <p data-i18n="desc">Escolha um dos guias disponíveis.</p>
-    <div class="actions">
-      <a class="button manual-highlight" data-i18n="manualGuide" href="manual_geral.html">Manual Geral (v1.0)</a>
-      <a class="button" data-i18n="cultureGuide" href="guia_de_cultura_e_atendimento.html">Guia de Cultura &amp; Atendimento</a>
-      <a class="button" data-i18n="socialGuide" href="guia_social_media.html">Guia Operacional – Social</a>
-      <a class="button" data-i18n="performanceGuide" href="guia_performance_midia.html">Guia Operacional – Performance</a>
-      <a class="button" data-i18n="financeGuide" href="guia_financeiro.html">Guia Operacional – Financeiro</a>
+    <div class="logo-box" aria-hidden="true">
+      <img src="../img/logo_eleven_black.png" alt="" />
+    </div>
+    <div class="main-layout">
+      <div class="card guide-card">
+        <h1 data-i18n="title">Guias Internos</h1>
+        <p data-i18n="desc">Escolha um dos guias disponíveis.</p>
+        <div class="actions">
+          <a class="button manual-highlight" data-i18n="manualGuide" href="manual_geral.html">Manual Geral (v1.0)</a>
+          <a class="button" data-i18n="cultureGuide" href="guia_de_cultura_e_atendimento.html">Guia de Cultura &amp; Atendimento</a>
+          <a class="button" data-i18n="socialGuide" href="guia_social_media.html">Guia Operacional – Social</a>
+          <a class="button" data-i18n="performanceGuide" href="guia_performance_midia.html">Guia Operacional – Performance</a>
+          <a class="button" data-i18n="financeGuide" href="guia_financeiro.html">Guia Operacional – Financeiro</a>
+        </div>
+      </div>
+      <div class="logs-wrapper">
+        <div class="card log-card" id="jobLogs">
+          <div class="log-header">
+            <div>
+              <p class="eyebrow" data-i18n="logsEyebrow">Logs de jobs · beta</p>
+              <h2 class="log-title" data-i18n="logsTitle">Histórico por cliente</h2>
+              <p class="muted" data-i18n="logsDesc">Selecione um cliente e gere um log pronto para enviar ou salvar em PDF.</p>
+            </div>
+            <div class="log-actions">
+              <button type="button" class="btn btn-ghost" id="shareLogBtn" data-i18n="shareLog" disabled>Compartilhar</button>
+              <button type="button" class="btn btn-primary" id="pdfLogBtn" data-i18n="pdfLog" disabled>Salvar em PDF</button>
+            </div>
+          </div>
+          <div class="logs-controls">
+            <label>
+              <span data-i18n="clientLabel">Cliente</span>
+              <select id="logClienteSelect">
+                <option value="" data-i18n="clientPlaceholder">Selecione o cliente</option>
+              </select>
+            </label>
+            <label>
+              <span data-i18n="monthLabel">Mês (opcional)</span>
+              <input type="month" id="logMonth" />
+            </label>
+            <label>
+              <span data-i18n="limitLabel">Limite de registros</span>
+              <select id="logLimit">
+                <option value="30">30</option>
+                <option value="60" selected>60</option>
+                <option value="120">120</option>
+                <option value="200">200</option>
+              </select>
+            </label>
+            <div class="logs-cta">
+              <button type="button" class="btn btn-primary" id="loadLogsBtn" data-i18n="loadLogs">Gerar log</button>
+            </div>
+          </div>
+          <div id="logStatus" class="log-status muted" role="status" aria-live="polite" data-i18n="chooseClient">Selecione um cliente para gerar o log.</div>
+          <div id="logsContainer" class="logs-container" aria-live="polite"></div>
+        </div>
+      </div>
     </div>
   </div>
   <script>
+    const ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbzix5fHMp_bu9qRILNypw_Zl3d6wwYQ2N_ihUVG3sm-JfHXOeN0cA1_dMHMTaxkOGHQ1g/exec";
+
     const copy = {
       pt: {
         title: "Guias Internos",
@@ -177,6 +562,28 @@
         socialGuide: "Guia Operacional – Social",
         performanceGuide: "Guia Operacional – Performance",
         financeGuide: "Guia Operacional – Financeiro",
+        logsEyebrow: "Logs de jobs · beta",
+        logsTitle: "Histórico por cliente",
+        logsDesc: "Selecione um cliente e gere um log pronto para enviar ou salvar em PDF.",
+        clientLabel: "Cliente",
+        clientPlaceholder: "Selecione o cliente",
+        limitLabel: "Limite de registros",
+        monthLabel: "Mês (opcional)",
+        loadLogs: "Gerar log",
+        pdfLog: "Salvar em PDF",
+        shareLog: "Compartilhar",
+        chooseClient: "Selecione um cliente para gerar o log.",
+        loadingLogs: "Buscando jobs e montando o log...",
+        logsError: "Não foi possível carregar o log agora.",
+        emptyState: "Nenhum job encontrado para este cliente.",
+        shareSuccess: "Link copiado para a área de transferência.",
+        shareFail: "Não foi possível compartilhar agora.",
+        shareText: "Log de jobs",
+        countLabel: "jobs listados",
+        deadlineLabel: "Prazo",
+        createdLabel: "Cadastro",
+        untitled: "(Sem título)",
+        withoutType: "Tipo não informado",
       },
       en: {
         title: "Internal Guides",
@@ -186,19 +593,95 @@
         socialGuide: "Operational Guide – Social",
         performanceGuide: "Operational Guide – Performance",
         financeGuide: "Operational Guide – Finance",
+        logsEyebrow: "Job log · beta",
+        logsTitle: "History by client",
+        logsDesc: "Pick a client and generate a clean log ready to share or save as PDF.",
+        clientLabel: "Client",
+        clientPlaceholder: "Select the client",
+        limitLabel: "Records limit",
+        monthLabel: "Month (optional)",
+        loadLogs: "Generate log",
+        pdfLog: "Save as PDF",
+        shareLog: "Share",
+        chooseClient: "Pick a client to generate the log.",
+        loadingLogs: "Fetching jobs and building the log...",
+        logsError: "Couldn't load the log now.",
+        emptyState: "No jobs found for this client.",
+        shareSuccess: "Link copied to clipboard.",
+        shareFail: "Share is unavailable. Copy the link manually.",
+        shareText: "Job log",
+        countLabel: "jobs listed",
+        deadlineLabel: "Due date",
+        createdLabel: "Created at",
+        untitled: "(Untitled)",
+        withoutType: "Type not provided",
+      },
+    };
+
+    const logLabels = {
+      pt: {
+        objective: "Objetivo",
+        context: "Contexto",
+        audience: "Público",
+        references: "Referências",
+        social: "Social / Peças",
+        campaign: "Campanha / Mídia",
+        ads: "Ads",
+        video: "Vídeo",
+        site: "Site",
+        branding: "Branding / Identidade",
+        notes: "Observações e links",
+        deadline: "Prazo",
+        created: "Cadastro",
+        untitled: "(Sem título)",
+        withoutType: "Tipo não informado",
+      },
+      en: {
+        objective: "Objective",
+        context: "Context",
+        audience: "Audience",
+        references: "References",
+        social: "Social / Deliverables",
+        campaign: "Campaign / Media",
+        ads: "Ads",
+        video: "Video",
+        site: "Website",
+        branding: "Branding",
+        notes: "Notes & links",
+        deadline: "Deadline",
+        created: "Created",
+        untitled: "(Untitled)",
+        withoutType: "Type not provided",
       },
     };
 
     const langButtons = document.querySelectorAll(".lang-switch button");
-    const fields = document.querySelectorAll("[data-i18n]");
+    const getFields = () => document.querySelectorAll("[data-i18n]");
+    const logClienteSelect = document.getElementById("logClienteSelect");
+    const logLimitSelect = document.getElementById("logLimit");
+    const logMonthInput = document.getElementById("logMonth");
+    const loadLogsBtn = document.getElementById("loadLogsBtn");
+    const logStatus = document.getElementById("logStatus");
+    const logsContainer = document.getElementById("logsContainer");
+    const pdfBtn = document.getElementById("pdfLogBtn");
+    const shareBtn = document.getElementById("shareLogBtn");
+    let currentLang = "pt";
+    let lastClienteName = "";
+    let currentJobs = [];
 
     function setLang(lang, persist = false) {
+      currentLang = lang;
       langButtons.forEach((btn) => btn.classList.toggle("active", btn.dataset.lang === lang));
       document.documentElement.setAttribute("lang", lang === "pt" ? "pt-BR" : "en");
-      fields.forEach((el) => {
+      getFields().forEach((el) => {
         const key = el.dataset.i18n;
-        el.textContent = copy[lang][key];
+        if (copy[lang]?.[key]) {
+          el.textContent = copy[lang][key];
+        }
       });
+      if (!logsContainer?.innerHTML) {
+        setLogStatus(copy[lang].chooseClient, "muted");
+      }
       if (persist) localStorage.setItem("langPref", lang);
     }
 
@@ -211,6 +694,331 @@
 
     langButtons.forEach((btn) => btn.addEventListener("click", () => setLang(btn.dataset.lang, true)));
     setLang(detectLang());
+
+    function setLogStatus(message, variant = "muted") {
+      if (!logStatus) return;
+      logStatus.textContent = message || "";
+      logStatus.className = `log-status ${variant}`;
+    }
+
+    const normalize = (value) => (value ? String(value).trim() : "");
+    const normalizeId = (value) => normalize(value).toLowerCase();
+
+    async function loadClientes() {
+      if (!logClienteSelect) return;
+      try {
+        const resp = await fetch(`${ENDPOINT_URL}?action=clientes`, { method: "GET" });
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        const data = await resp.json();
+        if (!data?.success || !Array.isArray(data?.clientes)) throw new Error("Resposta inesperada ao carregar clientes.");
+
+        const previous = logClienteSelect.value;
+        logClienteSelect.innerHTML = "";
+        const defaultOpt = document.createElement("option");
+        defaultOpt.value = "";
+        defaultOpt.dataset.i18n = "clientPlaceholder";
+        defaultOpt.textContent = copy[currentLang].clientPlaceholder;
+        logClienteSelect.appendChild(defaultOpt);
+
+        data.clientes.forEach((cli) => {
+          const opt = document.createElement("option");
+          opt.value = cli.cliente_id;
+          opt.textContent = `${cli.nome_fantasia || "Sem nome"} — ${cli.cliente_id}`;
+          logClienteSelect.appendChild(opt);
+        });
+
+        if (previous && logClienteSelect.querySelector(`option[value="${previous}"]`)) {
+          logClienteSelect.value = previous;
+        }
+      } catch (err) {
+        console.error("Erro ao carregar clientes", err);
+        setLogStatus(copy[currentLang].logsError || "Erro ao carregar clientes.", "error");
+      }
+    }
+
+    async function handleLogLoad(auto = false) {
+      if (!logClienteSelect) return;
+      const clienteId = logClienteSelect.value;
+      if (!clienteId) {
+        if (!auto) setLogStatus(copy[currentLang].chooseClient, "muted");
+        toggleActions(false);
+        return;
+      }
+
+      const limit = logLimitSelect?.value || "60";
+      setLogStatus(copy[currentLang].loadingLogs, "muted");
+      toggleActions(false);
+      loadLogsBtn.disabled = true;
+      logsContainer.innerHTML = "";
+
+      const url = `${ENDPOINT_URL}?action=jobs&cliente_id=${encodeURIComponent(clienteId)}&limit=${encodeURIComponent(limit)}`;
+      try {
+        const resp = await fetch(url, { method: "GET" });
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        const data = await resp.json();
+        let jobs = Array.isArray(data?.jobs) ? data.jobs : [];
+        const monthFilter = logMonthInput?.value || "";
+        if (monthFilter) {
+          jobs = jobs.filter((job) => isSameMonth(job, monthFilter));
+        }
+        currentJobs = jobs;
+        lastClienteName = logClienteSelect.selectedOptions?.[0]?.textContent || "";
+
+        if (!jobs.length) {
+          logsContainer.innerHTML = `<div class="empty-state">${copy[currentLang].emptyState}</div>`;
+          setLogStatus(copy[currentLang].emptyState, "muted");
+          return;
+        }
+
+        renderLogs(jobs);
+        setLogStatus(`${jobs.length} ${copy[currentLang].countLabel || ""}`, "success");
+        toggleActions(true);
+      } catch (err) {
+        console.error("Erro ao carregar log de jobs", err);
+        setLogStatus(copy[currentLang].logsError, "error");
+      } finally {
+        loadLogsBtn.disabled = false;
+      }
+    }
+
+    function renderLogs(jobs) {
+      if (!logsContainer) return;
+      const markup = jobs.map((job) => buildJobMarkup(job)).join("");
+      logsContainer.innerHTML = markup;
+    }
+
+    function buildJobMarkup(job) {
+      const labels = logLabels[currentLang] || logLabels.pt;
+      const metaLine = [job.job_tipo, job.tipo_demanda_social, job.canal_midias].filter(Boolean).join(" · ");
+      const created = formatDateTime(job.data_cadastro);
+      const deadline = formatDate(job.prazo_entrega_desejado);
+
+      const summaryMeta = [
+        created && `<span class="pill">${created}</span>`,
+        deadline && `<span class="pill">${copy[currentLang].deadlineLabel}: ${deadline}</span>`,
+        job.prioridade && `<span class="pill brand">${job.prioridade}</span>`,
+        job.job_id && `<span class="pill mono">${job.job_id}</span>`,
+      ]
+        .filter(Boolean)
+        .join("");
+
+      const fields = [
+        renderField(labels.objective, job.objetivo_principal),
+        renderField(labels.context, job.contexto_job),
+        renderField(labels.audience, job.publico_job),
+        renderField(labels.references, job.links_referencias),
+        renderField(labels.social, formatSocial(job)),
+        renderField(labels.campaign, formatCampaign(job)),
+        renderField(labels.ads, formatAds(job)),
+        renderField(labels.video, formatVideo(job)),
+        renderField(labels.site, formatSite(job)),
+        renderField(labels.branding, formatBrand(job)),
+      ]
+        .filter(Boolean)
+        .join("");
+
+      return `
+        <details class="log-item">
+          <summary>
+            <div class="summary-content">
+              <div class="summary-title">${job.job_titulo || labels.untitled}</div>
+              <div class="summary-meta">${summaryMeta}</div>
+            </div>
+          </summary>
+          <div class="log-body">
+            ${job.mes_ano ? `<div class="pill" style="margin-bottom:8px;">${job.mes_ano}</div>` : ""}
+            ${metaLine ? `<p class="muted" style="margin: 0 0 12px; font-weight:700;">${metaLine}</p>` : ""}
+            <div class="log-fields">
+              ${fields}
+            </div>
+          </div>
+        </details>
+      `;
+    }
+
+    function renderField(label, value) {
+      if (!value) return "";
+      return `<div class="log-field"><span>${label}</span><p>${value}</p></div>`;
+    }
+
+    function formatDate(raw) {
+      if (!raw) return "";
+      const parsed = new Date(raw);
+      if (Number.isNaN(parsed.getTime())) return normalize(raw);
+      return parsed.toLocaleDateString(currentLang === "pt" ? "pt-BR" : "en", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      });
+    }
+
+    function formatDateTime(raw) {
+      if (!raw) return "";
+      const parsed = new Date(raw);
+      if (Number.isNaN(parsed.getTime())) return normalize(raw);
+      return parsed.toLocaleString(currentLang === "pt" ? "pt-BR" : "en", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    }
+
+    function isSameMonth(job, monthValue) {
+      if (!monthValue) return true;
+      const normalized = monthValue.trim();
+      if (!normalized) return true;
+      if (job.mes_ano && String(job.mes_ano).startsWith(normalized)) return true;
+      const parsed = job.data_cadastro ? new Date(job.data_cadastro) : null;
+      if (parsed && !Number.isNaN(parsed.getTime())) {
+        const year = parsed.getFullYear();
+        const month = String(parsed.getMonth() + 1).padStart(2, "0");
+        return `${year}-${month}` === normalized;
+      }
+      return false;
+    }
+
+    const formatList = (value) =>
+      normalize(value)
+        .split(/[,;\n]+/)
+        .map((item) => item.trim())
+        .filter(Boolean)
+        .join(" · ");
+
+    function formatSocial(job) {
+      const parts = [
+        formatList(job.sm_formato),
+        job.sm_qtd_pecas && `${job.sm_qtd_pecas} peças`,
+        job.sm_legenda_completa,
+        job.sm_tom_voz,
+        job.sm_cta,
+      ].filter(Boolean);
+      return parts.join(" · ");
+    }
+
+    function formatCampaign(job) {
+      const parts = [
+        job.sm_camp_objetivo_principal,
+        job.sm_camp_periodo_inicio && job.sm_camp_periodo_fim
+          ? `${formatDate(job.sm_camp_periodo_inicio)} -> ${formatDate(job.sm_camp_periodo_fim)}`
+          : "",
+        formatList(job.sm_camp_plataformas),
+        formatList(job.sm_camp_meta_resultado),
+        formatList(job.sm_camp_entregaveis),
+        job.sm_camp_pagina_destino,
+        job.sm_camp_segmentacoes,
+        job.sm_camp_localizacao,
+        job.sm_camp_orcamento_total && `Budget: ${job.sm_camp_orcamento_total}`,
+        job.sm_camp_orcamento_diario && `Daily: ${job.sm_camp_orcamento_diario}`,
+        job.sm_camp_observacoes_gerais,
+      ].filter(Boolean);
+      return parts.join(" · ");
+    }
+
+    function formatAds(job) {
+      const parts = [
+        job.ads_objetivo,
+        formatList(job.ads_plataformas),
+        job.ads_orcamento,
+        job.ads_periodo,
+        job.ads_oferta_principal,
+        job.ads_publico_segmentacao,
+      ].filter(Boolean);
+      return parts.join(" · ");
+    }
+
+    function formatVideo(job) {
+      const parts = [
+        job.video_tipo,
+        job.video_duracao,
+        job.video_formato,
+        job.video_tipo_trabalho,
+        job.video_materiais_disponiveis,
+        job.video_local,
+      ].filter(Boolean);
+      return parts.join(" · ");
+    }
+
+    function formatSite(job) {
+      const parts = [
+        job.site_tipo,
+        job.site_objetivo,
+        job.site_paginas,
+        job.site_funcionalidades,
+        job.site_dominio,
+        job.site_responsavel_conteudo,
+      ].filter(Boolean);
+      return parts.join(" · ");
+    }
+
+    function formatBrand(job) {
+      const parts = [
+        job.brand_situacao_atual,
+        formatList(job.brand_entregaveis),
+        job.brand_palavras_chave,
+      ].filter(Boolean);
+      return parts.join(" · ");
+    }
+
+    function toggleActions(enabled) {
+      if (pdfBtn) pdfBtn.disabled = !enabled;
+      if (shareBtn) shareBtn.disabled = !enabled;
+    }
+
+    function getClienteFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("cliente") || params.get("cliente_id") || "";
+    }
+
+    function getMonthFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("mes") || params.get("month") || "";
+    }
+
+    async function applyClienteFromUrl() {
+      const fromUrl = getClienteFromUrl();
+      const monthUrl = getMonthFromUrl();
+      if (monthUrl && logMonthInput) {
+        logMonthInput.value = monthUrl;
+      }
+      if (fromUrl && logClienteSelect?.querySelector(`option[value="${fromUrl}"]`)) {
+        logClienteSelect.value = fromUrl;
+        await handleLogLoad(true);
+      }
+    }
+
+    async function handleShare() {
+      const clienteId = logClienteSelect?.value;
+      if (!clienteId) {
+        setLogStatus(copy[currentLang].chooseClient, "muted");
+        return;
+      }
+      const url = new URL(window.location.href);
+      url.pathname = url.pathname.replace("index_documentation.html", "log_cliente.html");
+      url.search = "";
+      url.searchParams.set("cliente", clienteId);
+      if (logMonthInput?.value) {
+        url.searchParams.set("mes", logMonthInput.value);
+      }
+      try {
+        if (navigator.clipboard?.writeText) {
+          await navigator.clipboard.writeText(url.toString());
+          setLogStatus(copy[currentLang].shareSuccess, "success");
+        } else {
+          setLogStatus(copy[currentLang].shareFail, "error");
+        }
+        window.open(url.toString(), "_blank", "noopener");
+      } catch (err) {
+        console.error("Erro ao compartilhar log", err);
+        setLogStatus(copy[currentLang].shareFail, "error");
+      }
+    }
+
+    loadClientes().then(applyClienteFromUrl);
+    loadLogsBtn?.addEventListener("click", () => handleLogLoad());
+    pdfBtn?.addEventListener("click", () => window.print());
+    shareBtn?.addEventListener("click", handleShare);
   </script>
 </body>
 
