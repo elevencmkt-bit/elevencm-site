@@ -994,9 +994,8 @@
         setLogStatus(copy[currentLang].chooseClient, "muted");
         return;
       }
-      const url = new URL(window.location.href);
-      url.pathname = url.pathname.replace("index_documentation.html", "log_cliente.html");
-      url.search = "";
+      const base = new URL(window.location.href);
+      const url = new URL("log_cliente.html", base);
       url.searchParams.set("cliente", clienteId);
       if (logMonthInput?.value) {
         url.searchParams.set("mes", logMonthInput.value);
