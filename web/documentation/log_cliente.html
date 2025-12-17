@@ -393,6 +393,7 @@
     const pdfBtn = document.getElementById("pdfBtn");
     const clientHeading = document.getElementById("clientHeading");
     const clientSub = document.getElementById("clientSub");
+    const metaDescription = document.querySelector('meta[name="description"]');
 
     function setStatus(msg, variant = "muted") {
       if (!logStatus) return;
@@ -480,8 +481,13 @@
         }
 
         renderLogs(jobs);
-        clientHeading.textContent = `Log de jobs — ${jobs[0]?.cliente_nome || clienteId}`;
-        clientSub.textContent = `Visualização dos jobs do cliente ${jobs[0]?.cliente_nome || clienteId}.`;
+        const clienteNome = jobs[0]?.cliente_nome || clienteId;
+        clientHeading.textContent = `Log de jobs — ${clienteNome}`;
+        clientSub.textContent = `Visualização dos jobs do cliente ${clienteNome}.`;
+        document.title = `Log de jobs — ${clienteNome} · Eleven CM`;
+        if (metaDescription) {
+          metaDescription.setAttribute("content", `Log de jobs do cliente ${clienteNome}.`);
+        }
         setStatus(`${jobs.length} jobs listados`, "success");
       } catch (err) {
         console.error("Erro ao carregar log de jobs", err);
