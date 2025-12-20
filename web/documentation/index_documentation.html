@@ -505,6 +505,8 @@
           <a class="button" data-i18n="socialGuide" href="guia_social_media.html">Guia Operacional – Social</a>
           <a class="button" data-i18n="performanceGuide" href="guia_performance_midia.html">Guia Operacional – Performance</a>
           <a class="button" data-i18n="financeGuide" href="guia_financeiro.html">Guia Operacional – Financeiro</a>
+          <a class="button" href="admin_roadmap.html">Admin · Roadmap</a>
+          <a class="button" href="roadmap_public.html?client_slug=american-japa-sushi&month=2025-12">Roadmap (visão cliente)</a>
         </div>
       </div>
       <div class="logs-wrapper">
@@ -710,7 +712,8 @@
         const resp = await fetch(`${ENDPOINT_URL}?action=clientes`, { method: "GET" });
         if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
         const data = await resp.json();
-        if (!data?.success || !Array.isArray(data?.clientes)) throw new Error("Resposta inesperada ao carregar clientes.");
+        const lista = data?.clientes || data?.clients;
+        if (!data?.success || !Array.isArray(lista)) throw new Error("Resposta inesperada ao carregar clientes.");
 
         const previous = logClienteSelect.value;
         logClienteSelect.innerHTML = "";
@@ -720,10 +723,12 @@
         defaultOpt.textContent = copy[currentLang].clientPlaceholder;
         logClienteSelect.appendChild(defaultOpt);
 
-        data.clientes.forEach((cli) => {
+        lista.forEach((cli) => {
+          const id = cli.cliente_id || cli.id || "";
+          const nome = cli.nome_fantasia || cli.name || "Sem nome";
           const opt = document.createElement("option");
-          opt.value = cli.cliente_id;
-          opt.textContent = `${cli.nome_fantasia || "Sem nome"} — ${cli.cliente_id}`;
+          opt.value = id;
+          opt.textContent = `${nome} — ${id}`;
           logClienteSelect.appendChild(opt);
         });
 
