@@ -1791,7 +1791,8 @@
         const resp = await fetch(`${ENDPOINT_URL}?action=clientes`, { method: "GET" });
         if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
         const data = await resp.json();
-        if (!data?.success || !Array.isArray(data?.clientes)) throw new Error("Resposta inesperada ao carregar clientes.");
+        const lista = data?.clientes || data?.clients;
+        if (!data?.success || !Array.isArray(lista)) throw new Error("Resposta inesperada ao carregar clientes.");
 
         // Preserve selection if already chosen
         const previous = clienteSelect.value;
@@ -1801,11 +1802,13 @@
         defaultOpt.textContent = "Selecione o cliente";
         clienteSelect.appendChild(defaultOpt);
 
-        data.clientes.forEach((cli) => {
+        lista.forEach((cli) => {
+          const id = cli.cliente_id || cli.id || "";
+          const nome = cli.nome_fantasia || cli.name || "Sem nome";
           const opt = document.createElement("option");
-          opt.value = cli.cliente_id;
-          opt.dataset.nome = cli.nome_fantasia || "";
-          opt.textContent = `${cli.nome_fantasia || "Sem nome"} — ${cli.cliente_id}`;
+          opt.value = id;
+          opt.dataset.nome = nome;
+          opt.textContent = `${nome} — ${id}`;
           clienteSelect.appendChild(opt);
         });
 
