@@ -140,6 +140,11 @@
       padding: 18px;
       display: grid;
       gap: 14px;
+      align-content: center;
+    }
+
+    .panel.filters {
+      padding-top: 18px;
     }
 
     h2 {
@@ -420,7 +425,7 @@
       </div>
     </header>
 
-    <section class="panel card">
+    <section class="panel card filters">
       <div class="flex" style="align-items:flex-end;">
         <label class="field" style="max-width: 320px;">
           Cliente
@@ -430,9 +435,6 @@
           Mês (YYYY-MM)
           <input id="monthInput" type="month" />
         </label>
-        <div class="actions-row" style="align-items:flex-end;">
-          <button id="resetDbBtn" class="danger" style="white-space:nowrap;">Resetar demo</button>
-        </div>
       </div>
     </section>
 
@@ -445,7 +447,6 @@
       </div>
       <div class="card" style="background:#f8fafc;border:1px dashed #d8deea;margin:12px 0;">
         <p style="margin:0 0 8px;font-weight:700;">Upload rápido (arraste ou selecione vários arquivos)</p>
-        <p style="margin:0 0 12px;color:#5a6475;">Cada arquivo cria uma linha com a legenda preenchida pelo nome. Depois ajuste data e link do Drive (salvo em 30 dias você pode apagar as artes no Drive).</p>
         <div id="dropzone" style="padding:18px;border:1px dashed #c7d2e3;border-radius:12px;background:#fff;cursor:pointer;text-align:center;">
           Solte as artes/vídeos aqui ou clique para selecionar
           <input id="fileInput" type="file" multiple accept="image/*,video/*" style="display:none;">
@@ -817,11 +818,6 @@
     document.getElementById("generateLinkBtn").addEventListener("click", async () => {
       const saved = await onSave(true);
       if (saved) openClientPage();
-    });
-    document.getElementById("resetDbBtn").addEventListener("click", () => {
-      postsTbody.innerHTML = "";
-      postsToDelete = [];
-      alert("Nada para resetar localmente. Os dados vêm da planilha (end-point).");
     });
 
     function validatePosts(posts) {
