@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Cadastro de Cliente – Eleven CM</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Formulário de cadastro de clientes da Eleven CM com integração ao banco master no Google Sheets." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fbfcfe;
+      --panel: #ffffff;
+      --panel-2: #f7f9fc;
+      --border: #e4e8f0;
+      --muted: #5f6b7a;
+      --text: #1f2a3d;
+      --brand: #febe01;
+      --brand-strong: #d9a700;
+      --error: #c2414b;
+      --success: #15803d;
+      --shadow: 0 20px 55px rgba(26, 54, 93, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(circle at 10% 20%, rgba(254, 190, 1, 0.14), transparent 28%),
+        radial-gradient(circle at 90% 0%, rgba(26, 54, 93, 0.08), transparent 26%),
+        var(--bg);
+      font-family: "Raleway", system-ui, -apple-system, sans-serif;
+      color: var(--text);
+      padding: 32px 16px 56px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1120px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    header h1 {
+      margin: 0 0 8px;
+      letter-spacing: -0.02em;
+    }
+
+    header p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 18px;
+    }
+
+    .card h2 {
+      margin: 0 0 16px;
+      font-size: 1.15rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card h2::before {
+      content: "";
+      width: 8px;
+      height: 26px;
+      border-radius: 10px;
+      background: linear-gradient(180deg, var(--brand), #ffd65b);
+    }
+
+    .grid {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+
+    .grid-2 {
+      display: grid;
+      gap: 12px 14px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .grid-3 {
+      display: grid;
+      gap: 12px 14px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    label span {
+      color: var(--muted);
+      font-weight: 400;
+      font-size: 0.9rem;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    input[type="url"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 11px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--panel-2);
+      color: var(--text);
+      font: inherit;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: rgba(254, 190, 1, 0.7);
+      box-shadow: 0 0 0 3px rgba(254, 190, 1, 0.12);
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .checkbox-group,
+    .radio-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .checkbox-chip,
+    .radio-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 10px;
+      background: #eef3f9;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      user-select: none;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .checkbox-chip input,
+    .radio-chip input {
+      accent-color: var(--accent);
+    }
+
+    .actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+      margin-top: 12px;
+    }
+
+    .actions button[type="submit"],
+    .actions button[type="button"] {
+      background: linear-gradient(135deg, rgba(254, 190, 1, 0.18), rgba(254, 190, 1, 0.08));
+      color: var(--text);
+      border: 1px solid rgba(254, 190, 1, 0.45);
+      border-radius: 10px;
+      padding: 16px 28px;
+      font-weight: 800;
+      font-size: 1.05rem;
+      cursor: pointer;
+      transition: transform 0.12s ease, box-shadow 0.15s ease, opacity 0.15s ease, background 0.15s ease;
+      min-width: 240px;
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .actions button[type="submit"]:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .actions button[type="submit"]:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 30px rgba(26, 54, 93, 0.12);
+      background: linear-gradient(135deg, rgba(254, 190, 1, 0.22), rgba(254, 190, 1, 0.12));
+    }
+
+    .status {
+      margin: 10px 0 0;
+      font-weight: 600;
+    }
+
+    .status.success {
+      color: var(--success);
+    }
+
+    .status.error {
+      color: var(--error);
+    }
+
+    .back-to-top {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid rgba(254, 190, 1, 0.35);
+      background: linear-gradient(145deg, #fff7db, #ffe9a3);
+      color: #0d1a2d;
+      font-weight: 700;
+      font-size: 0.9rem;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 12px 24px rgba(26, 54, 93, 0.16);
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .back-to-top.visible {
+      opacity: 1 !important;
+      transform: translateY(0) !important;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-top: 18px;
+    }
+
+    @media (max-width: 720px) {
+      .back-to-top {
+        display: none;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      button[type="submit"],
+      button[type="button"] {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+      <img src="../img/logo_eleven_black.png" alt="Eleven CM" style="height:42px; width:auto;" />
+      <div class="topbar" style="display:flex; justify-content:flex-end;">
+        <div class="lang-switch" role="group" aria-label="Selecionar idioma" style="display:inline-flex; gap:6px; padding:4px 6px; background:#fff; border:1px solid var(--border); border-radius:8px; box-shadow:0 10px 25px rgba(26,54,93,0.08);">
+          <button type="button" data-lang="pt" class="active" style="border:1px solid transparent; background:transparent; color:var(--muted); font-weight:700; padding:6px 10px; border-radius:8px; cursor:pointer;">PT</button>
+          <button type="button" data-lang="en" style="border:1px solid transparent; background:transparent; color:var(--muted); font-weight:700; padding:6px 10px; border-radius:8px; cursor:pointer;">ENG</button>
+        </div>
+      </div>
+    </div>
+    <header>
+      <h1 data-i18n="title">Cadastro de Cliente</h1>
+      <p data-i18n="subtitle">Preencha os dados abaixo para registrar um novo cliente.</p>
+    </header>
+
+    <form id="cadastroForm" novalidate>
+      <!-- 1. Sobre a empresa -->
+      <div class="card" aria-labelledby="sobre-empresa">
+        <h2 id="sobre-empresa" data-i18n="section1">1. Sobre a empresa</h2>
+        <div class="grid-2">
+          <div>
+            <label for="nome_fantasia" data-i18n="nome_fantasia_label">Nome Fantasia / DBA *</label>
+            <input type="text" id="nome_fantasia" name="nome_fantasia" required placeholder="Nome fantasia do negócio" />
+          </div>
+          <div>
+            <label for="razao_social" data-i18n="razao_label">Razão Social *</label>
+            <input type="text" id="razao_social" name="razao_social" required placeholder="" />
+          </div>
+          <div>
+            <label for="cnpj_ein" data-i18n="cnpj_ein_label">CNPJ / EIN *</label>
+            <input type="text" id="cnpj_ein" name="cnpj_ein" required placeholder="00.000.000/0000-00 ou EIN" />
+          </div>
+          <div>
+            <label for="segmento" data-i18n="segmento_label">Segmento *</label>
+            <input type="text" id="segmento" name="segmento" required placeholder="Restaurante, loja, B2B, serviços..." />
+          </div>
+          <div style="grid-column: 1 / -1;">
+            <label for="descricao_resumida_negocio" data-i18n="descricao_label">Descrição do Negócio *</label>
+            <textarea id="descricao_resumida_negocio" name="descricao_resumida_negocio" required placeholder="Descreva brevemente o negócio, produtos/serviços e foco."></textarea>
+          </div>
+          <div>
+            <label for="cidade" data-i18n="cidade_label">Cidade *</label>
+            <input type="text" id="cidade" name="cidade" required placeholder="Cidade" />
+          </div>
+          <div>
+            <label for="estado" data-i18n="estado_label">Estado *</label>
+            <input type="text" id="estado" name="estado" required placeholder="Estado / Província" />
+          </div>
+          <div>
+            <label for="pais" data-i18n="pais_label">País *</label>
+            <input type="text" id="pais" name="pais" required placeholder="País" />
+          </div>
+          <div>
+            <label for="fuso_horario" data-i18n="fuso_label">Fuso horário *</label>
+            <input type="text" id="fuso_horario" name="fuso_horario" required placeholder="Ex.: America/New_York" />
+          </div>
+          <div>
+            <label for="idioma_principal" data-i18n="idioma_principal_label">Idioma principal *</label>
+            <select id="idioma_principal" name="idioma_principal" required>
+              <option value="">Selecione</option>
+              <option value="pt-BR">Português (Brasil)</option>
+              <option value="en-US">Inglês (EUA)</option>
+              <option value="es-ES">Espanhol (ES)</option>
+              <option value="es-MX">Espanhol (MX)</option>
+            </select>
+          </div>
+          <div>
+            <label for="idioma_secundario" data-i18n="idioma_secundario_label">Idioma secundário</label>
+            <select id="idioma_secundario" name="idioma_secundario">
+              <option value="">Nenhum</option>
+              <option value="pt-BR">Português (Brasil)</option>
+              <option value="en-US">Inglês (EUA)</option>
+              <option value="es-ES">Espanhol (ES)</option>
+              <option value="es-MX">Espanhol (MX)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Contato principal -->
+      <div class="card" aria-labelledby="contato">
+        <h2 id="contato" data-i18n="section2">2. Contato principal</h2>
+        <div class="grid">
+          <div>
+            <label for="responsavel_principal_nome" data-i18n="responsavel_nome_label">Nome *</label>
+            <input type="text" id="responsavel_principal_nome" name="responsavel_principal_nome" required placeholder="Nome completo" />
+          </div>
+          <div>
+            <label for="responsavel_principal_cargo" data-i18n="responsavel_cargo_label">Cargo *</label>
+            <input type="text" id="responsavel_principal_cargo" name="responsavel_principal_cargo" required placeholder="Cargo / função" />
+          </div>
+          <div>
+            <label for="responsavel_principal_email" data-i18n="responsavel_email_label">E-mail *</label>
+            <input type="email" id="responsavel_principal_email" name="responsavel_principal_email" required placeholder="email@empresa.com" />
+          </div>
+          <div>
+            <label for="responsavel_principal_whatsapp" data-i18n="responsavel_whats_label">Phone / WhatsApp *</label>
+            <input type="text" id="responsavel_principal_whatsapp" name="responsavel_principal_whatsapp" required placeholder="+1 000 000 0000" aria-label="Phone / WhatsApp" />
+          </div>
+          <div class="grid" style="grid-template-columns: 1fr;">
+            <label for="outros_contatos" data-i18n="outros_contatos_label">Outros contatos</label>
+            <textarea id="outros_contatos" name="outros_contatos" placeholder="E-mail financeiro, sócio, suporte, etc. (opcional)"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Público & posicionamento -->
+      <div class="card" aria-labelledby="publico">
+        <h2 id="publico" data-i18n="section3">3. Público &amp; posicionamento</h2>
+        <div class="grid-2">
+          <div class="grid" style="grid-template-columns: 1fr; gap: 10px;">
+            <label for="publico_principal" data-i18n="publico_principal_label">Público principal *</label>
+            <textarea id="publico_principal" name="publico_principal" required placeholder="Descreva público-alvo prioritário."></textarea>
+          </div>
+          <div class="grid" style="grid-template-columns: 1fr; gap: 10px;">
+            <label for="publico_secundario" data-i18n="publico_secundario_label">Público secundário</label>
+            <textarea id="publico_secundario" name="publico_secundario" placeholder="Público adicional (opcional)."></textarea>
+          </div>
+          <div>
+            <label for="ticket_medio_aproximado" data-i18n="ticket_label">Ticket médio aproximado</label>
+            <input type="number" id="ticket_medio_aproximado" name="ticket_medio_aproximado" placeholder="Ex.: 50" />
+          </div>
+          <div class="grid" style="grid-template-columns: 1fr;">
+            <label for="principais_diferenciais" data-i18n="diferenciais_label">Principais diferenciais *</label>
+            <textarea id="principais_diferenciais" name="principais_diferenciais" required placeholder="O que diferencia o negócio (prova social, produto, serviço)."></textarea>
+          </div>
+          <div class="grid" style="grid-template-columns: 1fr;">
+            <label for="principais_concorrentes" data-i18n="concorrentes_label">Principais concorrentes</label>
+            <textarea id="principais_concorrentes" name="principais_concorrentes" placeholder="Concorrentes diretos e indiretos (opcional)."></textarea>
+          </div>
+          <div class="grid" style="grid-template-columns: 1fr;">
+            <label for="tom_voz_marca" data-i18n="tom_voz_label">Tom da voz da marca *</label>
+            <textarea id="tom_voz_marca" name="tom_voz_marca" required placeholder="Ex.: institucional, descontraído, humor, técnico..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Plano de conteúdo -->
+      <div class="card" aria-labelledby="plano-conteudo">
+        <h2 id="plano-conteudo" data-i18n="section4">4. Plano de conteúdo</h2>
+        <div class="grid-3">
+          <div>
+            <label for="tipo_plano_social" data-i18n="plano_label">Tipo de plano social *</label>
+            <select id="tipo_plano_social" name="tipo_plano_social" required>
+              <option value="">Selecione</option>
+              <option value="Start">Start</option>
+              <option value="Growth">Growth</option>
+              <option value="Premium">Premium</option>
+            </select>
+          </div>
+          <div>
+            <label for="qtd_posts_mes" data-i18n="posts_label">Qtd. de posts por mês *</label>
+            <input type="number" id="qtd_posts_mes" name="qtd_posts_mes" required placeholder="Ex.: 12" />
+          </div>
+          <div>
+            <label for="qtd_reels_mes" data-i18n="reels_label">Qtd. de reels por mês</label>
+            <input type="number" id="qtd_reels_mes" name="qtd_reels_mes" required placeholder="Ex.: 4" />
+          </div>
+          <div>
+            <label for="qtd_stories_semanais" data-i18n="stories_label">Qtd. de stories semanais</label>
+            <input type="number" id="qtd_stories_semanais" name="qtd_stories_semanais" required placeholder="Ex.: 5" />
+          </div>
+          <div class="grid" style="grid-template-columns: 1fr; gap: 10px; grid-column: span 2;">
+            <label for="outros_entregaveis_fixos" data-i18n="entregaveis_label">Outros entregáveis fixos</label>
+            <textarea id="outros_entregaveis_fixos" name="outros_entregaveis_fixos" placeholder="Lives, newsletter, materiais recorrentes (opcional)."></textarea>
+          </div>
+          <div class="grid" style="grid-template-columns: 1fr; gap: 10px; grid-column: span 2;">
+            <label for="observacoes_escopo" data-i18n="obs_escopo_label">Observações de escopo</label>
+            <textarea id="observacoes_escopo" name="observacoes_escopo" placeholder="Sequências, formatos, restrições (opcional)."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Mídia & tráfego -->
+      <div class="card" aria-labelledby="midia">
+        <h2 id="midia" data-i18n="section5">5. Mídia &amp; tráfego</h2>
+        <div class="grid-3">
+          <div>
+            <label for="tipo_de_servico" data-i18n="tipo_servico_label">Tipo de Serviço *</label>
+            <select id="tipo_de_servico" name="tipo_de_servico" required>
+              <option value="">Selecione</option>
+              <option value="Social">Social</option>
+              <option value="Tráfego">Tráfego</option>
+              <option value="Social + Tráfego">Social + Tráfego</option>
+            </select>
+          </div>
+          <div>
+            <label for="gestao_trafego_ativa" data-i18n="gestao_label">Gestão de tráfego ativa *</label>
+            <div class="radio-group">
+              <label class="radio-chip">
+                <input type="radio" name="gestao_trafego_ativa" value="Sim" required />
+                Sim
+              </label>
+              <label class="radio-chip">
+                <input type="radio" name="gestao_trafego_ativa" value="Não" required />
+                Não
+              </label>
+            </div>
+          </div>
+          <div>
+            <label>Plataformas de tráfego</label>
+            <div class="checkbox-group" aria-label="Plataformas de tráfego">
+              <label class="checkbox-chip">
+                <input type="checkbox" value="Meta Ads" /> Meta Ads
+              </label>
+              <label class="checkbox-chip">
+                <input type="checkbox" value="Google Ads" /> Google Ads
+              </label>
+              <label class="checkbox-chip">
+                <input type="checkbox" value="TikTok Ads" /> TikTok Ads
+              </label>
+              <label class="checkbox-chip">
+                <input type="checkbox" value="LinkedIn Ads" /> LinkedIn Ads
+              </label>
+              <label class="checkbox-chip">
+                <input type="checkbox" value="YouTube" /> YouTube
+              </label>
+            </div>
+          </div>
+          <div>
+            <label for="orcamento_midia_mensal" data-i18n="orcamento_label">Orçamento de mídia mensal (USD)</label>
+            <input type="number" id="orcamento_midia_mensal" name="orcamento_midia_mensal" placeholder="Ex.: 800" />
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. Acessos & links -->
+      <div class="card" aria-labelledby="links">
+        <h2 id="links" data-i18n="section6">6. Acessos &amp; links</h2>
+        <div class="grid-2">
+          <div class="grid" style="grid-template-columns: 1fr; gap: 10px;">
+            <label for="links_redes_sociais" data-i18n="links_sociais_label">Links de redes sociais</label>
+            <textarea id="links_redes_sociais" name="links_redes_sociais" placeholder="https://instagram.com/...&#10;https://facebook.com/..."></textarea>
+          </div>
+          <div>
+            <label for="link_identidade_visual" data-i18n="identidade_label">Link da identidade visual</label>
+            <input type="url" id="link_identidade_visual" name="link_identidade_visual" placeholder="https://drive.google.com/..." />
+          </div>
+          <div>
+            <label for="link_site" data-i18n="site_label">Link do site</label>
+            <input type="url" id="link_site" name="link_site" placeholder="https://www.seusite.com" />
+          </div>
+          <div class="grid" style="grid-template-columns: 1fr;">
+            <label for="observacoes_gerais" data-i18n="observacoes_label">Observações gerais</label>
+            <textarea id="observacoes_gerais" name="observacoes_gerais" placeholder="Notas adicionais, pendências de acesso, etc."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <div id="status" class="status" role="status" aria-live="polite"></div>
+        <button type="submit" id="submitBtn" data-i18n="submit">Enviar cadastro</button>
+      </div>
+    </form>
+    <footer>Eleven CM — Todos os direitos reservados. 2025.</footer>
+  </div>
+  <button type="button" class="back-to-top" aria-label="Voltar ao topo">↑</button>
+
+  <script>
+    const form = document.getElementById("cadastroForm");
+    const statusEl = document.getElementById("status");
+    const submitBtn = document.getElementById("submitBtn");
+    const backToTop = document.querySelector(".back-to-top");
+    const langButtons = document.querySelectorAll(".lang-switch button");
+    const tipoServicoSelect = document.getElementById("tipo_de_servico");
+    const gestaoRadios = form.querySelectorAll('input[name="gestao_trafego_ativa"]');
+    const plataformaCheckboxes = document.querySelectorAll('[aria-label="Plataformas de tráfego"] input[type="checkbox"]');
+    const orcamentoInput = document.getElementById("orcamento_midia_mensal");
+
+    const ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbzix5fHMp_bu9qRILNypw_Zl3d6wwYQ2N_ihUVG3sm-JfHXOeN0cA1_dMHMTaxkOGHQ1g/exec";
+
+    const copy = {
+      pt: {
+        title: "Cadastro de Cliente",
+        subtitle: "Preencha os dados abaixo para registrar um novo cliente.",
+        section1: "1. Sobre a empresa",
+        section2: "2. Contato principal",
+        section3: "3. Público & posicionamento",
+        section4: "4. Plano de conteúdo",
+        section5: "5. Mídia & tráfego",
+        section6: "6. Acessos & links",
+        nome_fantasia_label: "Nome Fantasia / DBA *",
+        razao_label: "Razão Social *",
+        cnpj_ein_label: "CNPJ / EIN *",
+        segmento_label: "Segmento *",
+        descricao_label: "Descrição do Negócio *",
+        cidade_label: "Cidade *",
+        estado_label: "Estado *",
+        pais_label: "País *",
+        fuso_label: "Fuso horário *",
+        idioma_principal_label: "Idioma principal *",
+        idioma_secundario_label: "Idioma secundário",
+        responsavel_nome_label: "Nome *",
+        responsavel_cargo_label: "Cargo *",
+        responsavel_email_label: "E-mail *",
+        responsavel_whats_label: "Phone / WhatsApp *",
+        outros_contatos_label: "Outros contatos",
+        publico_principal_label: "Público principal *",
+        publico_secundario_label: "Público secundário",
+        ticket_label: "Ticket médio aproximado",
+        diferenciais_label: "Principais diferenciais *",
+        concorrentes_label: "Principais concorrentes",
+        plano_label: "Tipo de plano social *",
+        posts_label: "Qtd. de posts por mês *",
+        reels_label: "Qtd. de reels por mês",
+        stories_label: "Qtd. de stories semanais",
+        entregaveis_label: "Outros entregáveis fixos",
+        obs_escopo_label: "Observações de escopo",
+        tipo_servico_label: "Tipo de Serviço *",
+        gestao_label: "Gestão de tráfego ativa *",
+        orcamento_label: "Orçamento de mídia mensal (USD)",
+        tom_voz_label: "Tom da voz da marca *",
+        links_sociais_label: "Links de redes sociais",
+        identidade_label: "Link da identidade visual",
+        site_label: "Link do site",
+        observacoes_label: "Observações gerais",
+        submit: "Enviar cadastro",
+      },
+      en: {
+        title: "Client Registration",
+        subtitle: "Fill in the fields below to register a new client.",
+        section1: "1. About the company",
+        section2: "2. Primary contact",
+        section3: "3. Audience & positioning",
+        section4: "4. Content plan",
+        section5: "5. Media & traffic",
+        section6: "6. Access & links",
+        nome_fantasia_label: "Trade Name / DBA *",
+        razao_label: "Legal name *",
+        cnpj_ein_label: "CNPJ / EIN *",
+        segmento_label: "Segment *",
+        descricao_label: "Business description *",
+        cidade_label: "City *",
+        estado_label: "State / Province *",
+        pais_label: "Country *",
+        fuso_label: "Time zone *",
+        idioma_principal_label: "Primary language *",
+        idioma_secundario_label: "Secondary language",
+        responsavel_nome_label: "Name *",
+        responsavel_cargo_label: "Role *",
+        responsavel_email_label: "Email *",
+        responsavel_whats_label: "Phone / WhatsApp *",
+        outros_contatos_label: "Other contacts",
+        publico_principal_label: "Primary audience *",
+        publico_secundario_label: "Secondary audience",
+        ticket_label: "Approx. average ticket",
+        diferenciais_label: "Key differentiators *",
+        concorrentes_label: "Main competitors",
+        plano_label: "Social plan type *",
+        posts_label: "Posts per month *",
+        reels_label: "Reels per month",
+        stories_label: "Stories per week",
+        entregaveis_label: "Other fixed deliverables",
+        obs_escopo_label: "Scope notes",
+        tipo_servico_label: "Service type *",
+        gestao_label: "Active paid traffic *",
+        orcamento_label: "Monthly ad budget (USD)",
+        tom_voz_label: "Brand voice tone *",
+        links_sociais_label: "Social links",
+        identidade_label: "Brand identity link",
+        site_label: "Website link",
+        observacoes_label: "General notes",
+        submit: "Submit form",
+      },
+    };
+
+    const placeholders = {
+      pt: {
+        nome_fantasia: "Nome fantasia do negócio",
+        razao_social: "",
+        cnpj_ein: "00.000.000/0000-00 or EIN",
+        segmento: "Restaurante, loja, B2B, serviços...",
+        descricao_resumida_negocio: "Descreva brevemente o negócio, produtos/serviços e foco.",
+        cidade: "Cidade",
+        estado: "Estado / Província",
+        pais: "País",
+        fuso_horario: "Ex.: America/New_York",
+        responsavel_principal_nome: "Nome completo",
+        responsavel_principal_cargo: "Cargo / função",
+        responsavel_principal_email: "email@empresa.com",
+        responsavel_principal_whatsapp: "+1 000 000 0000",
+        outros_contatos: "E-mail financeiro, sócio, suporte, etc. (opcional)",
+        publico_principal: "Descreva público-alvo prioritário.",
+        publico_secundario: "Público adicional (opcional).",
+        ticket_medio_aproximado: "Ex.: 50",
+        principais_diferenciais: "O que diferencia o negócio (prova social, produto, serviço).",
+        principais_concorrentes: "Concorrentes diretos e indiretos (opcional).",
+        qtd_posts_mes: "Ex.: 12",
+        qtd_reels_mes: "Ex.: 4",
+        qtd_stories_semanais: "Ex.: 5",
+        outros_entregaveis_fixos: "Lives, newsletter, materiais recorrentes (opcional).",
+        observacoes_escopo: "Sequências, formatos, restrições (opcional).",
+        orcamento_midia_mensal: "Ex.: 800",
+        tom_voz_marca: "Ex.: institucional, descontraído, humor, técnico...",
+        links_redes_sociais: "https://instagram.com/...\nhttps://facebook.com/...",
+        link_identidade_visual: "https://drive.google.com/...",
+        link_site: "https://www.seusite.com",
+        observacoes_gerais: "Notas adicionais, pendências de acesso, etc.",
+      },
+      en: {
+        nome_fantasia: "Business trade name / DBA",
+        razao_social: "",
+        cnpj_ein: "00.000.000/0000-00 or EIN",
+        segmento: "Restaurant, store, B2B, services...",
+        descricao_resumida_negocio: "Briefly describe the business, products/services, and focus.",
+        cidade: "City",
+        estado: "State / Province",
+        pais: "Country",
+        fuso_horario: "e.g., America/New_York",
+        responsavel_principal_nome: "Full name",
+        responsavel_principal_cargo: "Role / function",
+        responsavel_principal_email: "email@company.com",
+        responsavel_principal_whatsapp: "+1 000 000 0000",
+        outros_contatos: "Finance email, partner, support, etc. (optional)",
+        publico_principal: "Describe primary target audience.",
+        publico_secundario: "Additional audience (optional).",
+        ticket_medio_aproximado: "e.g., 50",
+        principais_diferenciais: "What differentiates the business (proof, product, service).",
+        principais_concorrentes: "Direct/indirect competitors (optional).",
+        qtd_posts_mes: "e.g., 12",
+        qtd_reels_mes: "e.g., 4",
+        qtd_stories_semanais: "e.g., 5",
+        outros_entregaveis_fixos: "Lives, newsletter, recurring materials (optional).",
+        observacoes_escopo: "Sequences, formats, restrictions (optional).",
+        orcamento_midia_mensal: "e.g., 800",
+        tom_voz_marca: "e.g., formal, playful, humorous, technical...",
+        links_redes_sociais: "https://instagram.com/...\nhttps://facebook.com/...",
+        link_identidade_visual: "https://drive.google.com/...",
+        link_site: "https://www.yoursite.com",
+        observacoes_gerais: "Additional notes, access pending, etc.",
+      },
+    };
+
+    function applyLang(lang, persist = false) {
+      const dict = copy[lang] || copy.pt;
+      document.documentElement.setAttribute("lang", lang === "pt" ? "pt-BR" : "en");
+      langButtons.forEach((btn) => {
+        const active = btn.dataset.lang === lang;
+        btn.classList.toggle("active", active);
+        btn.style.background = active ? "rgba(254, 190, 1, 0.15)" : "transparent";
+        btn.style.borderColor = active ? "rgba(254, 190, 1, 0.3)" : "transparent";
+        btn.style.color = active ? "#1f2a3d" : "var(--muted)";
+      });
+
+      document.querySelectorAll("[data-i18n]").forEach((el) => {
+        const key = el.dataset.i18n;
+        if (dict[key]) el.textContent = dict[key];
+      });
+
+      const ph = placeholders[lang] || placeholders.pt;
+      Object.entries(ph).forEach(([id, value]) => {
+        const field = document.getElementById(id);
+        if (field) field.placeholder = value;
+      });
+
+      if (persist) localStorage.setItem("langPref", lang);
+    }
+
+    function detectLang() {
+      const saved = localStorage.getItem("langPref");
+      if (saved) return saved;
+      const browserLang = (navigator.languages?.[0] || navigator.language || "en").toLowerCase();
+      return browserLang.startsWith("pt") ? "pt" : "en";
+    }
+
+    langButtons.forEach((btn) => btn.addEventListener("click", () => applyLang(btn.dataset.lang, true)));
+    applyLang(detectLang());
+    syncTipoServico();
+    tipoServicoSelect?.addEventListener("change", syncTipoServico);
+
+    function setStatus(message, type = "") {
+      statusEl.textContent = message;
+      statusEl.className = `status ${type}`;
+    }
+
+    function getPlataformasSelecionadas() {
+      const checkboxes = document.querySelectorAll('[aria-label="Plataformas de tráfego"] input[type="checkbox"]');
+      return Array.from(checkboxes)
+        .filter((c) => c.checked)
+        .map((c) => c.value)
+        .join(", ");
+    }
+
+    function getGestaoAtiva() {
+      const selected = form.querySelector('input[name="gestao_trafego_ativa"]:checked');
+      return selected ? selected.value : "";
+    }
+
+    function syncTipoServico() {
+      const onlySocial = tipoServicoSelect?.value === "Social";
+      const radioSim = form.querySelector('input[name="gestao_trafego_ativa"][value="Sim"]');
+      const radioNao = form.querySelector('input[name="gestao_trafego_ativa"][value="Não"]');
+
+      if (onlySocial) {
+        if (radioNao) radioNao.checked = true;
+        if (radioSim) radioSim.checked = false;
+      }
+
+      gestaoRadios.forEach((radio) => {
+        radio.disabled = onlySocial;
+      });
+
+      plataformaCheckboxes.forEach((cb) => {
+        cb.disabled = onlySocial;
+        if (onlySocial) cb.checked = false;
+      });
+
+      if (orcamentoInput) {
+        orcamentoInput.disabled = onlySocial;
+        if (onlySocial) orcamentoInput.value = "";
+      }
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      setStatus("", "");
+
+      if (!form.reportValidity()) {
+        setStatus("Por favor, preencha os campos obrigatórios.", "error");
+        return;
+      }
+
+      submitBtn.disabled = true;
+      setStatus("Enviando cadastro...", "muted");
+
+      syncTipoServico();
+
+      const formData = new FormData(form);
+
+      // Campos especiais
+      formData.set("gestao_trafego_ativa", getGestaoAtiva());
+      formData.set("plataformas_trafego", getPlataformasSelecionadas());
+
+      // Monta payload com todos os campos (inclui opcionais vazios)
+      const payload = {};
+      for (const [key, value] of formData.entries()) {
+        payload[key] = value.trim();
+      }
+
+      try {
+        const resp = await fetch(ENDPOINT_URL, {
+          method: "POST",
+          headers: {
+            // text/plain evita preflight OPTIONS no Apps Script
+            "Content-Type": "text/plain;charset=utf-8",
+          },
+          body: JSON.stringify(payload),
+        });
+
+        const respText = await resp.text();
+        let data = {};
+        try {
+          data = JSON.parse(respText);
+        } catch (err) {
+          // mantém data como objeto vazio
+        }
+
+        if (resp.ok && data?.success) {
+          setStatus("Cadastro enviado com sucesso", "success");
+          form.reset();
+        } else {
+          const detail = data?.message || respText || `HTTP ${resp.status}`;
+          throw new Error(detail);
+        }
+      } catch (error) {
+        console.error("Erro ao enviar cadastro:", error);
+        setStatus(`Erro ao enviar cadastro. Detalhe: ${error.message || "ver console"}`, "error");
+      } finally {
+        submitBtn.disabled = false;
+      }
+    });
+
+    function handleBackToTop() {
+      if (!backToTop) return;
+      const show = window.scrollY > 220;
+      backToTop.classList.toggle("visible", show);
+    }
+
+    window.addEventListener("scroll", handleBackToTop, { passive: true });
+    backToTop?.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    handleBackToTop();
+  </script>
+</body>
+
+</html>

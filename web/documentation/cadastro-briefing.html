@@ -1,0 +1,1911 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Briefing de Job – Eleven CM</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Formulário para registrar briefings de job na Eleven CM, integrado ao Apps Script e Google Sheets." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fbfcfe;
+      --panel: #ffffff;
+      --panel-2: #f7f9fc;
+      --border: #e4e8f0;
+      --muted: #5f6b7a;
+      --text: #1f2a3d;
+      --brand: #febe01;
+      --brand-strong: #d9a700;
+      --error: #c2414b;
+      --success: #15803d;
+      --shadow: 0 20px 55px rgba(26, 54, 93, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(circle at 10% 20%, rgba(254, 190, 1, 0.14), transparent 28%),
+        radial-gradient(circle at 90% 0%, rgba(26, 54, 93, 0.08), transparent 26%),
+        var(--bg);
+      font-family: "Raleway", system-ui, -apple-system, sans-serif;
+      color: var(--text);
+      padding: 32px 16px 56px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1140px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    header h1 {
+      margin: 0 0 12px;
+      letter-spacing: -0.02em;
+    }
+
+    header p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 760px;
+      margin-inline: auto;
+      line-height: 1.6;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 26px;
+      box-shadow: var(--shadow);
+      margin-bottom: 22px;
+    }
+
+    .card h2 {
+      margin: 0 0 16px;
+      font-size: 1.12rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card h2::before {
+      content: "";
+      width: 8px;
+      height: 26px;
+      border-radius: 10px;
+      background: linear-gradient(180deg, var(--brand), #ffd65b);
+    }
+
+    .grid {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+
+    .grid-1 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    .grid-2 {
+      display: grid;
+      gap: 16px 18px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .grid-2-fixed {
+      display: grid;
+      gap: 16px 18px;
+      grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+    }
+
+    .grid-3 {
+      display: grid;
+      gap: 16px 18px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .sm-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(240px, 1fr));
+      gap: 14px 18px;
+      align-items: start;
+    }
+
+    .sm-campaign {
+      margin-top: 12px;
+      padding: 12px 0 4px;
+      display: grid;
+      gap: 12px 0;
+    }
+
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    label span {
+      color: var(--muted);
+      font-weight: 400;
+      font-size: 0.9rem;
+    }
+
+    #label_canal_midias {
+      margin-top: 12px;
+      display: inline-block;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    input[type="url"],
+    input[type="date"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 11px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--panel-2);
+      color: var(--text);
+      font: inherit;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: rgba(254, 190, 1, 0.7);
+      box-shadow: 0 0 0 3px rgba(254, 190, 1, 0.12);
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .checkbox-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 10px;
+      background: #eef3f9;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      user-select: none;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .checkbox-chip input {
+      accent-color: var(--brand);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(254, 190, 1, 0.14);
+      border: 1px solid rgba(254, 190, 1, 0.3);
+      color: #0d1a2d;
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-weight: 600;
+      margin: 0 0 12px;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 10px 0;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .mt-12 {
+      margin-top: 12px;
+    }
+
+    .actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+      margin-top: 12px;
+    }
+
+    .actions button[type="submit"] {
+      background: linear-gradient(135deg, rgba(254, 190, 1, 0.18), rgba(254, 190, 1, 0.08));
+      color: var(--text);
+      border: 1px solid rgba(254, 190, 1, 0.45);
+      border-radius: 10px;
+      padding: 16px 28px;
+      font-weight: 800;
+      font-size: 1.05rem;
+      cursor: pointer;
+      transition: transform 0.12s ease, box-shadow 0.15s ease, opacity 0.15s ease, background 0.15s ease;
+      min-width: 240px;
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .actions button[type="submit"]:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .actions button[type="submit"]:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 30px rgba(26, 54, 93, 0.12);
+      background: linear-gradient(135deg, rgba(254, 190, 1, 0.22), rgba(254, 190, 1, 0.12));
+    }
+
+    .status {
+      margin: 6px 0 0;
+      font-weight: 600;
+      min-height: 18px;
+      text-align: center;
+    }
+
+    .status.success {
+      color: var(--success);
+    }
+
+    .status.error {
+      color: var(--error);
+    }
+
+    .status.muted {
+      color: var(--muted);
+    }
+
+    .back-to-top {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid rgba(254, 190, 1, 0.35);
+      background: linear-gradient(145deg, #fff7db, #ffe9a3);
+      color: #0d1a2d;
+      font-weight: 700;
+      font-size: 0.9rem;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 12px 24px rgba(26, 54, 93, 0.16);
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .back-to-top.visible {
+      opacity: 1 !important;
+      transform: translateY(0) !important;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-top: 16px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .lang-switch {
+      display: inline-flex;
+      gap: 6px;
+      padding: 4px 6px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(26, 54, 93, 0.08);
+    }
+
+    .lang-switch button {
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--muted);
+      font-weight: 700;
+      padding: 6px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    @media (max-width: 720px) {
+      .back-to-top {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+      <img src="../img/logo_eleven_black.png" alt="Eleven CM" style="height:42px; width:auto;" />
+      <div class="lang-switch" role="group" aria-label="Selecionar idioma">
+        <button type="button" data-lang="pt" class="active">PT</button>
+        <button type="button" data-lang="en">ENG</button>
+      </div>
+    </div>
+
+    <header>
+      <h1 data-i18n="title">Briefing de Job</h1>
+      <p data-i18n="intro">Use este formulário para registrar qualquer demanda (social, tráfego, vídeo, site, embalagem, branding, etc.). Quanto mais completo, melhor para a Direção Estratégica, automações e bots que criam cards no Trello.</p>
+    </header>
+
+    <form id="briefingForm" novalidate>
+      <!-- Seção 1 -->
+      <div class="card" aria-labelledby="identificacao">
+        <h2 id="identificacao" data-i18n="section1">1. Identificação do Cliente e do Job</h2>
+        <div class="grid-2">
+          <div>
+            <label for="cliente_id">Cliente</label>
+            <select id="cliente_id" name="cliente_id" required>
+              <option value="">Selecione o cliente</option>
+            </select>
+          </div>
+          <div>
+            <label for="cliente_nome_display">Nome fantasia (leitura)</label>
+            <input type="text" id="cliente_nome_display" name="cliente_nome_display" placeholder="Preenchido automaticamente" readonly />
+          </div>
+          <div>
+            <label for="job_titulo">Título do job</label>
+            <input type="text" id="job_titulo" name="job_titulo" required placeholder="Campanha de Lançamento – Novo Cardápio" />
+          </div>
+          <div>
+            <label for="job_tipo">Tipo de job</label>
+            <select id="job_tipo" name="job_tipo" required>
+              <option value="">Selecione</option>
+              <option value="Social Media">Social Media</option>
+              <option value="Anúncios / Tráfego">Anúncios / Tráfego</option>
+              <option value="Vídeo">Vídeo</option>
+              <option value="Site / Landing Page">Site / Landing Page</option>
+              <option value="Embalagem / Produto">Embalagem / Produto</option>
+              <option value="Identidade Visual / Branding">Identidade Visual / Branding</option>
+              <option value="Arte Estática">Arte Estática</option>
+              <option value="Relatório">Relatório</option>
+              <option value="Consultoria / Estratégia">Consultoria / Estratégia</option>
+              <option value="Outro">Outro</option>
+            </select>
+          </div>
+          <div id="tipo_demanda_social_container" class="hidden">
+            <label for="tipo_demanda_social" id="label_tipo_demanda_social">Tipo de demanda em Social Media</label>
+            <select id="tipo_demanda_social" name="tipo_demanda_social">
+              <option value="">Selecione</option>
+              <option value="pauta_mensal_plano">Pauta mensal (plano contratado)</option>
+              <option value="campanha_especifica">Campanha específica em social</option>
+              <option value="post_avulso">Post / sequência avulsa (fora do plano)</option>
+              <option value="ajuste_correcao">Ajuste / correção em peça existente</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="grid-1">
+            <label id="label_canal_midias">Canal / Mídia principal</label>
+            <div class="checkbox-group" id="canal_midias_group">
+              <label class="checkbox-chip"><input type="checkbox" value="Instagram" /> Instagram</label>
+              <label class="checkbox-chip"><input type="checkbox" value="Facebook" /> Facebook</label>
+              <label class="checkbox-chip"><input type="checkbox" value="TikTok" /> TikTok</label>
+              <label class="checkbox-chip"><input type="checkbox" value="YouTube" /> YouTube</label>
+              <label class="checkbox-chip"><input type="checkbox" value="Google Ads / Search" /> Google Ads / Search</label>
+              <label class="checkbox-chip"><input type="checkbox" value="Meta Ads (FB/IG)" /> Meta Ads (FB/IG)</label>
+              <label class="checkbox-chip"><input type="checkbox" value="WhatsApp" /> WhatsApp</label>
+              <label class="checkbox-chip"><input type="checkbox" value="Offline / Impressos" /> Offline / Impressos</label>
+              <label class="checkbox-chip"><input type="checkbox" value="Website (institucional)" /> Website (institucional)</label>
+              <label class="checkbox-chip"><input type="checkbox" value="Landing Page" /> Landing Page</label>
+              <label class="checkbox-chip"><input type="checkbox" value="Loja Virtual / E-commerce" /> Loja Virtual / E-commerce</label>
+              <label class="checkbox-chip"><input type="checkbox" value="Outro" /> Outro</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-3 mt-12">
+          <div>
+            <label for="prazo_entrega_desejado">Prazo desejado de entrega *</label>
+            <input type="date" id="prazo_entrega_desejado" name="prazo_entrega_desejado" required />
+          </div>
+          <div>
+            <label for="prioridade">Prioridade</label>
+            <select id="prioridade" name="prioridade">
+              <option value="">Selecione</option>
+              <option value="Alta">Alta</option>
+              <option value="Média">Média</option>
+              <option value="Baixa">Baixa</option>
+            </select>
+          </div>
+          <div>
+            <label for="origem_job">Origem da demanda</label>
+            <select id="origem_job" name="origem_job">
+              <option value="">Selecione</option>
+              <option value="Solicitação do cliente">Solicitação do cliente</option>
+              <option value="Proposta interna/estratégica">Proposta interna/estratégica</option>
+              <option value="Revisão recorrente">Revisão recorrente</option>
+              <option value="Urgência / oportunidade pontual">Urgência / oportunidade pontual</option>
+            </select>
+          </div>
+          <div>
+            <label for="responsavel_job_nome">Responsável pela aprovação</label>
+            <input type="text" id="responsavel_job_nome" name="responsavel_job_nome" placeholder="Nome do aprovador" />
+          </div>
+          <div>
+            <label for="responsavel_job_email">E-mail para aprovação/envio</label>
+            <input type="email" id="responsavel_job_email" name="responsavel_job_email" placeholder="email@cliente.com" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Seção 2 -->
+      <div class="card" aria-labelledby="objetivo">
+        <h2 id="objetivo" data-i18n="section2">2. Objetivo e contexto</h2>
+        <div class="grid-2-fixed">
+          <div class="grid-1">
+            <label for="objetivo_principal">Objetivo principal deste job</label>
+            <textarea id="objetivo_principal" name="objetivo_principal" placeholder="Gerar leads para o formulário, apresentar novo posicionamento..."></textarea>
+          </div>
+          <div class="grid-1">
+            <label for="contexto_job">Contexto / histórico</label>
+            <textarea id="contexto_job" name="contexto_job" placeholder="O que já foi feito, campanhas anteriores, desafios, oportunidades."></textarea>
+          </div>
+          <div class="grid-1">
+            <label for="publico_job">Público-alvo deste job</label>
+            <textarea id="publico_job" name="publico_job" placeholder="Faixa etária, região, interesses, perfil ideal."></textarea>
+          </div>
+          <div class="grid-1">
+            <label for="links_referencias">Links / materiais de referência</label>
+            <textarea id="links_referencias" name="links_referencias" placeholder="Sites, posts, vídeos, referências de embalagem, layouts..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seção 3 -->
+      <div class="card" aria-labelledby="especificos">
+        <h2 id="especificos" data-i18n="section3">3. Campos específicos por tipo de job</h2>
+        <p class="muted" data-i18n="section3_desc">Os blocos abaixo são exibidos conforme o tipo de job. Todos os campos são enviados (vazios quando não aplicáveis).</p>
+        <div class="divider"></div>
+
+        <div class="job-section" data-job="Social Media">
+          <h3 style="margin:6px 0 12px;" data-heading="sm">3A. Social Media</h3>
+          <div class="sm-grid" id="sm-main-block">
+            <div>
+              <label for="sm_rede_principal">Rede principal</label>
+              <select id="sm_rede_principal" name="sm_rede_principal">
+                <option value="">Selecione</option>
+                <option value="Instagram">Instagram</option>
+                <option value="Facebook">Facebook</option>
+                <option value="TikTok">TikTok</option>
+                <option value="YouTube Shorts">YouTube Shorts</option>
+                <option value="LinkedIn">LinkedIn</option>
+              </select>
+            </div>
+            <div>
+              <label for="sm_qtd_pecas">Quantidade de peças previstas</label>
+              <input type="number" id="sm_qtd_pecas" name="sm_qtd_pecas" />
+            </div>
+            <div>
+              <label for="sm_legenda_completa">Precisa de texto/legenda completa?</label>
+              <select id="sm_legenda_completa" name="sm_legenda_completa">
+                <option value="">Selecione</option>
+                <option value="Sim">Sim</option>
+                <option value="Não">Não</option>
+              </select>
+            </div>
+
+            <div class="checkbox-group" id="sm_formato_group" aria-label="Formatos (seleção múltipla)" style="grid-column: 1 / -1; display:grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px 12px; align-items:start;">
+              <label style="grid-column: 1 / -1; margin: 0 0 4px 0; font-weight: 600;">Formatos (seleção múltipla)</label>
+              <label class="checkbox-chip"><input type="checkbox" value="Post Feed" /> Post Feed</label>
+              <label class="checkbox-chip"><input type="checkbox" value="Carrossel" /> Carrossel</label>
+              <label class="checkbox-chip"><input type="checkbox" value="Reels" /> Reels</label>
+              <label class="checkbox-chip"><input type="checkbox" value="Story" /> Story</label>
+              <label class="checkbox-chip"><input type="checkbox" value="Shorts" /> Shorts</label>
+              <label class="checkbox-chip"><input type="checkbox" value="Banner" /> Banner</label>
+              <label class="checkbox-chip"><input type="checkbox" value="Cover" /> Cover</label>
+            </div>
+
+            <div>
+              <label for="sm_tom_voz">Tom de voz da legenda</label>
+              <textarea id="sm_tom_voz" name="sm_tom_voz" placeholder="Irreverente porém elegante, bilíngue PT/EN"></textarea>
+            </div>
+            <div style="grid-column: span 2;">
+              <label for="sm_cta">CTA principal</label>
+              <input type="text" id="sm_cta" name="sm_cta" placeholder="Reservar mesa, mandar WhatsApp..." />
+            </div>
+          </div>
+
+          <div id="sm-campanha-especifica" class="sm-campaign hidden" aria-label="Campos extras para campanha específica em social">
+            <div class="divider"></div>
+            <h4 style="margin: 0;" data-i18n="sm_camp_heading">Campanha específica em Social</h4>
+
+            <div class="grid-3">
+              <div>
+                <label for="sm_camp_objetivo_principal" data-i18n="sm_camp_objetivo_principal">Objetivo principal da campanha</label>
+                <select id="sm_camp_objetivo_principal" name="sm_camp_objetivo_principal">
+                  <option value="">Selecione</option>
+                  <option value="Tráfego">Tráfego</option>
+                  <option value="Conversão">Conversão</option>
+                  <option value="Leads">Leads</option>
+                  <option value="Alcance">Alcance</option>
+                  <option value="Engajamento">Engajamento</option>
+                  <option value="Outro">Outro</option>
+                </select>
+              </div>
+              <div>
+                <label for="sm_camp_periodo_inicio" data-i18n="sm_camp_periodo_inicio">Período previsto (início)</label>
+                <input type="date" id="sm_camp_periodo_inicio" name="sm_camp_periodo_inicio" />
+              </div>
+              <div>
+                <label for="sm_camp_periodo_fim" data-i18n="sm_camp_periodo_fim">Período previsto (fim)</label>
+                <input type="date" id="sm_camp_periodo_fim" name="sm_camp_periodo_fim" />
+              </div>
+              <div style="grid-column: 1 / -1;">
+                <label data-i18n="sm_camp_plataformas">Plataformas</label>
+                <p class="muted" style="margin: 4px 0 0;" data-i18n="sm_camp_plataformas_note">
+                  Usa a seleção de “Canal / Mídia principal” acima (evita repetir).
+                </p>
+              </div>
+            </div>
+
+            <h4 style="margin: 8px 0 4px;" data-i18n="sm_camp_h1">1. Objetivos de negócio</h4>
+            <div class="checkbox-group" id="sm_camp_meta_group" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px;">
+              <label class="checkbox-chip"><input type="checkbox" value="ROAS" /> ROAS</label>
+              <label class="checkbox-chip"><input type="checkbox" value="CPL" /> CPL</label>
+              <label class="checkbox-chip"><input type="checkbox" value="CPA" /> CPA</label>
+              <label class="checkbox-chip"><input type="checkbox" value="CTR" /> CTR</label>
+              <label class="checkbox-chip"><input type="checkbox" value="Outro" /> Outro</label>
+            </div>
+            <div class="grid-1" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 12px; margin-top: 8px;">
+              <div>
+                <label for="sm_camp_pagina_destino" data-i18n="sm_camp_pagina_destino">Página de destino (URL)</label>
+                <input type="url" id="sm_camp_pagina_destino" name="sm_camp_pagina_destino" placeholder="Deixe em branco se não houver" />
+              </div>
+            </div>
+
+            <h4 style="margin: 8px 0 4px;" data-i18n="sm_camp_h2">2. Segmentações</h4>
+            <div class="grid-2">
+              <div class="grid-1" style="grid-column: 1 / -1;">
+                <label for="sm_camp_segmentacoes" data-i18n="sm_camp_segmentacoes">Segmentações / interesses / palavras-chave</label>
+                <textarea id="sm_camp_segmentacoes" name="sm_camp_segmentacoes"></textarea>
+              </div>
+              <div class="grid-1" style="grid-column: 1 / -1;">
+                <label for="sm_camp_localizacao" data-i18n="sm_camp_localizacao">Localização geográfica</label>
+                <textarea id="sm_camp_localizacao" name="sm_camp_localizacao"></textarea>
+              </div>
+            </div>
+
+            <h4 style="margin: 8px 0 4px;" data-i18n="sm_camp_h3">3. Orçamento e investimento</h4>
+            <div class="grid-3">
+              <div>
+                <label for="sm_camp_orcamento_total" data-i18n="sm_camp_orcamento_total">Orçamento total (USD)</label>
+                <input type="number" id="sm_camp_orcamento_total" name="sm_camp_orcamento_total" />
+              </div>
+              <div>
+                <label for="sm_camp_orcamento_diario" data-i18n="sm_camp_orcamento_diario">Orçamento diário (se aplicável)</label>
+                <input type="number" id="sm_camp_orcamento_diario" name="sm_camp_orcamento_diario" />
+              </div>
+              <div class="grid-1" style="grid-column: 1 / -1;">
+                <label for="sm_camp_observacoes_orcamento" data-i18n="sm_camp_observacoes_orcamento">Observações sobre limites, testes e otimizações</label>
+                <textarea id="sm_camp_observacoes_orcamento" name="sm_camp_observacoes_orcamento"></textarea>
+              </div>
+            </div>
+
+            <h4 style="margin: 8px 0 4px;" data-i18n="sm_camp_h4">4. Criativos</h4>
+            <div class="grid-3">
+              <div class="grid-1" style="grid-column: 1 / -1;">
+                <label for="sm_camp_formatos_necessarios" data-i18n="sm_camp_formatos_necessarios">Formatos necessários (imagem, vídeo, carrossel, stories, etc.)</label>
+                <textarea id="sm_camp_formatos_necessarios" name="sm_camp_formatos_necessarios"></textarea>
+              </div>
+              <div>
+                <label for="sm_camp_mensagem_principal" data-i18n="sm_camp_mensagem_principal">Mensagem principal</label>
+                <input type="text" id="sm_camp_mensagem_principal" name="sm_camp_mensagem_principal" />
+              </div>
+              <div>
+                <label for="sm_camp_ofertas_beneficios" data-i18n="sm_camp_ofertas_beneficios">Ofertas / benefícios a destacar</label>
+                <input type="text" id="sm_camp_ofertas_beneficios" name="sm_camp_ofertas_beneficios" />
+              </div>
+              <div>
+                <label for="sm_camp_cta_sugerido" data-i18n="sm_camp_cta_sugerido">CTA sugerido</label>
+                <input type="text" id="sm_camp_cta_sugerido" name="sm_camp_cta_sugerido" />
+              </div>
+            </div>
+
+            <h4 style="margin: 8px 0 4px;" data-i18n="sm_camp_h5">5. Entregáveis</h4>
+            <div class="checkbox-group" id="sm_camp_entregaveis_group" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 8px;">
+              <label class="checkbox-chip"><input type="checkbox" value="Pacote de criativos aprovado" /> Pacote de criativos aprovado</label>
+              <label class="checkbox-chip"><input type="checkbox" value="Campanha configurada nas plataformas" /> Campanha configurada nas plataformas</label>
+              <label class="checkbox-chip"><input type="checkbox" value="Testes A/B configurados" /> Testes A/B configurados (se houver)</label>
+              <label class="checkbox-chip"><input type="checkbox" value="Relatório inicial de performance" /> Relatório inicial de performance (7 a 10 dias)</label>
+              <label class="checkbox-chip"><input type="checkbox" value="Ajustes pós-primeira fase" /> Ajustes pós-primeira fase (otimização)</label>
+            </div>
+
+            <h4 style="margin: 8px 0 4px;" data-i18n="sm_camp_h6">6. Observações gerais</h4>
+            <div class="grid-2">
+              <div class="grid-1">
+                <label for="sm_camp_observacoes_gerais" data-i18n="sm_camp_observacoes_gerais">Restrições, políticas do cliente ou termos proibidos</label>
+                <textarea id="sm_camp_observacoes_gerais" name="sm_camp_observacoes_gerais"></textarea>
+              </div>
+              <div class="grid-1">
+                <label for="sm_camp_referencias" data-i18n="sm_camp_referencias">Referências de campanhas anteriores</label>
+                <textarea id="sm_camp_referencias" name="sm_camp_referencias"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="job-section" data-job="Anúncios / Tráfego">
+          <h3 style="margin:6px 0 12px;" data-heading="ads">3B. Anúncios / Tráfego</h3>
+          <div class="grid-3">
+            <div>
+              <label for="ads_objetivo">Objetivo da campanha de anúncios</label>
+              <select id="ads_objetivo" name="ads_objetivo">
+                <option value="">Selecione</option>
+                <option value="Tráfego pro site">Tráfego pro site</option>
+                <option value="Geração de leads">Geração de leads</option>
+                <option value="Mensagens no WhatsApp">Mensagens no WhatsApp</option>
+                <option value="Conversão em e-commerce">Conversão em e-commerce</option>
+                <option value="Alcance / Branding">Alcance / Branding</option>
+                <option value="Outro">Outro</option>
+              </select>
+            </div>
+            <div>
+              <label>Plataformas de tráfego</label>
+              <div class="checkbox-group" id="ads_plataformas_group">
+                <label class="checkbox-chip"><input type="checkbox" value="Meta Ads (FB/IG)" /> Meta Ads (FB/IG)</label>
+                <label class="checkbox-chip"><input type="checkbox" value="Google Ads" /> Google Ads</label>
+                <label class="checkbox-chip"><input type="checkbox" value="TikTok Ads" /> TikTok Ads</label>
+                <label class="checkbox-chip"><input type="checkbox" value="LinkedIn Ads" /> LinkedIn Ads</label>
+                <label class="checkbox-chip"><input type="checkbox" value="YouTube Ads" /> YouTube Ads</label>
+                <label class="checkbox-chip"><input type="checkbox" value="Outro" /> Outro</label>
+              </div>
+            </div>
+            <div>
+              <label for="ads_orcamento">Orçamento estimado de mídia (USD)</label>
+              <input type="number" id="ads_orcamento" name="ads_orcamento" />
+            </div>
+            <div>
+              <label for="ads_periodo">Período planejado da campanha</label>
+              <input type="text" id="ads_periodo" name="ads_periodo" placeholder="Data início/fim ou janelas" />
+            </div>
+            <div class="grid-1">
+              <label for="ads_oferta_principal">Oferta / produto principal do anúncio</label>
+              <textarea id="ads_oferta_principal" name="ads_oferta_principal"></textarea>
+            </div>
+            <div class="grid-1">
+              <label for="ads_publico_segmentacao">Público / segmentação desejada</label>
+              <textarea id="ads_publico_segmentacao" name="ads_publico_segmentacao"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="job-section" data-job="Vídeo">
+          <h3 style="margin:6px 0 12px;" data-heading="video">3C. Vídeo</h3>
+          <div class="grid-3">
+            <div>
+              <label for="video_tipo">Tipo de vídeo</label>
+              <select id="video_tipo" name="video_tipo">
+                <option value="">Selecione</option>
+                <option value="Institucional">Institucional</option>
+                <option value="Reels / Shorts">Reels / Shorts</option>
+                <option value="Corte de podcast">Corte de podcast</option>
+                <option value="VT / Comercial">VT / Comercial</option>
+                <option value="Tutorial / Aula">Tutorial / Aula</option>
+                <option value="Depoimento / Case">Depoimento / Case</option>
+                <option value="Outro">Outro</option>
+              </select>
+            </div>
+            <div>
+              <label for="video_duracao">Duração aproximada</label>
+              <input type="text" id="video_duracao" name="video_duracao" placeholder="60s, 3min, 10min" />
+            </div>
+            <div>
+              <label for="video_formato">Formato</label>
+              <select id="video_formato" name="video_formato">
+                <option value="">Selecione</option>
+                <option value="Vertical (9:16)">Vertical (9:16)</option>
+                <option value="Quadrado (1:1)">Quadrado (1:1)</option>
+                <option value="Horizontal (16:9)">Horizontal (16:9)</option>
+                <option value="Outro">Outro</option>
+              </select>
+            </div>
+            <div>
+              <label for="video_tipo_trabalho">Tipo de trabalho</label>
+              <select id="video_tipo_trabalho" name="video_tipo_trabalho">
+                <option value="">Selecione</option>
+                <option value="Captação + edição">Captação + edição</option>
+                <option value="Somente edição com material enviado">Somente edição com material enviado</option>
+                <option value="Motion / animação">Motion / animação</option>
+              </select>
+            </div>
+            <div class="grid-1">
+              <label for="video_materiais_disponiveis">Material disponível</label>
+              <textarea id="video_materiais_disponiveis" name="video_materiais_disponiveis" placeholder="Links de pasta, drive, etc."></textarea>
+            </div>
+            <div>
+              <label for="video_local">Local de gravação (se houver)</label>
+              <input type="text" id="video_local" name="video_local" />
+            </div>
+          </div>
+        </div>
+
+        <div class="job-section" data-job="Site / Landing Page">
+          <h3 style="margin:6px 0 12px;" data-heading="site">3D. Site / Landing Page</h3>
+          <div class="grid-3">
+            <div>
+              <label for="site_tipo">Tipo de projeto</label>
+              <select id="site_tipo" name="site_tipo">
+                <option value="">Selecione</option>
+                <option value="Website institucional">Website institucional</option>
+                <option value="Landing Page">Landing Page</option>
+                <option value="Loja virtual / E-commerce">Loja virtual / E-commerce</option>
+                <option value="Hotsite / campanha">Hotsite / campanha</option>
+                <option value="Outro">Outro</option>
+              </select>
+            </div>
+            <div>
+              <label for="site_dominio">Domínio (se já existir)</label>
+              <input type="text" id="site_dominio" name="site_dominio" placeholder="meusite.com" />
+            </div>
+            <div class="grid-1">
+              <label for="site_objetivo">Objetivo principal do site</label>
+              <textarea id="site_objetivo" name="site_objetivo"></textarea>
+            </div>
+            <div class="grid-1">
+              <label for="site_paginas">Estrutura / páginas necessárias</label>
+              <textarea id="site_paginas" name="site_paginas" placeholder="Home, Sobre, Serviços, Portfólio, Contato, Blog..."></textarea>
+            </div>
+            <div>
+              <label for="site_responsavel_conteudo">Quem fornece os textos?</label>
+              <select id="site_responsavel_conteudo" name="site_responsavel_conteudo">
+                <option value="">Selecione</option>
+                <option value="Cliente">Cliente</option>
+                <option value="Eleven CM">Eleven CM</option>
+                <option value="Misto">Misto</option>
+              </select>
+            </div>
+            <div class="grid-1">
+              <label for="site_funcionalidades">Funcionalidades e integrações</label>
+              <textarea id="site_funcionalidades" name="site_funcionalidades" placeholder="Formulários, WhatsApp, integração e-mail marketing, área de membros, etc."></textarea>
+            </div>
+            <div>
+              <label for="site_identidade_visual_link">Link da identidade visual / manual</label>
+              <input type="url" id="site_identidade_visual_link" name="site_identidade_visual_link" placeholder="https://drive.google.com/..." />
+            </div>
+          </div>
+        </div>
+
+        <div class="job-section" data-job="Embalagem / Produto">
+          <h3 style="margin:6px 0 12px;" data-heading="pack">3E. Embalagem / Produto</h3>
+          <div class="grid-3">
+            <div>
+              <label for="pack_produto">Produto / linha</label>
+              <input type="text" id="pack_produto" name="pack_produto" />
+            </div>
+            <div>
+              <label for="pack_tipo">Tipo de peça</label>
+              <select id="pack_tipo" name="pack_tipo">
+                <option value="">Selecione</option>
+                <option value="Caixa">Caixa</option>
+                <option value="Rótulo">Rótulo</option>
+                <option value="Sleeve">Sleeve</option>
+                <option value="Adesivo">Adesivo</option>
+                <option value="Sacola">Sacola</option>
+                <option value="Display PDV">Display PDV</option>
+                <option value="Outro">Outro</option>
+              </select>
+            </div>
+            <div class="grid-1">
+              <label for="pack_dimensoes">Dimensões / dieline</label>
+              <textarea id="pack_dimensoes" name="pack_dimensoes" placeholder="Descreva ou cole link para a dieline."></textarea>
+            </div>
+            <div class="grid-1">
+              <label for="pack_info_obrigatoria">Informações obrigatórias</label>
+              <textarea id="pack_info_obrigatoria" name="pack_info_obrigatoria" placeholder="Ingredientes, tabela nutricional, selo, lote/validade..."></textarea>
+            </div>
+            <div class="grid-1">
+              <label for="pack_restricoes_legais">Restrições legais / regulatórias</label>
+              <textarea id="pack_restricoes_legais" name="pack_restricoes_legais"></textarea>
+            </div>
+            <div class="grid-1">
+              <label for="pack_referencias">Links de referência visual</label>
+              <textarea id="pack_referencias" name="pack_referencias"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="job-section" data-job="Identidade Visual / Branding">
+          <h3 style="margin:6px 0 12px;" data-heading="brand">3F. Identidade Visual / Branding</h3>
+          <div class="grid-2">
+            <div class="grid-1">
+              <label for="brand_situacao_atual">Situação atual da marca</label>
+              <textarea id="brand_situacao_atual" name="brand_situacao_atual"></textarea>
+            </div>
+            <div>
+              <label>Entregáveis desejados</label>
+              <div class="checkbox-group" id="brand_entregaveis_group">
+                <label class="checkbox-chip"><input type="checkbox" value="Logotipo" /> Logotipo</label>
+                <label class="checkbox-chip"><input type="checkbox" value="Paleta de cores" /> Paleta de cores</label>
+                <label class="checkbox-chip"><input type="checkbox" value="Tipografias" /> Tipografias</label>
+                <label class="checkbox-chip"><input type="checkbox" value="Manual de marca" /> Manual de marca</label>
+                <label class="checkbox-chip"><input type="checkbox" value="Templates de redes sociais" /> Templates de redes sociais</label>
+                <label class="checkbox-chip"><input type="checkbox" value="Papelaria básica" /> Papelaria básica</label>
+                <label class="checkbox-chip"><input type="checkbox" value="Outro" /> Outro</label>
+              </div>
+            </div>
+            <div class="grid-1">
+              <label for="brand_palavras_chave">Palavras-chave da marca</label>
+              <textarea id="brand_palavras_chave" name="brand_palavras_chave" placeholder="Sofisticado, acessível, tech, divertido..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="job-section" data-job="Consultoria / Estratégia" data-job-alt="Outro">
+          <h3 style="margin:6px 0 12px;" data-heading="consultoria">3G. Consultoria / Estratégia / Outros</h3>
+          <div class="grid-1">
+            <label for="job_descricao_livre">Descreva o job em detalhes</label>
+            <textarea id="job_descricao_livre" name="job_descricao_livre"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seção 4 -->
+      <div class="card" aria-labelledby="arquivos">
+        <h2 id="arquivos" data-i18n="section4">4. Arquivos e observações finais</h2>
+        <div class="grid-2">
+          <div class="grid-1">
+            <label for="links_arquivos">Links de arquivos (Drive, WeTransfer, FTP, etc.)</label>
+            <textarea id="links_arquivos" name="links_arquivos"></textarea>
+          </div>
+          <div class="grid-1">
+            <label for="observacoes_gerais_job">Observações gerais / restrições</label>
+            <textarea id="observacoes_gerais_job" name="observacoes_gerais_job"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <div id="status" class="status" role="status" aria-live="polite"></div>
+        <button type="submit" id="submitBtn" data-i18n="submit">Enviar briefing</button>
+      </div>
+    </form>
+
+    <footer>Eleven CM — Briefing de job · 2025.</footer>
+  </div>
+  <button type="button" class="back-to-top" aria-label="Voltar ao topo">↑</button>
+
+  <script>
+    const ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbzix5fHMp_bu9qRILNypw_Zl3d6wwYQ2N_ihUVG3sm-JfHXOeN0cA1_dMHMTaxkOGHQ1g/exec";
+
+    const form = document.getElementById("briefingForm");
+    const statusEl = document.getElementById("status");
+    const submitBtn = document.getElementById("submitBtn");
+    const jobTipoSelect = document.getElementById("job_tipo");
+    const tipoDemandaSocialSelect = document.getElementById("tipo_demanda_social");
+    const tipoDemandaSocialContainer = document.getElementById("tipo_demanda_social_container");
+    const clienteSelect = document.getElementById("cliente_id");
+    const clienteNomeDisplay = document.getElementById("cliente_nome_display");
+    const jobTituloInput = document.getElementById("job_titulo");
+    const prazoEntregaInput = document.getElementById("prazo_entrega_desejado");
+    const responsavelJobNome = document.getElementById("responsavel_job_nome");
+    const origemJobSelect = document.getElementById("origem_job");
+    const linksArquivos = document.getElementById("links_arquivos");
+    const observacoesGeraisJob = document.getElementById("observacoes_gerais_job");
+    const backToTop = document.querySelector(".back-to-top");
+    const langButtons = document.querySelectorAll(".lang-switch button");
+
+    const copy = {
+      pt: {
+        title: "Briefing de Job",
+        intro: "Use este formulário para registrar qualquer demanda (social, tráfego, vídeo, site, embalagem, branding, etc.). Quanto mais completo, melhor para a Direção Estratégica, automações e bots que criam cards no Trello.",
+        section1: "1. Identificação do Cliente e do Job",
+        section2: "2. Objetivo e contexto",
+        section3: "3. Campos específicos por tipo de job",
+        section3_desc: "Os blocos abaixo são exibidos conforme o tipo de job. Todos os campos são enviados (vazios quando não aplicáveis).",
+        section4: "4. Arquivos e observações finais",
+        submit: "Enviar briefing",
+        required: "Por favor, preencha os campos obrigatórios.",
+        sending: "Enviando briefing...",
+        success: "Briefing recebido com sucesso!",
+        fail: "Não foi possível enviar.",
+        sm_camp_heading: "Campanha específica em Social",
+        sm_camp_plataformas_note: "Usa a seleção de “Canal / Mídia principal” acima (evita repetir).",
+        sm_camp_h1: "1. Objetivos de negócio",
+        sm_camp_h2: "2. Segmentações",
+        sm_camp_h3: "3. Orçamento e investimento",
+        sm_camp_h4: "4. Criativos",
+        sm_camp_h5: "5. Entregáveis",
+        sm_camp_h6: "6. Observações gerais",
+      },
+      en: {
+        title: "Job Briefing",
+        intro: "Use this form to register any request (social, traffic, video, website, packaging, branding, etc.). The more complete, the better for Strategic Direction, automations, and bots that create Trello cards.",
+        section1: "1. Client and Job Identification",
+        section2: "2. Objective and context",
+        section3: "3. Specific fields by job type",
+        section3_desc: "Blocks below show/hide based on job type. All fields are sent (empty when not applicable).",
+        section4: "4. Files and final notes",
+        submit: "Submit briefing",
+        required: "Please fill in the required fields.",
+        sending: "Sending briefing...",
+        success: "Briefing received successfully!",
+        fail: "Unable to submit.",
+        sm_camp_heading: "Specific campaign in Social",
+        sm_camp_plataformas_note: "Uses the “Primary channel / media” selection above (avoids repetition).",
+        sm_camp_h1: "1. Business objectives",
+        sm_camp_h2: "2. Segmentation",
+        sm_camp_h3: "3. Budget and investment",
+        sm_camp_h4: "4. Creatives",
+        sm_camp_h5: "5. Deliverables",
+        sm_camp_h6: "6. General notes",
+      },
+    };
+
+    function setLabelText(labelKey, text) {
+      const byFor = document.querySelector(`label[for="${labelKey}"]`);
+      if (byFor) {
+        if (byFor.firstChild) byFor.firstChild.textContent = text;
+        else byFor.textContent = text;
+        return;
+      }
+      const byData = document.querySelector(`label[data-i18n-label="${labelKey}"]`);
+      if (byData) {
+        byData.textContent = text;
+        return;
+      }
+      const byId = document.getElementById(labelKey);
+      if (byId && byId.tagName === "LABEL") {
+        byId.textContent = text;
+      }
+    }
+
+    function translateLabels(lang) {
+      const dict = labelTexts[lang] || labelTexts.pt;
+      Object.entries(dict).forEach(([key, text]) => setLabelText(key, text));
+    }
+
+    function translateHeadings(lang) {
+      const dict = headingTexts[lang] || headingTexts.pt;
+      document.querySelectorAll("[data-heading]").forEach((el) => {
+        const key = el.dataset.heading;
+        if (dict[key]) el.textContent = dict[key];
+      });
+    }
+
+    function translatePlaceholders(lang) {
+      const dict = placeholders[lang] || placeholders.pt;
+      Object.entries(dict).forEach(([id, text]) => {
+        const field = document.getElementById(id);
+        if (field) field.placeholder = text;
+      });
+    }
+
+    function translateSelectOptions(lang) {
+      const textDict = optionText[lang] || optionText.pt;
+      Object.entries(selectOptionKeys).forEach(([selectId, valueMap]) => {
+        const select = document.getElementById(selectId);
+        if (!select) return;
+        Array.from(select.options).forEach((opt) => {
+          const key = valueMap[opt.value];
+          if (key && textDict[key]) opt.textContent = textDict[key];
+        });
+      });
+    }
+
+    function translateCheckboxes(lang) {
+      const textDict = optionText[lang] || optionText.pt;
+      Object.entries(checkboxOptionKeys).forEach(([groupId, valueMap]) => {
+        const group = document.getElementById(groupId);
+        if (!group) return;
+        group.querySelectorAll("label.checkbox-chip").forEach((label) => {
+          const input = label.querySelector("input[type='checkbox']");
+          if (!input) return;
+          const key = valueMap[input.value];
+          if (!key || !textDict[key]) return;
+          const textNode = Array.from(label.childNodes).find((n) => n.nodeType === Node.TEXT_NODE);
+          if (textNode) {
+            textNode.textContent = ` ${textDict[key]}`;
+          } else {
+            label.append(document.createTextNode(` ${textDict[key]}`));
+          }
+        });
+      });
+    }
+
+    const allowedDuringPauta = new Set([
+      "tipo_demanda_social",
+      "job_tipo",
+      "cliente_id",
+      "cliente_nome_display",
+      "job_titulo",
+      "prazo_entrega_desejado",
+      "links_arquivos",
+      "observacoes_gerais_job",
+      "responsavel_job_nome",
+      "origem_job",
+    ]);
+
+    function syncPautaMensalLock() {
+      const isPautaMensal =
+        jobTipoSelect?.value === "Social Media" && tipoDemandaSocialSelect?.value === "pauta_mensal_plano";
+
+      const allControls = form.querySelectorAll("input, select, textarea");
+      allControls.forEach((el) => {
+        const id = el.id;
+        if (allowedDuringPauta.has(id)) return;
+
+        if (isPautaMensal) {
+          if (!el.disabled) el.dataset.lockedByPauta = "1";
+          el.disabled = true;
+        } else if (el.dataset.lockedByPauta === "1") {
+          el.disabled = false;
+          delete el.dataset.lockedByPauta;
+        }
+      });
+
+      if (isPautaMensal) {
+        if (responsavelJobNome) {
+          responsavelJobNome.value = "Levi";
+          responsavelJobNome.readOnly = true;
+          responsavelJobNome.dataset.lockedByPauta = "1";
+        }
+        if (origemJobSelect) {
+          origemJobSelect.value = "Proposta interna/estratégica";
+          origemJobSelect.disabled = true;
+          origemJobSelect.dataset.lockedByPauta = "1";
+        }
+        if (jobTituloInput) {
+          jobTituloInput.value = "Pauta do Mês";
+          jobTituloInput.readOnly = true;
+          jobTituloInput.dataset.lockedByPauta = "1";
+        }
+      } else {
+        if (responsavelJobNome?.dataset.lockedByPauta === "1") {
+          responsavelJobNome.readOnly = false;
+          delete responsavelJobNome.dataset.lockedByPauta;
+        }
+        if (origemJobSelect?.dataset.lockedByPauta === "1") {
+          origemJobSelect.disabled = false;
+          delete origemJobSelect.dataset.lockedByPauta;
+        }
+        if (jobTituloInput?.dataset.lockedByPauta === "1") {
+          jobTituloInput.readOnly = false;
+          delete jobTituloInput.dataset.lockedByPauta;
+        }
+      }
+    }
+
+    function syncCampanhaEspecifica() {
+      const container = document.getElementById("sm-campanha-especifica");
+      const mainBlock = document.getElementById("sm-main-block");
+      if (!container) return;
+      const isSocial = jobTipoSelect?.value === "Social Media";
+      const isCampanha = tipoDemandaSocialSelect?.value === "campanha_especifica";
+      container.classList.toggle("hidden", !(isSocial && isCampanha));
+      if (mainBlock) {
+        mainBlock.classList.toggle("hidden", isSocial && isCampanha);
+      }
+    }
+
+    function syncOfflineCheckbox() {
+      const offlineCb = document.querySelector('#canal_midias_group input[value="Offline / Impressos"]');
+      if (!offlineCb) return;
+      const isVideo = jobTipoSelect?.value === "Vídeo";
+      if (isVideo) {
+        offlineCb.checked = false;
+        offlineCb.disabled = true;
+      } else {
+        offlineCb.disabled = false;
+      }
+    }
+
+    const labelTexts = {
+      pt: {
+        cliente_id: "Cliente",
+        cliente_nome_display: "Nome fantasia (leitura)",
+        job_titulo: "Título do job",
+        job_tipo: "Tipo de job",
+        label_canal_midias: "Canal / Mídia principal",
+        prazo_entrega_desejado: "Prazo desejado de entrega",
+        prioridade: "Prioridade",
+        origem_job: "Origem da demanda",
+        responsavel_job_nome: "Responsável pela aprovação",
+        responsavel_job_email: "E-mail para aprovação/envio",
+        tipo_demanda_social: "Tipo de demanda em Social Media",
+        objetivo_principal: "Objetivo principal deste job",
+        contexto_job: "Contexto / histórico",
+        publico_job: "Público-alvo deste job",
+        links_referencias: "Links / materiais de referência",
+        sm_rede_principal: "Rede principal",
+        sm_formato: "Formatos (seleção múltipla)",
+        sm_formato_group: "Formatos (seleção múltipla)",
+        sm_qtd_pecas: "Quantidade de peças previstas",
+        sm_legenda_completa: "Precisa de texto/legenda completa?",
+        sm_tom_voz: "Tom de voz da legenda",
+        sm_cta: "CTA principal",
+        sm_camp_objetivo_principal: "Objetivo principal da campanha",
+        sm_camp_periodo_inicio: "Período previsto (início)",
+        sm_camp_periodo_fim: "Período previsto (fim)",
+        sm_camp_plataformas: "Plataformas",
+        sm_camp_meta_resultado: "Meta de resultado",
+        sm_camp_pagina_destino: "Página de destino (URL)",
+        sm_camp_segmentacoes: "Segmentações / interesses / palavras-chave",
+        sm_camp_localizacao: "Localização geográfica",
+        sm_camp_orcamento_total: "Orçamento total (USD)",
+        sm_camp_orcamento_diario: "Orçamento diário (se aplicável)",
+        sm_camp_observacoes_orcamento: "Observações sobre limites, testes e otimizações",
+        sm_camp_formatos_necessarios: "Formatos necessários (imagem, vídeo, carrossel, stories, etc.)",
+        sm_camp_mensagem_principal: "Mensagem principal",
+        sm_camp_ofertas_beneficios: "Ofertas / benefícios a destacar",
+        sm_camp_cta_sugerido: "CTA sugerido",
+        sm_camp_entregaveis: "Entregáveis",
+        sm_camp_observacoes_gerais: "Observações gerais",
+        sm_camp_referencias: "Referências de campanhas anteriores",
+        ads_objetivo: "Objetivo da campanha de anúncios",
+        ads_plataformas: "Plataformas de tráfego",
+        ads_orcamento: "Orçamento estimado de mídia (USD)",
+        ads_periodo: "Período planejado da campanha",
+        ads_oferta_principal: "Oferta / produto principal do anúncio",
+        ads_publico_segmentacao: "Público / segmentação desejada",
+        video_tipo: "Tipo de vídeo",
+        video_duracao: "Duração aproximada",
+        video_formato: "Formato",
+        video_tipo_trabalho: "Tipo de trabalho",
+        video_materiais_disponiveis: "Material disponível",
+        video_local: "Local de gravação (se houver)",
+        site_tipo: "Tipo de projeto",
+        site_dominio: "Domínio (se já existir)",
+        site_objetivo: "Objetivo principal do site",
+        site_paginas: "Estrutura / páginas necessárias",
+        site_responsavel_conteudo: "Quem fornece os textos?",
+        site_funcionalidades: "Funcionalidades e integrações",
+        site_identidade_visual_link: "Link da identidade visual / manual",
+        pack_produto: "Produto / linha",
+        pack_tipo: "Tipo de peça",
+        pack_dimensoes: "Dimensões / dieline",
+        pack_info_obrigatoria: "Informações obrigatórias",
+        pack_restricoes_legais: "Restrições legais / regulatórias",
+        pack_referencias: "Links de referência visual",
+        brand_situacao_atual: "Situação atual da marca",
+        brand_entregaveis: "Entregáveis desejados",
+        brand_palavras_chave: "Palavras-chave da marca",
+        job_descricao_livre: "Descreva o job em detalhes",
+        links_arquivos: "Links de arquivos (Drive, WeTransfer, FTP, etc.)",
+        observacoes_gerais_job: "Observações gerais / restrições",
+        sm_camp_objetivo_principal: "Objetivo principal da campanha",
+        sm_camp_periodo_inicio: "Período previsto (início)",
+        sm_camp_periodo_fim: "Período previsto (fim)",
+        sm_camp_plataformas: "Plataformas",
+        sm_camp_meta_resultado: "Meta de resultado",
+        sm_camp_pagina_destino: "Página de destino (URL)",
+        sm_camp_segmentacoes: "Segmentações / interesses / palavras-chave",
+        sm_camp_localizacao: "Localização geográfica",
+        sm_camp_orcamento_total: "Orçamento total (USD)",
+        sm_camp_orcamento_diario: "Orçamento diário (se aplicável)",
+        sm_camp_observacoes_orcamento: "Observações sobre limites, testes e otimizações",
+        sm_camp_formatos_necessarios: "Formatos necessários (imagem, vídeo, carrossel, stories, etc.)",
+        sm_camp_mensagem_principal: "Mensagem principal",
+        sm_camp_ofertas_beneficios: "Ofertas / benefícios a destacar",
+        sm_camp_cta_sugerido: "CTA sugerido",
+        sm_camp_entregaveis: "Entregáveis",
+        sm_camp_observacoes_gerais: "Observações gerais",
+        sm_camp_referencias: "Referências de campanhas anteriores",
+      },
+      en: {
+        cliente_id: "Client",
+        cliente_nome_display: "Trade name (read only)",
+        job_titulo: "Job title",
+        job_tipo: "Job type",
+        label_canal_midias: "Primary channel / media",
+        prazo_entrega_desejado: "Desired delivery date",
+        prioridade: "Priority",
+        origem_job: "Demand source",
+        responsavel_job_nome: "Approval responsible",
+        responsavel_job_email: "Email for approval/materials",
+        tipo_demanda_social: "Social Media request type",
+        objetivo_principal: "Main goal for this job",
+        contexto_job: "Context / history",
+        publico_job: "Target audience for this job",
+        links_referencias: "Links / reference materials",
+        sm_rede_principal: "Main network",
+        sm_formato: "Formats (multi-select)",
+        sm_formato_group: "Formats (multi-select)",
+        sm_qtd_pecas: "Estimated number of assets",
+        sm_legenda_completa: "Needs full caption?",
+        sm_tom_voz: "Caption tone of voice",
+        sm_cta: "Primary CTA",
+        ads_objetivo: "Ad campaign objective",
+        ads_plataformas: "Traffic platforms",
+        ads_orcamento: "Estimated media budget (USD)",
+        ads_periodo: "Planned campaign period",
+        ads_oferta_principal: "Main offer/product",
+        ads_publico_segmentacao: "Desired audience/segment",
+        video_tipo: "Video type",
+        video_duracao: "Approx. duration",
+        video_formato: "Format",
+        video_tipo_trabalho: "Type of work",
+        video_materiais_disponiveis: "Available material",
+        video_local: "Recording location (if any)",
+        site_tipo: "Project type",
+        site_dominio: "Domain (if exists)",
+        site_objetivo: "Main website objective",
+        site_paginas: "Structure / required pages",
+        site_responsavel_conteudo: "Who provides the copy?",
+        site_funcionalidades: "Features and integrations",
+        site_identidade_visual_link: "Brand guideline link",
+        pack_produto: "Product / line",
+        pack_tipo: "Type of piece",
+        pack_dimensoes: "Dimensions / dieline",
+        pack_info_obrigatoria: "Mandatory information",
+        pack_restricoes_legais: "Legal / regulatory restrictions",
+        pack_referencias: "Visual reference links",
+        brand_situacao_atual: "Brand current status",
+        brand_entregaveis: "Desired deliverables",
+        brand_palavras_chave: "Brand keywords",
+        job_descricao_livre: "Describe the job in detail",
+        links_arquivos: "File links (Drive, WeTransfer, etc.)",
+        observacoes_gerais_job: "General notes / constraints",
+        sm_camp_objetivo_principal: "Campaign main objective",
+        sm_camp_periodo_inicio: "Planned period (start)",
+        sm_camp_periodo_fim: "Planned period (end)",
+        sm_camp_plataformas: "Platforms",
+        sm_camp_meta_resultado: "Performance goal",
+        sm_camp_pagina_destino: "Landing page (URL)",
+        sm_camp_segmentacoes: "Segments / interests / keywords",
+        sm_camp_localizacao: "Geographic location",
+        sm_camp_orcamento_total: "Total budget (USD)",
+        sm_camp_orcamento_diario: "Daily budget (if applicable)",
+        sm_camp_observacoes_orcamento: "Budget notes (limits, tests, optimizations)",
+        sm_camp_formatos_necessarios: "Required formats (image, video, carousel, stories, etc.)",
+        sm_camp_mensagem_principal: "Main message",
+        sm_camp_ofertas_beneficios: "Key offers / benefits",
+        sm_camp_cta_sugerido: "Suggested CTA",
+        sm_camp_entregaveis: "Deliverables",
+        sm_camp_observacoes_gerais: "General notes",
+        sm_camp_referencias: "Reference campaigns",
+      },
+    };
+
+    const headingTexts = {
+      pt: {
+        sm: "3A. Social Media",
+        ads: "3B. Anúncios / Tráfego",
+        video: "3C. Vídeo",
+        site: "3D. Site / Landing Page",
+        pack: "3E. Embalagem / Produto",
+        brand: "3F. Identidade Visual / Branding",
+        consultoria: "3G. Consultoria / Estratégia / Outros",
+      },
+      en: {
+        sm: "3A. Social Media",
+        ads: "3B. Ads / Traffic",
+        video: "3C. Video",
+        site: "3D. Website / Landing Page",
+        pack: "3E. Packaging / Product",
+        brand: "3F. Visual Identity / Branding",
+        consultoria: "3G. Consulting / Strategy / Other",
+      },
+    };
+
+    const placeholders = {
+      pt: {
+        cliente_nome_display: "Preenchido automaticamente",
+        job_titulo: "Campanha de Lançamento – Novo Cardápio",
+        objetivo_principal: "Gerar leads para o formulário, apresentar novo posicionamento...",
+        contexto_job: "O que já foi feito, campanhas anteriores, desafios, oportunidades.",
+        publico_job: "Faixa etária, região, interesses, perfil ideal.",
+        links_referencias: "Sites, posts, vídeos, referências de embalagem, layouts...",
+        sm_tom_voz: "Irreverente porém elegante, bilíngue PT/EN",
+        sm_cta: "Reservar mesa, mandar WhatsApp...",
+        sm_camp_pagina_destino: "Deixe em branco se não houver",
+        ads_periodo: "Data início/fim ou janelas",
+        video_duracao: "60s, 3min, 10min",
+        video_materiais_disponiveis: "Links de pasta, drive, etc.",
+        site_dominio: "meusite.com",
+        site_paginas: "Home, Sobre, Serviços, Portfólio, Contato, Blog...",
+        site_funcionalidades: "Formulários, WhatsApp, integração e-mail marketing, área de membros, etc.",
+        site_identidade_visual_link: "https://drive.google.com/...",
+        pack_dimensoes: "Descreva ou cole link para a dieline.",
+        pack_info_obrigatoria: "Ingredientes, tabela nutricional, selo, lote/validade...",
+        brand_palavras_chave: "Sofisticado, acessível, tech, divertido...",
+      },
+      en: {
+        cliente_nome_display: "Auto-filled",
+        job_titulo: "Launch Campaign – New Menu",
+        objetivo_principal: "Generate leads, present new positioning...",
+        contexto_job: "What’s been done, past campaigns, challenges, opportunities.",
+        publico_job: "Age range, region, interests, ideal profile.",
+        links_referencias: "Websites, posts, videos, packaging/layout references...",
+        sm_tom_voz: "Playful yet elegant, bilingual PT/EN",
+        sm_cta: "Book a table, send WhatsApp...",
+        sm_camp_pagina_destino: "Leave blank if none",
+        ads_periodo: "Start/end dates or windows",
+        video_duracao: "60s, 3min, 10min",
+        video_materiais_disponiveis: "Folder/drive links, etc.",
+        site_dominio: "mysite.com",
+        site_paginas: "Home, About, Services, Portfolio, Contact, Blog...",
+        site_funcionalidades: "Forms, WhatsApp, email marketing integration, membership area, etc.",
+        site_identidade_visual_link: "https://drive.google.com/...",
+        pack_dimensoes: "Describe or paste dieline link.",
+        pack_info_obrigatoria: "Ingredients, nutrition facts, seal, lot/expiry...",
+        brand_palavras_chave: "Sophisticated, accessible, tech, playful...",
+      },
+    };
+
+    const optionText = {
+      pt: {
+        opt_select: "Selecione",
+        opt_select_cliente: "Selecione o cliente",
+        opt_job_social: "Social Media",
+        opt_job_ads: "Anúncios / Tráfego",
+        opt_job_video: "Vídeo",
+        opt_job_site: "Site / Landing Page",
+        opt_job_pack: "Embalagem / Produto",
+        opt_job_brand: "Identidade Visual / Branding",
+        opt_job_arte: "Arte Estática",
+        opt_job_relatorio: "Relatório",
+        opt_job_consultoria: "Consultoria / Estratégia",
+        opt_job_outro: "Outro",
+        opt_demanda_pauta: "Pauta mensal (plano contratado)",
+        opt_demanda_campanha: "Campanha específica em social",
+        opt_demanda_post: "Post / sequência avulsa (fora do plano)",
+        opt_demanda_ajuste: "Ajuste / correção em peça existente",
+        opt_prioridade_alta: "Alta",
+        opt_prioridade_media: "Média",
+        opt_prioridade_baixa: "Baixa",
+        opt_youtube: "YouTube",
+        opt_google_ads: "Google Ads / Search",
+        opt_google_ads_platform: "Google Ads",
+        opt_meta_ads: "Meta Ads (FB/IG)",
+        opt_whatsapp: "WhatsApp",
+        opt_offline: "Offline / Impressos",
+        opt_website: "Website (institucional)",
+        opt_landing: "Landing Page",
+        opt_ecommerce: "Loja Virtual / E-commerce",
+        opt_tiktok_ads: "TikTok Ads",
+        opt_linkedin_ads: "LinkedIn Ads",
+        opt_youtube_ads: "YouTube Ads",
+        opt_brand_logo: "Logotipo",
+        opt_brand_paleta: "Paleta de cores",
+        opt_brand_tipo: "Tipografias",
+        opt_brand_manual: "Manual de marca",
+        opt_brand_templates: "Templates de redes sociais",
+        opt_brand_papelaria: "Papelaria básica",
+        opt_origem_cliente: "Solicitação do cliente",
+        opt_origem_interna: "Proposta interna/estratégica",
+        opt_origem_revisao: "Revisão recorrente",
+        opt_origem_urgencia: "Urgência / oportunidade pontual",
+        opt_sm_instagram: "Instagram",
+        opt_sm_facebook: "Facebook",
+        opt_sm_tiktok: "TikTok",
+        opt_sm_shorts: "YouTube Shorts",
+        opt_sm_linkedin: "LinkedIn",
+        opt_sm_formato_post: "Post Feed",
+        opt_sm_formato_carrossel: "Carrossel",
+        opt_sm_formato_reels: "Reels",
+        opt_sm_formato_story: "Story",
+        opt_sm_formato_shorts: "Shorts",
+        opt_sm_formato_banner: "Banner",
+        opt_sm_formato_cover: "Cover",
+        opt_sim: "Sim",
+        opt_nao: "Não",
+        opt_ads_trafego: "Tráfego pro site",
+        opt_ads_leads: "Geração de leads",
+        opt_ads_whatsapp: "Mensagens no WhatsApp",
+        opt_ads_ecommerce: "Conversão em e-commerce",
+        opt_ads_alcance: "Alcance / Branding",
+        opt_ads_outro: "Outro",
+        opt_video_institucional: "Institucional",
+        opt_video_reels: "Reels / Shorts",
+        opt_video_podcast: "Corte de podcast",
+        opt_video_vt: "VT / Comercial",
+        opt_video_tutorial: "Tutorial / Aula",
+        opt_video_case: "Depoimento / Case",
+        opt_video_outro: "Outro",
+        opt_video_formato_vertical: "Vertical (9:16)",
+        opt_video_formato_quadrado: "Quadrado (1:1)",
+        opt_video_formato_horizontal: "Horizontal (16:9)",
+        opt_video_formato_outro: "Outro",
+        opt_video_trabalho_cap: "Captação + edição",
+        opt_video_trabalho_edicao: "Somente edição com material enviado",
+        opt_video_trabalho_motion: "Motion / animação",
+        opt_site_institucional: "Website institucional",
+        opt_site_lp: "Landing Page",
+        opt_site_ecommerce: "Loja virtual / E-commerce",
+        opt_site_hotsite: "Hotsite / campanha",
+        opt_site_outro: "Outro",
+        opt_site_conteudo_cliente: "Cliente",
+        opt_site_conteudo_agencia: "Eleven CM",
+        opt_site_conteudo_misto: "Misto",
+        opt_pack_caixa: "Caixa",
+        opt_pack_rotulo: "Rótulo",
+        opt_pack_sleeve: "Sleeve",
+        opt_pack_adesivo: "Adesivo",
+        opt_pack_sacola: "Sacola",
+        opt_pack_display: "Display PDV",
+        opt_pack_outro: "Outro",
+      },
+      en: {
+        opt_select: "Select",
+        opt_select_cliente: "Select the client",
+        opt_job_social: "Social Media",
+        opt_job_ads: "Ads / Traffic",
+        opt_job_video: "Video",
+        opt_job_site: "Website / Landing Page",
+        opt_job_pack: "Packaging / Product",
+        opt_job_brand: "Visual Identity / Branding",
+        opt_job_arte: "Static Artwork",
+        opt_job_relatorio: "Report",
+        opt_job_consultoria: "Consulting / Strategy",
+        opt_job_outro: "Other",
+        opt_demanda_pauta: "Monthly content (plan)",
+        opt_demanda_campanha: "Specific social campaign",
+        opt_demanda_post: "Ad-hoc post/series (outside plan)",
+        opt_demanda_ajuste: "Adjustment/fix to existing asset",
+        opt_prioridade_alta: "High",
+        opt_prioridade_media: "Medium",
+        opt_prioridade_baixa: "Low",
+        opt_youtube: "YouTube",
+        opt_google_ads: "Google Ads / Search",
+        opt_google_ads_platform: "Google Ads",
+        opt_meta_ads: "Meta Ads (FB/IG)",
+        opt_whatsapp: "WhatsApp",
+        opt_offline: "Offline / Print",
+        opt_website: "Website (corporate)",
+        opt_landing: "Landing Page",
+        opt_ecommerce: "Online Store / E-commerce",
+        opt_tiktok_ads: "TikTok Ads",
+        opt_linkedin_ads: "LinkedIn Ads",
+        opt_youtube_ads: "YouTube Ads",
+        opt_brand_logo: "Logo",
+        opt_brand_paleta: "Color palette",
+        opt_brand_tipo: "Typography",
+        opt_brand_manual: "Brand manual",
+        opt_brand_templates: "Social templates",
+        opt_brand_papelaria: "Basic stationery",
+        opt_origem_cliente: "Client request",
+        opt_origem_interna: "Internal/strategic proposal",
+        opt_origem_revisao: "Recurring review",
+        opt_origem_urgencia: "Urgent / opportunistic",
+        opt_sm_instagram: "Instagram",
+        opt_sm_facebook: "Facebook",
+        opt_sm_tiktok: "TikTok",
+        opt_sm_shorts: "YouTube Shorts",
+        opt_sm_linkedin: "LinkedIn",
+        opt_sm_formato_post: "Post Feed",
+        opt_sm_formato_carrossel: "Carousel",
+        opt_sm_formato_reels: "Reels",
+        opt_sm_formato_story: "Story",
+        opt_sm_formato_shorts: "Shorts",
+        opt_sm_formato_banner: "Banner",
+        opt_sm_formato_cover: "Cover",
+        opt_sim: "Yes",
+        opt_nao: "No",
+        opt_ads_trafego: "Website traffic",
+        opt_ads_leads: "Lead generation",
+        opt_ads_whatsapp: "WhatsApp messages",
+        opt_ads_ecommerce: "E-commerce conversion",
+        opt_ads_alcance: "Reach / Branding",
+        opt_ads_outro: "Other",
+        opt_video_institucional: "Institutional",
+        opt_video_reels: "Reels / Shorts",
+        opt_video_podcast: "Podcast clip",
+        opt_video_vt: "TV spot / Commercial",
+        opt_video_tutorial: "Tutorial / Class",
+        opt_video_case: "Testimonial / Case",
+        opt_video_outro: "Other",
+        opt_video_formato_vertical: "Vertical (9:16)",
+        opt_video_formato_quadrado: "Square (1:1)",
+        opt_video_formato_horizontal: "Horizontal (16:9)",
+        opt_video_formato_outro: "Other",
+        opt_video_trabalho_cap: "Capture + edit",
+        opt_video_trabalho_edicao: "Edit only (material provided)",
+        opt_video_trabalho_motion: "Motion / animation",
+        opt_site_institucional: "Corporate website",
+        opt_site_lp: "Landing Page",
+        opt_site_ecommerce: "Online store / E-commerce",
+        opt_site_hotsite: "Hotsite / campaign",
+        opt_site_outro: "Other",
+        opt_site_conteudo_cliente: "Client",
+        opt_site_conteudo_agencia: "Eleven CM",
+        opt_site_conteudo_misto: "Mixed",
+        opt_pack_caixa: "Box",
+        opt_pack_rotulo: "Label",
+        opt_pack_sleeve: "Sleeve",
+        opt_pack_adesivo: "Sticker",
+        opt_pack_sacola: "Bag",
+        opt_pack_display: "POS display",
+        opt_pack_outro: "Other",
+      },
+    };
+
+    const selectOptionKeys = {
+      cliente_id: {
+        "": "opt_select_cliente",
+      },
+      job_tipo: {
+        "": "opt_select",
+        "Social Media": "opt_job_social",
+        "Anúncios / Tráfego": "opt_job_ads",
+        "Vídeo": "opt_job_video",
+        "Site / Landing Page": "opt_job_site",
+        "Embalagem / Produto": "opt_job_pack",
+        "Identidade Visual / Branding": "opt_job_brand",
+        "Arte Estática": "opt_job_arte",
+        "Relatório": "opt_job_relatorio",
+        "Consultoria / Estratégia": "opt_job_consultoria",
+        "Outro": "opt_job_outro",
+      },
+      tipo_demanda_social: {
+        "": "opt_select",
+        "pauta_mensal_plano": "opt_demanda_pauta",
+        "campanha_especifica": "opt_demanda_campanha",
+        "post_avulso": "opt_demanda_post",
+        "ajuste_correcao": "opt_demanda_ajuste",
+      },
+      prioridade: {
+        "": "opt_select",
+        "Alta": "opt_prioridade_alta",
+        "Média": "opt_prioridade_media",
+        "Baixa": "opt_prioridade_baixa",
+      },
+      origem_job: {
+        "": "opt_select",
+        "Solicitação do cliente": "opt_origem_cliente",
+        "Proposta interna/estratégica": "opt_origem_interna",
+        "Revisão recorrente": "opt_origem_revisao",
+        "Urgência / oportunidade pontual": "opt_origem_urgencia",
+      },
+      sm_rede_principal: {
+        "": "opt_select",
+        "Instagram": "opt_sm_instagram",
+        "Facebook": "opt_sm_facebook",
+        "TikTok": "opt_sm_tiktok",
+        "YouTube Shorts": "opt_sm_shorts",
+        "LinkedIn": "opt_sm_linkedin",
+      },
+      sm_legenda_completa: {
+        "": "opt_select",
+        "Sim": "opt_sim",
+        "Não": "opt_nao",
+      },
+      ads_objetivo: {
+        "": "opt_select",
+        "Tráfego pro site": "opt_ads_trafego",
+        "Geração de leads": "opt_ads_leads",
+        "Mensagens no WhatsApp": "opt_ads_whatsapp",
+        "Conversão em e-commerce": "opt_ads_ecommerce",
+        "Alcance / Branding": "opt_ads_alcance",
+        "Outro": "opt_ads_outro",
+      },
+      video_tipo: {
+        "": "opt_select",
+        "Institucional": "opt_video_institucional",
+        "Reels / Shorts": "opt_video_reels",
+        "Corte de podcast": "opt_video_podcast",
+        "VT / Comercial": "opt_video_vt",
+        "Tutorial / Aula": "opt_video_tutorial",
+        "Depoimento / Case": "opt_video_case",
+        "Outro": "opt_video_outro",
+      },
+      video_formato: {
+        "": "opt_select",
+        "Vertical (9:16)": "opt_video_formato_vertical",
+        "Quadrado (1:1)": "opt_video_formato_quadrado",
+        "Horizontal (16:9)": "opt_video_formato_horizontal",
+        "Outro": "opt_video_formato_outro",
+      },
+      video_tipo_trabalho: {
+        "": "opt_select",
+        "Captação + edição": "opt_video_trabalho_cap",
+        "Somente edição com material enviado": "opt_video_trabalho_edicao",
+        "Motion / animação": "opt_video_trabalho_motion",
+      },
+      site_tipo: {
+        "": "opt_select",
+        "Website institucional": "opt_site_institucional",
+        "Landing Page": "opt_site_lp",
+        "Loja virtual / E-commerce": "opt_site_ecommerce",
+        "Hotsite / campanha": "opt_site_hotsite",
+        "Outro": "opt_site_outro",
+      },
+      site_responsavel_conteudo: {
+        "": "opt_select",
+        "Cliente": "opt_site_conteudo_cliente",
+        "Eleven CM": "opt_site_conteudo_agencia",
+        "Misto": "opt_site_conteudo_misto",
+      },
+      pack_tipo: {
+        "": "opt_select",
+        "Caixa": "opt_pack_caixa",
+        "Rótulo": "opt_pack_rotulo",
+        "Sleeve": "opt_pack_sleeve",
+        "Adesivo": "opt_pack_adesivo",
+        "Sacola": "opt_pack_sacola",
+        "Display PDV": "opt_pack_display",
+        "Outro": "opt_pack_outro",
+      },
+    };
+
+    const checkboxOptionKeys = {
+      canal_midias_group: {
+        "Instagram": "opt_sm_instagram",
+        "Facebook": "opt_sm_facebook",
+        "TikTok": "opt_sm_tiktok",
+        "YouTube": "opt_youtube",
+        "Google Ads / Search": "opt_google_ads",
+        "Meta Ads (FB/IG)": "opt_meta_ads",
+        "WhatsApp": "opt_whatsapp",
+        "Offline / Impressos": "opt_offline",
+        "Website (institucional)": "opt_website",
+        "Landing Page": "opt_landing",
+        "Loja Virtual / E-commerce": "opt_ecommerce",
+        "Outro": "opt_job_outro",
+      },
+      ads_plataformas_group: {
+        "Meta Ads (FB/IG)": "opt_meta_ads",
+        "Google Ads": "opt_google_ads_platform",
+        "TikTok Ads": "opt_tiktok_ads",
+        "LinkedIn Ads": "opt_linkedin_ads",
+        "YouTube Ads": "opt_youtube_ads",
+        "Outro": "opt_ads_outro",
+      },
+      brand_entregaveis_group: {
+        "Logotipo": "opt_brand_logo",
+        "Paleta de cores": "opt_brand_paleta",
+        "Tipografias": "opt_brand_tipo",
+        "Manual de marca": "opt_brand_manual",
+        "Templates de redes sociais": "opt_brand_templates",
+        "Papelaria básica": "opt_brand_papelaria",
+        "Outro": "opt_job_outro",
+      },
+      sm_formato_group: {
+        "Post Feed": "opt_sm_formato_post",
+        "Carrossel": "opt_sm_formato_carrossel",
+        "Reels": "opt_sm_formato_reels",
+        "Story": "opt_sm_formato_story",
+        "Shorts": "opt_sm_formato_shorts",
+        "Banner": "opt_sm_formato_banner",
+        "Cover": "opt_sm_formato_cover",
+      },
+    };
+
+    function applyLang(lang, persist = true) {
+      const dict = copy[lang] || copy.pt;
+      document.documentElement.setAttribute("lang", lang === "pt" ? "pt-BR" : "en");
+      langButtons.forEach((btn) => {
+        const active = btn.dataset.lang === lang;
+        btn.classList.toggle("active", active);
+        btn.style.background = active ? "rgba(254, 190, 1, 0.15)" : "transparent";
+        btn.style.borderColor = active ? "rgba(254, 190, 1, 0.3)" : "transparent";
+        btn.style.color = active ? "#1f2a3d" : "var(--muted)";
+      });
+      document.querySelectorAll("[data-i18n]").forEach((el) => {
+        const key = el.dataset.i18n;
+        if (dict[key]) el.textContent = dict[key];
+      });
+      translateLabels(lang);
+      translateHeadings(lang);
+      translatePlaceholders(lang);
+      translateSelectOptions(lang);
+      translateCheckboxes(lang);
+      if (persist) localStorage.setItem("briefing_lang", lang);
+    }
+
+    function detectLang() {
+      const saved = localStorage.getItem("briefing_lang");
+      if (saved) return saved;
+      const browserLang = (navigator.languages?.[0] || navigator.language || "en").toLowerCase();
+      return browserLang.startsWith("pt") ? "pt" : "en";
+    }
+
+    langButtons.forEach((btn) => {
+      btn.addEventListener("click", () => applyLang(btn.dataset.lang, true));
+    });
+    applyLang(detectLang(), false);
+
+    function setStatus(message, type = "") {
+      statusEl.textContent = message;
+      statusEl.className = `status ${type}`;
+    }
+
+    function collectCheckboxes(groupSelector) {
+      const group = document.querySelectorAll(`${groupSelector} input[type="checkbox"]`);
+      return Array.from(group)
+        .filter((c) => c.checked)
+        .map((c) => c.value)
+        .join(", ");
+    }
+
+    function handleJobSections() {
+      const current = jobTipoSelect.value;
+      const sections = document.querySelectorAll(".job-section");
+      sections.forEach((section) => {
+        const matches = section.dataset.job === current || section.dataset.jobAlt === current;
+        section.classList.toggle("hidden", !matches);
+      });
+      const showTipoDemandaSocial = current === "Social Media";
+      if (tipoDemandaSocialContainer) {
+        tipoDemandaSocialContainer.classList.toggle("hidden", !showTipoDemandaSocial);
+      }
+      if (!showTipoDemandaSocial && tipoDemandaSocialSelect) {
+        tipoDemandaSocialSelect.value = "";
+      }
+      syncPautaMensalLock();
+      syncCampanhaEspecifica();
+      syncOfflineCheckbox();
+    }
+
+    function syncClienteNomeDisplay() {
+      const selectedOption = clienteSelect.options[clienteSelect.selectedIndex];
+      const fantasia = selectedOption?.dataset?.nome || selectedOption?.textContent || "";
+      clienteNomeDisplay.value = fantasia.replace(/\s+—\s+.*/, "") || "";
+    }
+
+    jobTipoSelect.addEventListener("change", handleJobSections);
+    clienteSelect.addEventListener("change", syncClienteNomeDisplay);
+    tipoDemandaSocialSelect?.addEventListener("change", syncPautaMensalLock);
+    tipoDemandaSocialSelect?.addEventListener("change", syncCampanhaEspecifica);
+    jobTipoSelect.addEventListener("change", syncOfflineCheckbox);
+
+    handleJobSections();
+    syncClienteNomeDisplay();
+    syncPautaMensalLock();
+    syncCampanhaEspecifica();
+    syncOfflineCheckbox();
+
+    async function loadClientes() {
+      try {
+        const resp = await fetch(`${ENDPOINT_URL}?action=clientes`, { method: "GET" });
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        const data = await resp.json();
+        const lista = data?.clientes || data?.clients;
+        if (!data?.success || !Array.isArray(lista)) throw new Error("Resposta inesperada ao carregar clientes.");
+
+        // Preserve selection if already chosen
+        const previous = clienteSelect.value;
+        clienteSelect.innerHTML = "";
+        const defaultOpt = document.createElement("option");
+        defaultOpt.value = "";
+        defaultOpt.textContent = "Selecione o cliente";
+        clienteSelect.appendChild(defaultOpt);
+
+        lista.forEach((cli) => {
+          const id = cli.cliente_id || cli.id || "";
+          const nome = cli.nome_fantasia || cli.name || "Sem nome";
+          const opt = document.createElement("option");
+          opt.value = id;
+          opt.dataset.nome = nome;
+          opt.textContent = `${nome} — ${id}`;
+          clienteSelect.appendChild(opt);
+        });
+
+        if (previous && clienteSelect.querySelector(`option[value="${previous}"]`)) {
+          clienteSelect.value = previous;
+        }
+        syncClienteNomeDisplay();
+      } catch (err) {
+        console.error("Erro ao carregar clientes:", err);
+        setStatus("Não foi possível carregar a lista de clientes. Confira o endpoint ou tente novamente.", "error");
+      }
+    }
+
+    loadClientes();
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!form.reportValidity()) {
+        setStatus(copy[detectLang()]?.required || "Por favor, preencha os campos obrigatórios.", "error");
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = copy[detectLang()]?.sending || "Enviando…";
+      setStatus(copy[detectLang()]?.sending || "Enviando briefing...", "muted");
+
+      const formData = new FormData(form);
+
+      formData.set("canal_midias", collectCheckboxes("#canal_midias_group"));
+      formData.set("sm_formato", collectCheckboxes("#sm_formato_group"));
+      formData.set("ads_plataformas", collectCheckboxes("#ads_plataformas_group"));
+      const plataformasSelecionadas = collectCheckboxes("#canal_midias_group");
+      formData.set("sm_camp_plataformas", plataformasSelecionadas);
+      formData.set("sm_camp_meta_resultado", collectCheckboxes("#sm_camp_meta_group"));
+      formData.set("sm_camp_entregaveis", collectCheckboxes("#sm_camp_entregaveis_group"));
+      formData.set("brand_entregaveis", collectCheckboxes("#brand_entregaveis_group"));
+      formData.set("cliente_nome", clienteNomeDisplay.value || "");
+      formData.set("responsavel_job_nome", responsavelJobNome?.value?.trim() || "");
+      formData.set("origem_job", origemJobSelect?.value || "");
+      if (jobTipoSelect.value !== "Social Media") {
+        formData.set("tipo_demanda_social", "");
+      }
+
+      const payload = {};
+      for (const [key, value] of formData.entries()) {
+        payload[key] = typeof value === "string" ? value.trim() : value;
+      }
+
+      try {
+        const resp = await fetch(ENDPOINT_URL, {
+          method: "POST",
+          headers: {
+            // text/plain evita preflight OPTIONS no Apps Script e reduz chance de bloqueio CORS
+            "Content-Type": "text/plain;charset=utf-8",
+          },
+          body: JSON.stringify(payload),
+        });
+
+        const respText = await resp.text();
+        let data = {};
+        try {
+          data = JSON.parse(respText);
+        } catch (err) {
+          // mantém data vazio se não for JSON
+        }
+
+        if (resp.ok && data?.success) {
+          setStatus(data.message || copy[detectLang()]?.success || "Briefing recebido com sucesso!", "success");
+          form.reset();
+          handleJobSections();
+          syncClienteNomeDisplay();
+        } else {
+          const detail = data?.message || respText || `Erro ao enviar (HTTP ${resp.status}).`;
+          throw new Error(detail.trim());
+        }
+      } catch (error) {
+        console.error("Erro ao enviar briefing:", error);
+        const base = copy[detectLang()]?.fail || "Não foi possível enviar.";
+        setStatus(`${base} ${error.message || "Tente novamente."}`, "error");
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = copy[detectLang()]?.submit || "Enviar briefing";
+      }
+    });
+
+    function handleBackToTop() {
+      if (!backToTop) return;
+      const show = window.scrollY > 220;
+      backToTop.classList.toggle("visible", show);
+    }
+
+    window.addEventListener("scroll", handleBackToTop, { passive: true });
+    backToTop?.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+    handleBackToTop();
+  </script>
+</body>
+
+</html>
